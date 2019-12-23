@@ -3,8 +3,8 @@ package pmvv.semsa.rh.contrato.util;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.validation.constraints.NotBlank;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.primefaces.validate.bean.BeanValidationMetadataMapper;
 
 import pmvv.semsa.rh.contrato.validation.NotBlankClientValidationConstraint;
