@@ -3,9 +3,9 @@ package pmvv.semsa.rh.contrato.validation;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.metadata.ConstraintDescriptor;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.primefaces.validate.bean.ClientValidationConstraint;
 
 public class NotBlankClientValidationConstraint implements ClientValidationConstraint {
