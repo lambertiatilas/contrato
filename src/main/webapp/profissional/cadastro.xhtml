@@ -2,6 +2,7 @@
     <ui:define name="titulo">Profissional</ui:define>
     <ui:define name="corpo">
 		<f:metadata>
+			<o:viewParam name="profissional" value="#{cadastroProfissionalBean.profissional}" />
 			<f:viewAction action="#{cadastroProfissionalBean.inicializar}" />
 		</f:metadata>
 		<h:form>
@@ -9,6 +10,10 @@
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Nome" for="nome"/>
 				<p:inputText id="nome" value="#{cadastroProfissionalBean.profissional.nome}"/>
+				<p:outputLabel value="CPF" for="cpf"/>
+				<p:inputText id="cpf" value="#{cadastroProfissionalBean.profissional.cpf}"/>
+				<p:outputLabel value="Telefone" for="telefone"/>
+				<p:inputText id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}"/>
 			</p:panelGrid>
 			<p:commandButton value="Salvar" action="#{cadastroProfissionalBean.salvar}" update="@form"/>
 		</h:form>

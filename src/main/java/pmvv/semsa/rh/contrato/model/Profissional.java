@@ -2,6 +2,18 @@ package pmvv.semsa.rh.contrato.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+@Entity
+@Table(name = "profissional")
 public class Profissional implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -13,6 +25,8 @@ public class Profissional implements Serializable {
 	private Especialidade especialidade;
 	private String senha;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -21,6 +35,9 @@ public class Profissional implements Serializable {
 		this.id = id;
 	}
 
+	@NotBlank
+	@Size(max = 80)
+	@Column(length = 80, nullable = false)
 	public String getNome() {
 		return nome;
 	}
