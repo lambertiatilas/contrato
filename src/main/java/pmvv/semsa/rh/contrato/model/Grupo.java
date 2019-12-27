@@ -13,12 +13,13 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "especialidade")
-public class Especialidade implements Serializable {
+@Table(name = "grupo")
+public class Grupo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	private String nome;
 	private String descricao;
 
 	@Id
@@ -32,8 +33,19 @@ public class Especialidade implements Serializable {
 	}
 
 	@NotBlank
-	@Size(max = 80)
-	@Column(length = 80, nullable = false)
+	@Size(max = 60)
+	@Column(length = 60, nullable = false)
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	@NotBlank
+	@Size(max = 60)
+	@Column(length = 60, nullable = false)
 	public String getDescricao() {
 		return descricao;
 	}
@@ -58,7 +70,7 @@ public class Especialidade implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Especialidade other = (Especialidade) obj;
+		Grupo other = (Grupo) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

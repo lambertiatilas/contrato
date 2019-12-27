@@ -1,6 +1,8 @@
 package pmvv.semsa.rh.contrato.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,8 +24,9 @@ public class Profissional implements Serializable {
 	private String nome;
 	private String cpf;
 	private String telefone;
-	private Especialidade especialidade;
 	private String senha;
+	private List<Vinculo> vinculos = new ArrayList<>();
+	private List<Grupo> grupos = new ArrayList<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,20 +65,28 @@ public class Profissional implements Serializable {
 		this.telefone = telefone;
 	}
 
-	public Especialidade getEspecialidade() {
-		return especialidade;
-	}
-
-	public void setEspecialidade(Especialidade especialidade) {
-		this.especialidade = especialidade;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public List<Vinculo> getVinculos() {
+		return vinculos;
+	}
+
+	public void setVinculos(List<Vinculo> vinculos) {
+		this.vinculos = vinculos;
+	}
+
+	public List<Grupo> getGrupos() {
+		return grupos;
+	}
+
+	public void setGrupos(List<Grupo> grupos) {
+		this.grupos = grupos;
 	}
 
 	@Override

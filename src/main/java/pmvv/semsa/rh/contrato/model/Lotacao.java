@@ -3,29 +3,17 @@ package pmvv.semsa.rh.contrato.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "vinculo")
-public class Vinculo implements Serializable {
+public class Lotacao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private Date dataInicio;
 	private Date dataFim;
-	private Especialidade especialidade;
-	private Integer cargaHoraria;
-	private TipoVinculo tipo;
+	private Estabelecimento estabelecimento;
+	private Vinculo vinculo;
 	private Status status;
-	private Profissional profissional;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -50,28 +38,20 @@ public class Vinculo implements Serializable {
 		this.dataFim = dataFim;
 	}
 
-	public Especialidade getEspecialidade() {
-		return especialidade;
+	public Estabelecimento getEstabelecimento() {
+		return estabelecimento;
 	}
 
-	public void setEspecialidade(Especialidade especialidade) {
-		this.especialidade = especialidade;
+	public void setEstabelecimento(Estabelecimento estabelecimento) {
+		this.estabelecimento = estabelecimento;
+	}
+	
+	public Vinculo getVinculo() {
+		return vinculo;
 	}
 
-	public Integer getCargaHoraria() {
-		return cargaHoraria;
-	}
-
-	public void setCargaHoraria(Integer cargaHoraria) {
-		this.cargaHoraria = cargaHoraria;
-	}
-
-	public TipoVinculo getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoVinculo tipo) {
-		this.tipo = tipo;
+	public void setVinculo(Vinculo vinculo) {
+		this.vinculo = vinculo;
 	}
 
 	public Status getStatus() {
@@ -80,14 +60,6 @@ public class Vinculo implements Serializable {
 
 	public void setStatus(Status status) {
 		this.status = status;
-	}
-
-	public Profissional getProfissional() {
-		return profissional;
-	}
-
-	public void setProfissional(Profissional profissional) {
-		this.profissional = profissional;
 	}
 
 	@Override
@@ -106,7 +78,7 @@ public class Vinculo implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Vinculo other = (Vinculo) obj;
+		Lotacao other = (Lotacao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

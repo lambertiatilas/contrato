@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -47,7 +48,11 @@ public class Profissionais implements Serializable {
 	}
 
 	public Profissional porNome(String nome) {
-		return this.manager.createQuery("from Profissional where upper(nome) = :nome", Profissional.class).setParameter("nome", nome.toUpperCase()).getSingleResult();
+		try {
+			return manager.createQuery("from Profissional where upper(nome) = :nome", Profissional.class).setParameter("nome", nome.toUpperCase()).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 	
 	public List<Profissional> filtrados(ProfissionalFilter filtro) {

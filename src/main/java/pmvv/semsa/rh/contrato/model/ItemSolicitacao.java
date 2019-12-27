@@ -1,28 +1,26 @@
 package pmvv.semsa.rh.contrato.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "vinculo")
-public class Vinculo implements Serializable {
+@Table(name = "item_solicitacao")
+public class ItemSolicitacao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Date dataInicio;
-	private Date dataFim;
 	private Especialidade especialidade;
-	private Integer cargaHoraria;
-	private TipoVinculo tipo;
-	private Status status;
-	private Profissional profissional;
+	private Integer quantidade;
+	private Solicitacao solicitacao;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,22 +32,9 @@ public class Vinculo implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDataInicio() {
-		return dataInicio;
-	}
-
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
-	}
-
-	public Date getDataFim() {
-		return dataFim;
-	}
-
-	public void setDataFim(Date dataFim) {
-		this.dataFim = dataFim;
-	}
-
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "especialidade_id", nullable = false)
 	public Especialidade getEspecialidade() {
 		return especialidade;
 	}
@@ -58,36 +43,20 @@ public class Vinculo implements Serializable {
 		this.especialidade = especialidade;
 	}
 
-	public Integer getCargaHoraria() {
-		return cargaHoraria;
+	public Integer getQuantidade() {
+		return quantidade;
 	}
 
-	public void setCargaHoraria(Integer cargaHoraria) {
-		this.cargaHoraria = cargaHoraria;
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
 
-	public TipoVinculo getTipo() {
-		return tipo;
+	public Solicitacao getSolicitacao() {
+		return solicitacao;
 	}
 
-	public void setTipo(TipoVinculo tipo) {
-		this.tipo = tipo;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
-	public Profissional getProfissional() {
-		return profissional;
-	}
-
-	public void setProfissional(Profissional profissional) {
-		this.profissional = profissional;
+	public void setSolicitacao(Solicitacao solicitacao) {
+		this.solicitacao = solicitacao;
 	}
 
 	@Override
@@ -106,7 +75,7 @@ public class Vinculo implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Vinculo other = (Vinculo) obj;
+		ItemSolicitacao other = (ItemSolicitacao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
