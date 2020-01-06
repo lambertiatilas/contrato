@@ -3,6 +3,21 @@ package pmvv.semsa.rh.contrato.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "lotacao")
 public class Lotacao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -13,7 +28,10 @@ public class Lotacao implements Serializable {
 	private Estabelecimento estabelecimento;
 	private Vinculo vinculo;
 	private Status status;
+	private Solicitacao solicitacao;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -22,6 +40,9 @@ public class Lotacao implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_inicio", nullable = false)
 	public Date getDataInicio() {
 		return dataInicio;
 	}
@@ -30,6 +51,9 @@ public class Lotacao implements Serializable {
 		this.dataInicio = dataInicio;
 	}
 
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_fim", nullable = false)
 	public Date getDataFim() {
 		return dataFim;
 	}
@@ -38,6 +62,9 @@ public class Lotacao implements Serializable {
 		this.dataFim = dataFim;
 	}
 
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "estabelecimento_id", nullable = false)
 	public Estabelecimento getEstabelecimento() {
 		return estabelecimento;
 	}
@@ -46,6 +73,9 @@ public class Lotacao implements Serializable {
 		this.estabelecimento = estabelecimento;
 	}
 	
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "vinculo_id", nullable = false)
 	public Vinculo getVinculo() {
 		return vinculo;
 	}
@@ -54,12 +84,24 @@ public class Lotacao implements Serializable {
 		this.vinculo = vinculo;
 	}
 
+	@Enumerated
+	@Column(nullable = false)
 	public Status getStatus() {
 		return status;
 	}
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name = "solicitacao_id", nullable = false)
+	public Solicitacao getSolicitacao() {
+		return solicitacao;
+	}
+
+	public void setSolicitacao(Solicitacao solicitacao) {
+		this.solicitacao = solicitacao;
 	}
 
 	@Override

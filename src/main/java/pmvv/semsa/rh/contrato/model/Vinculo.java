@@ -3,11 +3,20 @@ package pmvv.semsa.rh.contrato.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "vinculo")
@@ -34,6 +43,9 @@ public class Vinculo implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_inicio", nullable = false)
 	public Date getDataInicio() {
 		return dataInicio;
 	}
@@ -42,6 +54,9 @@ public class Vinculo implements Serializable {
 		this.dataInicio = dataInicio;
 	}
 
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_fim", nullable = false)
 	public Date getDataFim() {
 		return dataFim;
 	}
@@ -50,6 +65,9 @@ public class Vinculo implements Serializable {
 		this.dataFim = dataFim;
 	}
 
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "especialidade_id", nullable = false)
 	public Especialidade getEspecialidade() {
 		return especialidade;
 	}
@@ -58,6 +76,10 @@ public class Vinculo implements Serializable {
 		this.especialidade = especialidade;
 	}
 
+	@NotNull
+	@Min(value = 20)
+	@Max(value = 40)
+	@Column(name = "carga_horaria", nullable = false)
 	public Integer getCargaHoraria() {
 		return cargaHoraria;
 	}
@@ -66,6 +88,8 @@ public class Vinculo implements Serializable {
 		this.cargaHoraria = cargaHoraria;
 	}
 
+	@Enumerated
+	@Column(nullable = false)
 	public TipoVinculo getTipo() {
 		return tipo;
 	}
@@ -74,6 +98,8 @@ public class Vinculo implements Serializable {
 		this.tipo = tipo;
 	}
 
+	@Enumerated
+	@Column(nullable = false)
 	public Status getStatus() {
 		return status;
 	}
@@ -82,6 +108,8 @@ public class Vinculo implements Serializable {
 		this.status = status;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "profissional_id", nullable = false)
 	public Profissional getProfissional() {
 		return profissional;
 	}

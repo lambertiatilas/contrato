@@ -4,15 +4,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table(name = "profissional")
@@ -49,6 +56,9 @@ public class Profissional implements Serializable {
 		this.nome = nome;
 	}
 
+	@NotBlank
+	@CPF(message = "inválido!")
+	@Column(columnDefinition = "CHAR(14)", nullable = false, unique = true)
 	public String getCpf() {
 		return cpf;
 	}
@@ -57,6 +67,9 @@ public class Profissional implements Serializable {
 		this.cpf = cpf;
 	}
 
+	@NotBlank
+	@Size(max = 15)
+	@Column(length = 15)
 	public String getTelefone() {
 		return telefone;
 	}
@@ -65,6 +78,9 @@ public class Profissional implements Serializable {
 		this.telefone = telefone;
 	}
 
+	@NotBlank
+	@Size(max = 60)
+	@Column(columnDefinition = "CHAR(60)", nullable = false)
 	public String getSenha() {
 		return senha;
 	}
@@ -73,6 +89,7 @@ public class Profissional implements Serializable {
 		this.senha = senha;
 	}
 
+	@OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<Vinculo> getVinculos() {
 		return vinculos;
 	}
@@ -81,6 +98,8 @@ public class Profissional implements Serializable {
 		this.vinculos = vinculos;
 	}
 
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
+	@JoinTable(name = "profissional_grupo", joinColumns = @JoinColumn(name = "profissional_id"), inverseJoinColumns = @JoinColumn(name = "grupo_id"))
 	public List<Grupo> getGrupos() {
 		return grupos;
 	}

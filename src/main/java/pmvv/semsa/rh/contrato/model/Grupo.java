@@ -8,9 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "grupo")
@@ -32,9 +29,7 @@ public class Grupo implements Serializable {
 		this.id = id;
 	}
 
-	@NotBlank
-	@Size(max = 60)
-	@Column(length = 60, nullable = false)
+	@Column(length = 60, nullable = false, unique = true)
 	public String getNome() {
 		return nome;
 	}
@@ -43,9 +38,7 @@ public class Grupo implements Serializable {
 		this.nome = nome;
 	}
 
-	@NotBlank
-	@Size(max = 60)
-	@Column(length = 60, nullable = false)
+	@Column(length = 60, nullable = false, unique = true)
 	public String getDescricao() {
 		return descricao;
 	}

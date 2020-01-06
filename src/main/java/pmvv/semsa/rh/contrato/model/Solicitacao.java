@@ -1,15 +1,25 @@
 package pmvv.semsa.rh.contrato.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "solicitacao")
@@ -38,6 +48,9 @@ public class Solicitacao implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_hora_abertura", nullable = false)
 	public Date getDataHoraAbertura() {
 		return dataHoraAbertura;
 	}
@@ -46,6 +59,9 @@ public class Solicitacao implements Serializable {
 		this.dataHoraAbertura = dataHoraAbertura;
 	}
 
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_hora_encerramento", nullable = false)
 	public Date getDataHoraEncerramento() {
 		return dataHoraEncerramento;
 	}
@@ -54,6 +70,9 @@ public class Solicitacao implements Serializable {
 		this.dataHoraEncerramento = dataHoraEncerramento;
 	}
 
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "profissional_solicitante_id", nullable = false)
 	public Profissional getProfissionalSolicitante() {
 		return profissionalSolicitante;
 	}
@@ -62,6 +81,9 @@ public class Solicitacao implements Serializable {
 		this.profissionalSolicitante = profissionalSolicitante;
 	}
 
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "estabelecimento_solicitante_id", nullable = false)
 	public Estabelecimento getEstabelecimentoSolcitante() {
 		return estabelecimentoSolcitante;
 	}
@@ -70,6 +92,9 @@ public class Solicitacao implements Serializable {
 		this.estabelecimentoSolcitante = estabelecimentoSolcitante;
 	}
 
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "profissional_atendente_id", nullable = false)
 	public Profissional getProfissionalAtendente() {
 		return profissionalAtendente;
 	}
@@ -78,6 +103,9 @@ public class Solicitacao implements Serializable {
 		this.profissionalAtendente = profissionalAtendente;
 	}
 
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "estabelecimento_atendente_id", nullable = false)
 	public Estabelecimento getEstabelecimentoAtendente() {
 		return estabelecimentoAtendente;
 	}
@@ -86,6 +114,7 @@ public class Solicitacao implements Serializable {
 		this.estabelecimentoAtendente = estabelecimentoAtendente;
 	}
 
+	@OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<ItemSolicitacao> getItens() {
 		return itens;
 	}
@@ -94,6 +123,7 @@ public class Solicitacao implements Serializable {
 		this.itens = itens;
 	}
 
+	@OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<Lotacao> getLotacoes() {
 		return lotacoes;
 	}
@@ -102,6 +132,8 @@ public class Solicitacao implements Serializable {
 		this.lotacoes = lotacoes;
 	}
 
+	@Enumerated
+	@Column(nullable = false)
 	public StatusSolicitacao getStatus() {
 		return status;
 	}

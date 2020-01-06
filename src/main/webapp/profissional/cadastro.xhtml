@@ -14,6 +14,8 @@
 				<p:inputText id="cpf" value="#{cadastroProfissionalBean.profissional.cpf}"/>
 				<p:outputLabel value="Telefone" for="telefone"/>
 				<p:inputText id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}"/>
+				<p:outputLabel value="Senha" for="senha"/>
+				<p:inputText id="senha" value="#{cadastroProfissionalBean.profissional.senha}"/>
 			</p:panelGrid>
 			<p:commandButton value="Salvar" action="#{cadastroProfissionalBean.salvar}" update="@form"/>
 		</h:form>

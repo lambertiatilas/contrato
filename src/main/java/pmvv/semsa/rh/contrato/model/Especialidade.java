@@ -33,7 +33,7 @@ public class Especialidade implements Serializable {
 
 	@NotBlank
 	@Size(max = 80)
-	@Column(length = 80, nullable = false)
+	@Column(length = 80, nullable = false, unique = true)
 	public String getDescricao() {
 		return descricao;
 	}
