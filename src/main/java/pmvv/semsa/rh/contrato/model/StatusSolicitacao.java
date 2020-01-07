@@ -4,6 +4,7 @@ public enum StatusSolicitacao {
 	
 	NAO_ENVIADA("Não enviada"),
 	ENVIADA("Enviada"),
+	ATENDIDA("Atendida"),
 	ENCERRADA("Encerrada");
 
 	private String descricao;

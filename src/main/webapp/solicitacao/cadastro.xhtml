@@ -1,0 +1,15 @@
+<ui:composition template="/WEB-INF/template/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:define name="titulo">Solicitacao</ui:define>
+    <ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="solicitacao" value="#{cadastroSolicitacaoBean.solicitacao}" />
+			<f:viewAction action="#{cadastroSolicitacaoBean.inicializar}" />
+		</f:metadata>
+		<h:form>
+			<p:messages />
+			<p:panelGrid columns="2">
+			</p:panelGrid>
+			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form"/>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -78,9 +78,8 @@ public class Profissional implements Serializable {
 		this.telefone = telefone;
 	}
 
-	@NotBlank
 	@Size(max = 60)
-	@Column(columnDefinition = "CHAR(60)", nullable = false)
+	@Column(columnDefinition = "CHAR(60)")
 	public String getSenha() {
 		return senha;
 	}

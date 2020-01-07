@@ -17,10 +17,10 @@ public class CadastroProfissionalService implements Serializable {
 	
 	@Transactional
 	public Profissional salvar(Profissional profissional) throws NegocioException {
-		Profissional profissionalExiste = profissionais.porNome(profissional.getNome());
+		Profissional profissionalExiste = profissionais.porCpf(profissional.getCpf());
 		
 		if (profissionalExiste != null && !profissionalExiste.equals(profissional)) {
-			throw new NegocioException("O profissional " + profissional.getNome() + " já esta cadastrado.");
+			throw new NegocioException("Já existe uma pessoa cadastrada com o cpf informado.");
 		}
 		
 		return profissionais.guardar(profissional);

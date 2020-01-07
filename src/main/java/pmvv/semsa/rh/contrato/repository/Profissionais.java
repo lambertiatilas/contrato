@@ -46,10 +46,10 @@ public class Profissionais implements Serializable {
 	public Profissional porId(Long id) {
 		return manager.find(Profissional.class, id);
 	}
-
-	public Profissional porNome(String nome) {
+	
+	public Profissional porCpf(String cpf) {
 		try {
-			return manager.createQuery("from Profissional where upper(nome) = :nome", Profissional.class).setParameter("nome", nome.toUpperCase()).getSingleResult();
+			return manager.createQuery("from Profissional where cpf = :cpf", Profissional.class).setParameter("cpf", cpf).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
