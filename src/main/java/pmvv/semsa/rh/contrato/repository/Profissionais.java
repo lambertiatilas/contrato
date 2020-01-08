@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.lang3.StringUtils;
 
 import pmvv.semsa.rh.contrato.model.Profissional;
+import pmvv.semsa.rh.contrato.model.Status;
 import pmvv.semsa.rh.contrato.repository.filter.ProfissionalFilter;
 import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
@@ -50,6 +51,20 @@ public class Profissionais implements Serializable {
 	public Profissional porCpf(String cpf) {
 		try {
 			return manager.createQuery("from Profissional where cpf = :cpf", Profissional.class).setParameter("cpf", cpf).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public Profissional ativo(String cpf) {
+		try {
+			return manager.createQuery("from Profissional where"
+					+ " cpf = :cpf"
+					+ " and status = :status"
+					, Profissional.class)
+					.setParameter("cpf", cpf)
+					.setParameter("status", Status.ATIVO)
+					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}

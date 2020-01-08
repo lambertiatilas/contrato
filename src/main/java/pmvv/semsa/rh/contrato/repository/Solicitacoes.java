@@ -57,8 +57,34 @@ public class Solicitacoes implements Serializable {
 					+ " and estabelecimentoSolcitante = :estabelecimentoSolcitante"
 					+ " status <> :status", Solicitacao.class)
 					.setParameter("estabelecimentoSolcitante", estabelecimentoSolcitante)
-					.setParameter("status", StatusSolicitacao.ENCERRADA.toString())
+					.setParameter("status", StatusSolicitacao.ENCERRADA)
 					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public List<Solicitacao> solicitacoesEnviadas() {
+		try {
+			return manager.createQuery("from Solicitacao where"
+					+ " status = :status"
+					+ " order by dataHoraAbertura"
+					, Solicitacao.class)
+					.setParameter("status", StatusSolicitacao.ENVIADA)
+					.getResultList();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public List<Solicitacao> solicitacoesAtendidas() {
+		try {
+			return manager.createQuery("from Solicitacao where"
+					+ " status = :status"
+					+ " order by dataHoraAbertura"
+					, Solicitacao.class)
+					.setParameter("status", StatusSolicitacao.ATENDIDA)
+					.getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}

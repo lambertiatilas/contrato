@@ -6,16 +6,20 @@
 			<f:viewAction action="#{cadastroProfissionalBean.inicializar}" />
 		</f:metadata>
 		<h:form>
-			<p:messages />
-			<p:panelGrid columns="2">
-				<p:outputLabel value="Nome" for="nome"/>
-				<p:inputText id="nome" value="#{cadastroProfissionalBean.profissional.nome}"/>
-				<p:outputLabel value="CPF" for="cpf"/>
-				<p:inputText id="cpf" value="#{cadastroProfissionalBean.profissional.cpf}"/>
-				<p:outputLabel value="Telefone" for="telefone"/>
-				<p:inputText id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}"/>
-			</p:panelGrid>
-			<p:commandButton value="Salvar" action="#{cadastroProfissionalBean.salvar}" update="@form"/>
+			<p:messages>
+				<p:autoUpdate />
+			</p:messages>
+			<p:panel header="Profissional">
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nome" for="nome"/>
+					<p:inputText id="nome" value="#{cadastroProfissionalBean.profissional.nome}"/>
+					<p:outputLabel value="CPF" for="cpf"/>
+					<p:inputText id="cpf" value="#{cadastroProfissionalBean.profissional.cpf}"/>
+					<p:outputLabel value="Telefone" for="telefone"/>
+					<p:inputText id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}"/>
+				</p:panelGrid>
+				<p:commandButton value="Salvar" action="#{cadastroProfissionalBean.salvar}" update="@form"/>
+			</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

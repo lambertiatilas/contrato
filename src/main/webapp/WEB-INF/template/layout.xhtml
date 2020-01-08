@@ -5,6 +5,14 @@
         <title><ui:insert name="titulo">##</ui:insert></title>
     </h:head>
     <h:body class="main-body">
+    	<p:menubar>
+    		<p:menuitem value="Solicitação" url="#" />
+    		<p:submenu label="Administração">
+	            <p:menuitem value="Especialidade" url="#" />
+	            <p:menuitem value="Estabelecimento" url="#" />
+	            <p:menuitem value="Profissional" url="#" />
+	        </p:submenu>
+    	</p:menubar>
 		<ui:insert name="corpo" />
     </h:body>
 </html>

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +35,7 @@ public class Profissional implements Serializable {
 	private String senha;
 	private List<Vinculo> vinculos = new ArrayList<>();
 	private List<Grupo> grupos = new ArrayList<>();
+	private Status status = Status.ATIVO;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -105,6 +107,16 @@ public class Profissional implements Serializable {
 
 	public void setGrupos(List<Grupo> grupos) {
 		this.grupos = grupos;
+	}
+
+	@Enumerated
+	@Column(nullable = false)
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	@Override

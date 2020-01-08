@@ -6,7 +6,9 @@
 			<f:viewAction action="#{cadastroSolicitacaoBean.inicializar}" />
 		</f:metadata>
 		<h:form>
-			<p:messages />
+			<p:messages>
+				<p:autoUpdate />
+			</p:messages>
 			<p:panelGrid columns="2">
 			</p:panelGrid>
 			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form"/>

@@ -6,7 +6,9 @@
 			<f:viewAction action="#{cadastroEstabelecimentoBean.inicializar}" />
 		</f:metadata>
 		<h:form>
-			<p:messages />
+			<p:messages>
+				<p:autoUpdate />
+			</p:messages>
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Descrição" for="descricao"/>
 				<p:inputText id="descricao" value="#{cadastroEstabelecimentoBean.estabelecimento.descricao}"/>
