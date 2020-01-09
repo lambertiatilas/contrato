@@ -26,8 +26,8 @@ public class Lotacao implements Serializable {
 	private Date dataInicio;
 	private Date dataFim;
 	private Estabelecimento estabelecimento;
-	private Vinculo vinculo;
 	private Status status;
+	private Vinculo vinculo;
 	private Solicitacao solicitacao;
 
 	@Id
@@ -72,17 +72,6 @@ public class Lotacao implements Serializable {
 	public void setEstabelecimento(Estabelecimento estabelecimento) {
 		this.estabelecimento = estabelecimento;
 	}
-	
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "vinculo_id", nullable = false)
-	public Vinculo getVinculo() {
-		return vinculo;
-	}
-
-	public void setVinculo(Vinculo vinculo) {
-		this.vinculo = vinculo;
-	}
 
 	@Enumerated
 	@Column(nullable = false)
@@ -95,7 +84,17 @@ public class Lotacao implements Serializable {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "solicitacao_id", nullable = false)
+	@JoinColumn(name = "vinculo_id", nullable = false)
+	public Vinculo getVinculo() {
+		return vinculo;
+	}
+
+	public void setVinculo(Vinculo vinculo) {
+		this.vinculo = vinculo;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name = "solicitacao_id")
 	public Solicitacao getSolicitacao() {
 		return solicitacao;
 	}

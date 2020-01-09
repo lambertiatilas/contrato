@@ -19,7 +19,6 @@ public class CadastroEspecialidadeBean implements Serializable {
 	
 	@Inject
 	private CadastroEspecialidadeService cadastroEspecialidadeService;
-
 	private Especialidade especialidade;
 	
 	public Especialidade getEspecialidade() {

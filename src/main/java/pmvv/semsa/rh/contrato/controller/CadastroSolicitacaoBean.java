@@ -19,7 +19,6 @@ public class CadastroSolicitacaoBean implements Serializable {
 	
 	@Inject
 	private CadastroSolicitacaoService cadastroSolicitacaoService;
-
 	private Solicitacao solicitacao;
 	
 	public Solicitacao getSolicitacao() {

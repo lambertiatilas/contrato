@@ -2,10 +2,14 @@ package pmvv.semsa.rh.contrato.controller;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import pmvv.semsa.rh.contrato.model.Profissional;
 import pmvv.semsa.rh.contrato.repository.Profissionais;
@@ -21,22 +25,21 @@ public class PesquisaProfissionaisBean implements Serializable {
 	
 	@Inject
 	private Profissionais profissionais;
-	
 	private ProfissionalFilter filtro;
-	private List<Profissional> profissionaisFiltrados;
-	
+	private LazyDataModel<Profissional> model;
 	private Profissional profissionalSelecionado;
 	
 	public PesquisaProfissionaisBean() {
 		filtro = new ProfissionalFilter();
+		pesquisar();
 	}
 
 	public ProfissionalFilter getFiltro() {
 		return filtro;
 	}
-	
-	public List<Profissional> getProfissionaisFiltrados() {
-		return profissionaisFiltrados;
+
+	public LazyDataModel<Profissional> getModel() {
+		return model;
 	}
 
 	public Profissional getProfissionalSelecionado() {
@@ -47,14 +50,26 @@ public class PesquisaProfissionaisBean implements Serializable {
 		this.profissionalSelecionado = profissionalSelecionado;
 	}
 
-	public void pesquisar() {
-		profissionaisFiltrados = profissionais.filtrados(filtro);
+	private void pesquisar() {
+		model = new LazyDataModel<Profissional>() {
+			private static final long serialVersionUID = 1L;
+				
+			@Override
+			public List<Profissional> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+				filtro.setPrimeiroRegistro(first);
+				filtro.setQuantidadeRegistros(pageSize);
+				filtro.setPropriedadeOrdenacao(sortField);
+				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
+				
+				setRowCount(profissionais.quantidadeFiltrados(filtro));
+				return profissionais.filtrados(filtro);
+			}
+		};
 	}
 	
 	public void excluir() {
 		try {
 			profissionais.remover(profissionalSelecionado);
-			profissionaisFiltrados.remove(profissionalSelecionado);
 			FacesUtil.addInfoMessage("Profissional " + profissionalSelecionado.getNome() + " excluído com sucesso.");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());

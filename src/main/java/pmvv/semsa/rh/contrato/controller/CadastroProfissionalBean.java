@@ -19,7 +19,6 @@ public class CadastroProfissionalBean implements Serializable {
 	
 	@Inject
 	private CadastroProfissionalService cadastroProfissionalService;
-
 	private Profissional profissional;
 	
 	public Profissional getProfissional() {

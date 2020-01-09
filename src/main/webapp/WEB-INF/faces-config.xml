@@ -13,4 +13,9 @@
 	<factory>
 	    <exception-handler-factory>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory</exception-handler-factory>
 	</factory>
+	<converter>
+        <description>grupoConverter</description>
+        <converter-id>grupoConverter</converter-id>
+        <converter-class>pmvv.semsa.rh.contrato.converter.GrupoConverter</converter-class>
+   	</converter>
 </faces-config>

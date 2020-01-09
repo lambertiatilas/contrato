@@ -1,16 +1,21 @@
 package pmvv.semsa.rh.contrato.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +35,7 @@ public class Vinculo implements Serializable {
 	private Especialidade especialidade;
 	private Integer cargaHoraria;
 	private TipoVinculo tipo;
+	private List<Lotacao> lotacoes = new ArrayList<>();
 	private Status status;
 	private Profissional profissional;
 
@@ -54,9 +60,8 @@ public class Vinculo implements Serializable {
 		this.dataInicio = dataInicio;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_fim", nullable = false)
+	@Column(name = "data_fim")
 	public Date getDataFim() {
 		return dataFim;
 	}
@@ -96,6 +101,15 @@ public class Vinculo implements Serializable {
 
 	public void setTipo(TipoVinculo tipo) {
 		this.tipo = tipo;
+	}
+
+	@OneToMany(mappedBy = "vinculo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	public List<Lotacao> getLotacoes() {
+		return lotacoes;
+	}
+
+	public void setLotacoes(List<Lotacao> lotacoes) {
+		this.lotacoes = lotacoes;
 	}
 
 	@Enumerated

@@ -2,6 +2,7 @@ package pmvv.semsa.rh.contrato.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,10 +18,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
+
+import pmvv.semsa.rh.contrato.util.string.Caracteres;
 
 @Entity
 @Table(name = "profissional")
@@ -81,7 +85,7 @@ public class Profissional implements Serializable {
 	}
 
 	@Size(max = 60)
-	@Column(columnDefinition = "CHAR(60)")
+	@Column(columnDefinition = "CHAR(60)", nullable = false)
 	public String getSenha() {
 		return senha;
 	}
@@ -142,5 +146,14 @@ public class Profissional implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	@Transient
+	public boolean isNovo() {
+		return id == null;
+	}
+	
+	public String gerarSenha() {
+		return Caracteres.encoder(cpf.replaceAll("[^0-9]", "") + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
 	}
 }

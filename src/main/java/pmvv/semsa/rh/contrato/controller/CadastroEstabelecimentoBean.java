@@ -19,7 +19,6 @@ public class CadastroEstabelecimentoBean implements Serializable {
 	
 	@Inject
 	private CadastroEstabelecimentoService cadastroEstabelecimentoService;
-
 	private Estabelecimento estabelecimento;
 	
 	public Estabelecimento getEstabelecimento() {

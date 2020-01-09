@@ -6,7 +6,7 @@ import java.util.Date;
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
 
-public class SolicitacaoFilter implements Serializable {
+public class SolicitacaoFilter extends OrdenacaoFilter implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

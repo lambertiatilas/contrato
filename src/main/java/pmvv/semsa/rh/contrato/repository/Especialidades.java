@@ -11,6 +11,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -55,22 +56,61 @@ public class Especialidades implements Serializable {
 		}
 	}
 	
-	public List<Especialidade> filtradas(EspecialidadeFilter filtro) {
+	public List<Especialidade> especialidades() {
+		return this.manager.createQuery("from Especialidade", Especialidade.class).getResultList();
+	}
+	
+	private List<Predicate> criarPredicatesParaFiltro(EspecialidadeFilter filtro, Root<Especialidade> especialidadeRoot) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Especialidade> criteriaQuery = builder.createQuery(Especialidade.class);
 		List<Predicate> predicates = new ArrayList<>();
-		
-		Root<Especialidade> especialidadeRoot = criteriaQuery.from(Especialidade.class);
 		
 		if (StringUtils.isNotBlank(filtro.getDescricao())) {
 			predicates.add(builder.like(builder.upper(especialidadeRoot.get("descricao")), "%" + filtro.getDescricao().toUpperCase() + "%"));
 		}
 		
+		return predicates;
+	}
+	
+	public List<Especialidade> filtradas(EspecialidadeFilter filtro) {
+		From<?, ?> orderByFromEntity = null;
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Especialidade> criteriaQuery = builder.createQuery(Especialidade.class);
+		Root<Especialidade> especialidadeRoot = criteriaQuery.from(Especialidade.class);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, especialidadeRoot);
+		
 		criteriaQuery.select(especialidadeRoot);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
-		criteriaQuery.orderBy(builder.asc(especialidadeRoot.get("descricao")));
+		
+		if (filtro.getPropriedadeOrdenacao() != null) {
+			String nomePropriedadeOrdenacao = filtro.getPropriedadeOrdenacao();
+			orderByFromEntity = especialidadeRoot;
+			
+			if (filtro.getPropriedadeOrdenacao().contains(".")) {
+				nomePropriedadeOrdenacao = nomePropriedadeOrdenacao.substring(filtro.getPropriedadeOrdenacao().indexOf(".") + 1);
+			}
+			
+			if (filtro.isAscendente() && filtro.getPropriedadeOrdenacao() != null) {
+				criteriaQuery.orderBy(builder.asc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
+			} else if (filtro.getPropriedadeOrdenacao() != null) {
+				criteriaQuery.orderBy(builder.desc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
+			}
+		}
 		
 		TypedQuery<Especialidade> query = manager.createQuery(criteriaQuery);
+		query.setFirstResult(filtro.getPrimeiroRegistro());
+		query.setMaxResults(filtro.getQuantidadeRegistros());
 		return query.getResultList();
+	}
+	
+	public int quantidadeFiltradas(EspecialidadeFilter filtro) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
+		Root<Especialidade> especialidadeRoot = criteriaQuery.from(Especialidade.class);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, especialidadeRoot);
+		
+		criteriaQuery.select(builder.count(especialidadeRoot));
+		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		TypedQuery<Long> query = manager.createQuery(criteriaQuery);
+		return query.getSingleResult().intValue();
 	}
 }

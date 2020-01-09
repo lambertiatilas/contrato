@@ -11,6 +11,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.From;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
@@ -90,14 +91,13 @@ public class Solicitacoes implements Serializable {
 		}
 	}
 	
-	public List<Solicitacao> filtradas(SolicitacaoFilter filtro) {
+	private List<Predicate> criarPredicatesParaFiltro(SolicitacaoFilter filtro, Root<Solicitacao> solicitacaoRoot, From<?, ?> profissionalSolicitanteJoin, From<?, ?> profissionalAtendenteJoin) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Solicitacao> criteriaQuery = builder.createQuery(Solicitacao.class);
 		List<Predicate> predicates = new ArrayList<>();
 		
-		Root<Solicitacao> solicitacaoRoot = criteriaQuery.from(Solicitacao.class);
-		Join<Solicitacao, Profissional> profissionalSolicitanteJoin = solicitacaoRoot.join("profissionalSolicitante", JoinType.INNER);
-		Join<Solicitacao, Profissional> profissionalAtendenteJoin = solicitacaoRoot.join("profissionalAtendente", JoinType.LEFT);
+		if (filtro.getId() != null) {
+			predicates.add(builder.equal(solicitacaoRoot.get("id"), filtro.getId()));
+		}
 		
 		if (filtro.getDataHoraAberturaDe() != null) {
 			predicates.add(builder.greaterThanOrEqualTo(solicitacaoRoot.get("dataHoraAbertura"), filtro.getDataHoraAberturaDe()));
@@ -135,11 +135,61 @@ public class Solicitacoes implements Serializable {
 			predicates.add(solicitacaoRoot.get("status").in(filtro.getStatus()));
 		}
 		
+		return predicates;
+	}
+	
+	public List<Solicitacao> filtradas(SolicitacaoFilter filtro) {
+		From<?, ?> orderByFromEntity = null;
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Solicitacao> criteriaQuery = builder.createQuery(Solicitacao.class);
+		Root<Solicitacao> solicitacaoRoot = criteriaQuery.from(Solicitacao.class);
+		From<?, ?> profissionalSolicitanteJoin = (From<?, ?>) solicitacaoRoot.fetch("profissionalSolicitante", JoinType.INNER);
+		From<?, ?> profissionalAtendenteJoin = (From<?, ?>) solicitacaoRoot.fetch("profissionalAtendente", JoinType.LEFT);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, solicitacaoRoot, profissionalSolicitanteJoin, profissionalAtendenteJoin);
+		
 		criteriaQuery.select(solicitacaoRoot);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
-		criteriaQuery.orderBy(builder.asc(solicitacaoRoot.get("id")));
+		
+		if (filtro.getPropriedadeOrdenacao() != null) {
+			String nomePropriedadeOrdenacao = filtro.getPropriedadeOrdenacao();
+			orderByFromEntity = solicitacaoRoot;
+			
+			if (filtro.getPropriedadeOrdenacao().contains(".")) {
+				nomePropriedadeOrdenacao = nomePropriedadeOrdenacao.substring(filtro.getPropriedadeOrdenacao().indexOf(".") + 1);
+			}
+			
+			if (filtro.getPropriedadeOrdenacao().startsWith("profissionalSolicitante.")) {
+				orderByFromEntity = profissionalSolicitanteJoin;
+			}
+			
+			if (filtro.getPropriedadeOrdenacao().startsWith("profissionalAtendente.")) {
+				orderByFromEntity = profissionalAtendenteJoin;
+			}
+			
+			if (filtro.isAscendente() && filtro.getPropriedadeOrdenacao() != null) {
+				criteriaQuery.orderBy(builder.asc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
+			} else if (filtro.getPropriedadeOrdenacao() != null) {
+				criteriaQuery.orderBy(builder.desc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
+			}
+		}
 		
 		TypedQuery<Solicitacao> query = manager.createQuery(criteriaQuery);
+		query.setFirstResult(filtro.getPrimeiroRegistro());
+		query.setMaxResults(filtro.getQuantidadeRegistros());
 		return query.getResultList();
+	}
+	
+	public int quantidadeFiltradas(SolicitacaoFilter filtro) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
+		Root<Solicitacao> solicitacaoRoot = criteriaQuery.from(Solicitacao.class);
+		Join<Solicitacao, Profissional> profissionalSolicitanteJoin = solicitacaoRoot.join("profissionalSolicitante", JoinType.INNER);
+		Join<Solicitacao, Profissional> profissionalAtendenteJoin = solicitacaoRoot.join("profissionalAtendente", JoinType.LEFT);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, solicitacaoRoot, profissionalSolicitanteJoin, profissionalAtendenteJoin);
+		
+		criteriaQuery.select(builder.count(solicitacaoRoot));
+		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		TypedQuery<Long> query = manager.createQuery(criteriaQuery);
+		return query.getSingleResult().intValue();
 	}
 }

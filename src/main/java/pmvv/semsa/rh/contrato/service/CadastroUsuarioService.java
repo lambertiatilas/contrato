@@ -8,7 +8,7 @@ import pmvv.semsa.rh.contrato.model.Profissional;
 import pmvv.semsa.rh.contrato.repository.Profissionais;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
 
-public class CadastroProfissionalService implements Serializable {
+public class CadastroUsuarioService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -20,7 +20,7 @@ public class CadastroProfissionalService implements Serializable {
 		Profissional profissionalExiste = profissionais.porCpf(profissional.getCpf());
 		
 		if (profissionalExiste != null && !profissionalExiste.equals(profissional)) {
-			throw new NegocioException("Já existe uma pessoa cadastrada com o cpf informado.");
+			throw new NegocioException("Já existe um usuário cadastrado com o cpf informado.");
 		}
 		
 		if (profissional.isNovo()) {

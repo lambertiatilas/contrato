@@ -11,6 +11,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -70,26 +71,61 @@ public class Profissionais implements Serializable {
 		}
 	}
 	
-	public List<Profissional> filtrados(ProfissionalFilter filtro) {
+	private List<Predicate> criarPredicatesParaFiltro(ProfissionalFilter filtro, Root<Profissional> profissionalRoot) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Profissional> criteriaQuery = builder.createQuery(Profissional.class);
 		List<Predicate> predicates = new ArrayList<>();
-		
-		Root<Profissional> profissionalRoot = criteriaQuery.from(Profissional.class);
 		
 		if (StringUtils.isNotBlank(filtro.getNome())) {
 			predicates.add(builder.like(builder.upper(profissionalRoot.get("nome")), "%" + filtro.getNome().toUpperCase() + "%"));
 		}
 		
 		if (StringUtils.isNotBlank(filtro.getCpf())) {
-			predicates.add(builder.like(builder.upper(profissionalRoot.get("cpf")), "%" + filtro.getCpf().toUpperCase() + "%"));
+			predicates.add(builder.equal(profissionalRoot.get("cpf"), filtro.getCpf()));
 		}
+		
+		return predicates;
+	}
+	
+	public List<Profissional> filtrados(ProfissionalFilter filtro) {
+		From<?, ?> orderByFromEntity = null;
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Profissional> criteriaQuery = builder.createQuery(Profissional.class);
+		Root<Profissional> profissionalRoot = criteriaQuery.from(Profissional.class);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, profissionalRoot);
 		
 		criteriaQuery.select(profissionalRoot);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
-		criteriaQuery.orderBy(builder.asc(profissionalRoot.get("nome")));
+		
+		if (filtro.getPropriedadeOrdenacao() != null) {
+			String nomePropriedadeOrdenacao = filtro.getPropriedadeOrdenacao();
+			orderByFromEntity = profissionalRoot;
+			
+			if (filtro.getPropriedadeOrdenacao().contains(".")) {
+				nomePropriedadeOrdenacao = nomePropriedadeOrdenacao.substring(filtro.getPropriedadeOrdenacao().indexOf(".") + 1);
+			}
+			
+			if (filtro.isAscendente() && filtro.getPropriedadeOrdenacao() != null) {
+				criteriaQuery.orderBy(builder.asc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
+			} else if (filtro.getPropriedadeOrdenacao() != null) {
+				criteriaQuery.orderBy(builder.desc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
+			}
+		}
 		
 		TypedQuery<Profissional> query = manager.createQuery(criteriaQuery);
+		query.setFirstResult(filtro.getPrimeiroRegistro());
+		query.setMaxResults(filtro.getQuantidadeRegistros());
 		return query.getResultList();
+	}
+	
+	public int quantidadeFiltrados(ProfissionalFilter filtro) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
+		Root<Profissional> profissionalRoot = criteriaQuery.from(Profissional.class);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, profissionalRoot);
+		
+		criteriaQuery.select(builder.count(profissionalRoot));
+		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		TypedQuery<Long> query = manager.createQuery(criteriaQuery);
+		return query.getSingleResult().intValue();
 	}
 }

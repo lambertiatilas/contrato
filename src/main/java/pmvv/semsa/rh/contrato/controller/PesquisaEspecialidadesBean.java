@@ -2,10 +2,14 @@ package pmvv.semsa.rh.contrato.controller;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import pmvv.semsa.rh.contrato.model.Especialidade;
 import pmvv.semsa.rh.contrato.repository.Especialidades;
@@ -21,10 +25,8 @@ public class PesquisaEspecialidadesBean implements Serializable {
 	
 	@Inject
 	private Especialidades especialidades;
-	
 	private EspecialidadeFilter filtro;
-	private List<Especialidade> especialidadesFiltradas;
-	
+	private LazyDataModel<Especialidade> model;
 	private Especialidade especialidadeSelecionada;
 	
 	public PesquisaEspecialidadesBean() {
@@ -35,8 +37,8 @@ public class PesquisaEspecialidadesBean implements Serializable {
 		return filtro;
 	}
 
-	public List<Especialidade> getEspecialidadesFiltradas() {
-		return especialidadesFiltradas;
+	public LazyDataModel<Especialidade> getModel() {
+		return model;
 	}
 
 	public Especialidade getEspecialidadeSelecionada() {
@@ -48,13 +50,25 @@ public class PesquisaEspecialidadesBean implements Serializable {
 	}
 	
 	public void pesquisar() {
-		especialidadesFiltradas = especialidades.filtradas(filtro);
+		model = new LazyDataModel<Especialidade>() {
+			private static final long serialVersionUID = 1L;
+				
+			@Override
+			public List<Especialidade> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+				filtro.setPrimeiroRegistro(first);
+				filtro.setQuantidadeRegistros(pageSize);
+				filtro.setPropriedadeOrdenacao(sortField);
+				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
+				
+				setRowCount(especialidades.quantidadeFiltradas(filtro));
+				return especialidades.filtradas(filtro);
+			}
+		};
 	}
 	
 	public void excluir() {
 		try {
 			especialidades.remover(especialidadeSelecionada);
-			especialidadesFiltradas.remove(especialidadeSelecionada);
 			FacesUtil.addInfoMessage("Especialidade " + especialidadeSelecionada.getDescricao() + " excluída com sucesso.");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());

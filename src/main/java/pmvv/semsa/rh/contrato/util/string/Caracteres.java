@@ -3,7 +3,7 @@ package pmvv.semsa.rh.contrato.util.string;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-public class StringUtil {
+public class Caracteres {
 	
 	public static String trimAll(String value){
 		String string = null;

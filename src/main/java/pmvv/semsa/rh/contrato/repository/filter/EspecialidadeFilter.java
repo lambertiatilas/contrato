@@ -2,7 +2,7 @@ package pmvv.semsa.rh.contrato.repository.filter;
 
 import java.io.Serializable;
 
-public class EspecialidadeFilter implements Serializable {
+public class EspecialidadeFilter extends OrdenacaoFilter implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
