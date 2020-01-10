@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -51,9 +52,8 @@ public class Lotacao implements Serializable {
 		this.dataInicio = dataInicio;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_fim", nullable = false)
+	@Column(name = "data_fim")
 	public Date getDataFim() {
 		return dataFim;
 	}
@@ -126,5 +126,10 @@ public class Lotacao implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	@Transient
+	public boolean isNovo() {
+		return id == null;
 	}
 }

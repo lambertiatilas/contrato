@@ -10,7 +10,6 @@
     		<p:outputLabel value="CPF" for="cpf" />
     		<p:inputText id="cpf" value="#{pesquisaProfissionaisBean.filtro.cpf}" />
     		<p:commandButton value="Pesquisar" update="#{p:component('tabelaProfissionais')}" />
-    		<p:button value="Adicionar" outcome="/profissional/cadastro" />
     		<p:dataTable id="tabelaProfissionais" value="#{pesquisaProfissionaisBean.model}" var="profissional" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="Nome">
 	    			<h:outputText value="#{profissional.nome}" />
@@ -19,10 +18,13 @@
 	    			<h:outputText value="#{profissional.cpf}" />
 	    		</p:column>
 	    		<p:column>
-	    			<p:button outcome="/profissional/cadastro">
+	    			<p:button value="1" outcome="/profissional/cadastro">
 	    				<f:param name="profissional" value="#{profissional.id}" />
 	    			</p:button>
-	    			<p:commandButton oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+	    			<p:button value="2" outcome="/profissional/vinculo/pesquisa">
+	    				<f:param name="profissional" value="#{profissional.id}" />
+	    			</p:button>
+	    			<p:commandButton value="3" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
 	    				<f:setPropertyActionListener target="#{pesquisaProfissionaisBean.profissionalSelecionado}" value="#{profissional}" />
 	    			</p:commandButton>
 	    		</p:column>
@@ -31,6 +33,8 @@
 	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
 	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaProfissionaisBean.excluir}" process="@this" update="#{p:component('tabelaProfissionais')}" />
 	    	</p:confirmDialog>
+	    	<p:button value="Voltar" outcome="/home" />
+	    	<p:button value="Adicionar" outcome="/profissional/cadastro" />
 		</h:form>
 	</ui:define>
 </ui:composition>

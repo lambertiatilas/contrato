@@ -60,7 +60,6 @@ public class PesquisaProfissionaisBean implements Serializable {
 				filtro.setQuantidadeRegistros(pageSize);
 				filtro.setPropriedadeOrdenacao(sortField);
 				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
-				
 				setRowCount(profissionais.quantidadeFiltrados(filtro));
 				return profissionais.filtrados(filtro);
 			}

@@ -31,6 +31,7 @@ public class PesquisaEstabelecimentosBean implements Serializable {
 	
 	public PesquisaEstabelecimentosBean() {
 		filtro = new EstabelecimentoFilter();
+		pesquisar();
 	}
 
 	public EstabelecimentoFilter getFiltro() {
@@ -49,7 +50,7 @@ public class PesquisaEstabelecimentosBean implements Serializable {
 		this.estabelecimentoSelecionado = estabelecimentoSelecionado;
 	}
 
-	public void pesquisar() {
+	private void pesquisar() {
 		model = new LazyDataModel<Estabelecimento>() {
 			private static final long serialVersionUID = 1L;
 				
@@ -59,7 +60,6 @@ public class PesquisaEstabelecimentosBean implements Serializable {
 				filtro.setQuantidadeRegistros(pageSize);
 				filtro.setPropriedadeOrdenacao(sortField);
 				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
-				
 				setRowCount(estabelecimentos.quantidadeFiltrados(filtro));
 				return estabelecimentos.filtrados(filtro);
 			}

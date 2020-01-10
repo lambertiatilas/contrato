@@ -18,4 +18,11 @@
         <converter-id>grupoConverter</converter-id>
         <converter-class>pmvv.semsa.rh.contrato.converter.GrupoConverter</converter-class>
    	</converter>
+   	
+   	
+   	<converter>
+        <description>profissionalConverter</description>
+        <converter-id>profissionalConverter</converter-id>
+        <converter-class>pmvv.semsa.rh.contrato.converter.ProfissionalConverter</converter-class>
+   	</converter>
 </faces-config>

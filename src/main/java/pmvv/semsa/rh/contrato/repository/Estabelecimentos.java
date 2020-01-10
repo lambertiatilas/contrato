@@ -57,6 +57,10 @@ public class Estabelecimentos extends OrdenacaoFilter implements Serializable {
 		}
 	}
 	
+	public List<Estabelecimento> estabelecimentos() {
+		return this.manager.createQuery("from Estabelecimento", Estabelecimento.class).getResultList();
+	}
+	
 	private List<Predicate> criarPredicatesParaFiltro(EstabelecimentoFilter filtro, Root<Estabelecimento> estabelecimentoRoot) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		List<Predicate> predicates = new ArrayList<>();
