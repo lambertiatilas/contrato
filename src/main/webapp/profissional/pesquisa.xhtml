@@ -3,38 +3,38 @@
     <ui:define name="corpo">
 		<h:form>
 			<p:messages>
-				<p:autoUpdate />
+				<p:autoUpdate/>
 			</p:messages>
-			<p:outputLabel value="Nome" for="nome" />
-    		<p:inputText id="nome" value="#{pesquisaProfissionaisBean.filtro.nome}" />
-    		<p:outputLabel value="CPF" for="cpf" />
-    		<p:inputText id="cpf" value="#{pesquisaProfissionaisBean.filtro.cpf}" />
-    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaProfissionais')}" />
+			<p:panelGrid columns="3">
+				<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" value="#{pesquisaProfissionaisBean.filtro.nome}"/>
+	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaProfissionais')}"/>
+    		</p:panelGrid>
     		<p:dataTable id="tabelaProfissionais" value="#{pesquisaProfissionaisBean.model}" var="profissional" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="Nome">
-	    			<h:outputText value="#{profissional.nome}" />
+	    			<h:outputText value="#{profissional.nome}"/>
 	    		</p:column>
 	    		<p:column headerText="CPF">
-	    			<h:outputText value="#{profissional.cpf}" />
+	    			<h:outputText value="#{profissional.cpf}"/>
 	    		</p:column>
 	    		<p:column>
-	    			<p:button value="1" outcome="/profissional/cadastro">
-	    				<f:param name="profissional" value="#{profissional.id}" />
+	    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/cadastro">
+	    				<f:param name="profissional" value="#{profissional.id}"/>
 	    			</p:button>
-	    			<p:button value="2" outcome="/profissional/vinculo/pesquisa">
-	    				<f:param name="profissional" value="#{profissional.id}" />
+	    			<p:button icon="fa fa-fw fa-briefcase" outcome="/profissional/vinculo/pesquisa">
+	    				<f:param name="profissional" value="#{profissional.id}"/>
 	    			</p:button>
-	    			<p:commandButton value="3" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
-	    				<f:setPropertyActionListener target="#{pesquisaProfissionaisBean.profissionalSelecionado}" value="#{profissional}" />
+	    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+	    				<f:setPropertyActionListener target="#{pesquisaProfissionaisBean.profissionalSelecionado}" value="#{profissional}"/>
 	    			</p:commandButton>
 	    		</p:column>
 	    	</p:dataTable>
 	    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de profissional" message="Tem certeza que deseja excluir o profissional #{pesquisaProfissionaisBean.profissionalSelecionado.nome}?" widgetVar="confirmacaoExclusao">
-	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
-	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaProfissionaisBean.excluir}" process="@this" update="#{p:component('tabelaProfissionais')}" />
+	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;"/>
+	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaProfissionaisBean.excluir}" process="@this" update="#{p:component('tabelaProfissionais')}"/>
 	    	</p:confirmDialog>
-	    	<p:button value="Voltar" outcome="/home" />
-	    	<p:button value="Adicionar" outcome="/profissional/cadastro" />
+	    	<p:button value="Voltar" outcome="/home"/>
+	    	<p:button value="Adicionar" outcome="/profissional/cadastro"/>
 		</h:form>
 	</ui:define>
 </ui:composition>

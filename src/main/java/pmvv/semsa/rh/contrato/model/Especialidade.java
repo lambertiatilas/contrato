@@ -12,6 +12,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import pmvv.semsa.rh.contrato.util.string.Caracteres;
+
 @Entity
 @Table(name = "especialidade")
 public class Especialidade implements Serializable {
@@ -39,7 +41,7 @@ public class Especialidade implements Serializable {
 	}
 
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = Caracteres.trimAll(descricao);
 	}
 
 	@Override

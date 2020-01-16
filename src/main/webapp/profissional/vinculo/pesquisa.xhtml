@@ -25,15 +25,15 @@
 	    			<h:outputText value="#{vinculo.tipo.descricao}" />
 	    		</p:column>
 	    		<p:column>
-	    			<p:button value="1" outcome="/profissional/vinculo/cadastro">
+	    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/cadastro">
 	    				<f:param name="profissional" value="#{pesquisaVinculosBean.profissional.id}" />
 	    				<f:param name="vinculo" value="#{vinculo.id}" />
 	    			</p:button>
-	    			<p:button value="2" outcome="/profissional/vinculo/lotacao/pesquisa">
+	    			<p:button icon="fa fa-fw fa-home" outcome="/profissional/vinculo/lotacao/pesquisa">
 	    				<f:param name="profissional" value="#{pesquisaVinculosBean.profissional.id}" />
 	    				<f:param name="vinculo" value="#{vinculo.id}" />
 	    			</p:button>
-	    			<p:commandButton value="3" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+	    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
 	    				<f:setPropertyActionListener target="#{pesquisaVinculosBean.vinculo}" value="#{vinculo}" />
 	    			</p:commandButton>
 	    		</p:column>

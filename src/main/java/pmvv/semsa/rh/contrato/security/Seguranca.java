@@ -51,7 +51,11 @@ public class Seguranca {
 		return externalContext.isUserInRole("ADMINISTRADORES") || externalContext.isUserInRole("ATENDENTES");
 	}
 	
-	public boolean isAlunos() {
-		return externalContext.isUserInRole("ADMINISTRADORES") || externalContext.isUserInRole("ALUNOS");
+	public boolean isSolicitantes() {
+		return externalContext.isUserInRole("ADMINISTRADORES") || externalContext.isUserInRole("SOLICITANTES");
+	}
+	
+	public boolean isFuncionarios() {
+		return externalContext.isUserInRole("ADMINISTRADORES") || externalContext.isUserInRole("FUNCIONARIOS");
 	}
 }

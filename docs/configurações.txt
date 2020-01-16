@@ -5,17 +5,14 @@ Editar o arquivo C:\ProgramData\MySQL\MySQL Server 5.6\my.ini e alterar o valor 
 ======================================================================================================
 https://www.iconsdb.com/
 
-use estagio;
-insert into pais (id, nome, sigla) values (1, 'Brasil', 'BRA');
-insert into estado (id, nome, uf, pais_id) values (1, 'Espírito Santo', 'ES', 1);
-insert into municipio (id, nome, estado_id) values (1, 'Serra', 1);
-insert into bairro (id, nome, municipio_id) values (1, 'Nova Carapina II', 1);
-insert into endereco (id, cep, complemento, logradouro, numero, bairro_id) values (1, '29.170-166', 'casa', 'Rua Lajinha', 50, 1);
-insert into contato (id, telefone, email) values (1, '(27) 3239-1949', 'atilaslamberti@vilavelha.es.gov.br');
-insert into empresa (id, cnpj, razao_social, nome_fantasia) values (1, '27.165.554/0001-03', 'Prefeitura Municipal de Vila Velha', 'PMVV');
+use contrato;
+insert into especialidade (id, descricao) values (1, 'Assistente Administrativo');
+insert into estabelecimento (id, descricao) values (1, 'TI Saúde');
 insert into grupo (id, descricao, nome) values (1, 'Administradores', 'ADMINISTRADORES');
 insert into grupo (id, descricao, nome) values (2, 'Atendentes', 'ATENDENTES');
-insert into grupo (id, descricao, nome) values (3, 'Alunos', 'ALUNOS');
-insert into usuario (id, senha, status) values (1, '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', 0);
-insert into usuario_grupo (usuario_id, grupo_id) values (1, 1);
-insert into pessoa (id, tipo, nome, cpf, contato_id, endereco_id, usuario_id) values (1, 1, 'Atilas Rodrigues Lamberti', '110.169.877-22', 1, 1, 1);
+insert into grupo (id, descricao, nome) values (3, 'Solicitações', 'SOLICITACOES');
+insert into grupo (id, descricao, nome) values (4, 'Funcionários', 'FUNCIONARIOS');
+insert into profissional (id, cpf, nome, senha, status, telefone) values (1, '110.169.877-22', 'ATILAS RODRIGUES LAMBERTI', '$2a$10$iuOkWW3tZbzH3Icj2qKlTOHD4GBDDTeayfGgc2Fu3WC6oM8l39gde', 1, '(27) 997057718');
+insert into profissional_grupo (profissional_id, grupo_id) values (1, 1);
+insert into vinculo (id, carga_horaria, data_inicio, status, tipo, especialidade_id, profissional_id) values (1, 40, '2020-01-16', 0, 2, 1, 1);
+insert into lotacao (id, data_inicio, status, estabelecimento_id, vinculo_id) values (1, '2020-01-16', 0, 1, 1);

@@ -59,7 +59,7 @@ public class Profissional implements Serializable {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = Caracteres.trimAll(nome);
 	}
 
 	@NotBlank

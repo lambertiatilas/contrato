@@ -2,33 +2,33 @@
     <ui:define name="titulo">Vínculo</ui:define>
     <ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="profissional" value="#{cadastroVinculoBean.profissional}" />
-			<o:viewParam name="vinculo" value="#{cadastroVinculoBean.vinculo}" />
-			<f:viewAction action="#{cadastroVinculoBean.inicializar}" />
+			<o:viewParam name="profissional" value="#{cadastroVinculoBean.profissional}"/>
+			<o:viewParam name="vinculo" value="#{cadastroVinculoBean.vinculo}"/>
+			<f:viewAction action="#{cadastroVinculoBean.inicializar}"/>
 		</f:metadata>
 		<h:form>
 			<p:messages>
-				<p:autoUpdate />
+				<p:autoUpdate/>
 			</p:messages>
 			<p:panel header="Profissional">
 				<p:panelGrid columns="2">
 					<p:outputLabel value="Data de início" for="dataInicio"/>
-					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroVinculoBean.vinculo.dataInicio}" />
+					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroVinculoBean.vinculo.dataInicio}"/>
 					<p:outputLabel value="Especialidade:" for="especialidade"/>
 		    		<p:selectOneMenu id="especialidade" value="#{cadastroVinculoBean.vinculo.especialidade}" required="true" requiredMessage="Especialidade deve ser informada">
-			            <f:selectItem itemLabel="Selecione" />
-			            <f:selectItems value="#{cadastroVinculoBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}" />
+			            <f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{cadastroVinculoBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Carga horária" for="cargaHoraria"/>
-					<p:inputText id="cargaHoraria" value="#{cadastroVinculoBean.vinculo.cargaHoraria}" />
+					<p:inputMask id="cargaHoraria" value="#{cadastroVinculoBean.vinculo.cargaHoraria}" mask="99"/>
 					<p:outputLabel value="Tipo" for="tipo"/>
 					<p:selectOneMenu id="tipo" value="#{cadastroVinculoBean.vinculo.tipo}" required="true" requiredMessage="Tipo deve ser informado">
-			            <f:selectItem itemLabel="Selecione" />
-			            <f:selectItems value="#{cadastroVinculoBean.tipos}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}" />
+			            <f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{cadastroVinculoBean.tipos}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
 			        </p:selectOneMenu>
 				</p:panelGrid>
 				<p:button value="Cancelar" outcome="/profissional/vinculo/pesquisa">
-					<f:param name="profissional" value="#{cadastroVinculoBean.profissional.id}" />
+					<f:param name="profissional" value="#{cadastroVinculoBean.profissional.id}"/>
 				</p:button>
 				<p:commandButton value="Salvar" action="#{cadastroVinculoBean.salvar}" update="@form"/>
 			</p:panel>
