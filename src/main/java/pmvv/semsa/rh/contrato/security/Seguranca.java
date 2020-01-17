@@ -29,7 +29,7 @@ public class Seguranca {
 		
 		return usuario;
 	}
-
+	
 	@Produces
 	@UsuarioLogado
 	public UsuarioSistema getUsuarioLogado() {

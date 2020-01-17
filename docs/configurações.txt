@@ -12,7 +12,7 @@ insert into grupo (id, descricao, nome) values (1, 'Administradores', 'ADMINISTR
 insert into grupo (id, descricao, nome) values (2, 'Atendentes', 'ATENDENTES');
 insert into grupo (id, descricao, nome) values (3, 'Solicitações', 'SOLICITACOES');
 insert into grupo (id, descricao, nome) values (4, 'Funcionários', 'FUNCIONARIOS');
-insert into profissional (id, cpf, nome, senha, status, telefone) values (1, '110.169.877-22', 'ATILAS RODRIGUES LAMBERTI', '$2a$10$iuOkWW3tZbzH3Icj2qKlTOHD4GBDDTeayfGgc2Fu3WC6oM8l39gde', 1, '(27) 997057718');
-insert into profissional_grupo (profissional_id, grupo_id) values (1, 1);
+insert into profissional (id, cpf, nome, senha, telefone) values (1, '110.169.877-22', 'ATILAS RODRIGUES LAMBERTI', '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', '(27) 997057718');
 insert into vinculo (id, carga_horaria, data_inicio, status, tipo, especialidade_id, profissional_id) values (1, 40, '2020-01-16', 0, 2, 1, 1);
 insert into lotacao (id, data_inicio, status, estabelecimento_id, vinculo_id) values (1, '2020-01-16', 0, 1, 1);
+insert into lotacao_grupo (lotacao_id, grupo_id) values (1, 1);

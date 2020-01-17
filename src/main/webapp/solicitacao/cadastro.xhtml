@@ -10,7 +10,25 @@
 				<p:autoUpdate />
 			</p:messages>
 			<p:panelGrid columns="2">
+				<p:outputLabel value="Especialidade" for="especialidade"/>
+				<p:selectOneMenu id="especialidade" value="#{cadastroSolicitacaoBean.itemSolicitacao.especialidade}">
+					<f:selectItem itemLabel="Selecione"/>
+		            <f:selectItems value="#{cadastroSolicitacaoBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}" />
+		        </p:selectOneMenu>
+		        <p:outputLabel value="Carga horária" for="cargaHoraria"/>
+				<p:inputMask id="cargaHoraria" value="#{cadastroSolicitacaoBean.itemSolicitacao.cargaHoraria}" mask="99"/>
+		        <p:outputLabel value="Quantidade" for="quantidade"/>
+				<p:inputMask id="quantidade" value="#{cadastroSolicitacaoBean.itemSolicitacao.quantidade}" mask="9?9"/>
 			</p:panelGrid>
+			<p:commandButton value="Adicionar" action="#{cadastroSolicitacaoBean.adicionarItemSolicitacao}" update="#{p:component('tabelaItens')}"/>
+			<p:dataTable id="tabelaItens" value="#{cadastroSolicitacaoBean.solicitacao.itens}" var="item" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+	    		<p:column headerText="Especialidade">
+	    			<h:outputText value="#{item.especialidade.descricao}" />
+	    		</p:column>
+	    		<p:column headerText="Quantidade">
+	    			<h:outputText value="#{item.quantidade}" />
+	    		</p:column>
+	    	</p:dataTable>
 			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form"/>
 		</h:form>
 	</ui:define>

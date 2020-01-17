@@ -22,6 +22,7 @@ public class ItemSolicitacao implements Serializable {
 
 	private Long id;
 	private Especialidade especialidade;
+	private Integer cargaHoraria;
 	private Integer quantidade;
 	private Solicitacao solicitacao;
 
@@ -44,6 +45,18 @@ public class ItemSolicitacao implements Serializable {
 
 	public void setEspecialidade(Especialidade especialidade) {
 		this.especialidade = especialidade;
+	}
+
+	@NotNull
+	@Min(value = 20)
+	@Max(value = 40)
+	@Column(name = "carga_horaria", nullable = false)
+	public Integer getCargaHoraria() {
+		return cargaHoraria;
+	}
+
+	public void setCargaHoraria(Integer cargaHoraria) {
+		this.cargaHoraria = cargaHoraria;
 	}
 
 	@NotNull

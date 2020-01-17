@@ -6,13 +6,14 @@
     </h:head>
     <h:body>
     	<p:menubar>
-    		<p:menuitem value="Solicitação" url="#" />
+    		<p:menuitem value="Solicitação" outcome="/solicitacao/pesquisa" />
     		<p:submenu label="Administração">
 	            <p:menuitem value="Especialidade" outcome="/especialidade/pesquisa" />
 	            <p:menuitem value="Estabelecimento" outcome="/estabelecimento/pesquisa" />
 	            <p:menuitem value="Profissional" outcome="/profissional/pesquisa" />
 	        </p:submenu>
     	</p:menubar>
+    	<h:outputText value="teste: #{lotacaoBean.lotacao.estabelecimento.descricao}" />
 		<ui:insert name="corpo" />
     </h:body>
 </html>

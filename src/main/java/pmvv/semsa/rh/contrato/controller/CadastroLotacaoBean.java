@@ -9,10 +9,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
+import pmvv.semsa.rh.contrato.model.Grupo;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.TipoVinculo;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.Estabelecimentos;
+import pmvv.semsa.rh.contrato.repository.Grupos;
 import pmvv.semsa.rh.contrato.service.CadastroLotacaoService;
 import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.jsf.FacesUtil;
@@ -31,6 +33,10 @@ public class CadastroLotacaoBean implements Serializable {
 	@Inject
 	private Estabelecimentos estabelecimentos;
 	private List<Estabelecimento> listaEstabelecimentos = new ArrayList<>();
+	
+	@Inject
+	private Grupos grupos;
+	private List<Grupo> listaGrupos = new ArrayList<>();
 	
 	public Vinculo getVinculo() {
 		return vinculo;
@@ -51,6 +57,10 @@ public class CadastroLotacaoBean implements Serializable {
 	public List<Estabelecimento> getListaEstabelecimentos() {
 		return listaEstabelecimentos;
 	}
+	
+	public List<Grupo> getListaGrupos() {
+		return listaGrupos;
+	}
 
 	public TipoVinculo[] getTipos() {
 		return TipoVinculo.values();
@@ -62,6 +72,7 @@ public class CadastroLotacaoBean implements Serializable {
 		}
 		
 		listaEstabelecimentos = estabelecimentos.estabelecimentos();
+		listaGrupos = grupos.grupos();
 	}
 	
 	private void limpar() {

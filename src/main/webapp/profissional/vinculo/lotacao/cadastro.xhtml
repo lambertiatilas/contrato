@@ -33,6 +33,11 @@
 			            <f:selectItem itemLabel="Selecione" />
 			            <f:selectItems value="#{cadastroLotacaoBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}" />
 			        </p:selectOneMenu>
+  					<p:outputLabel value="Grupo" for="grupo"/>
+			        <p:selectCheckboxMenu id="grupo" value="#{cadastroLotacaoBean.lotacao.grupos}" multiple="true" converter="grupoConverter" required="true" requiredMessage="Grupo deve ser informado">
+			        	<f:attribute name="collectionType" value="java.util.ArrayList" />
+			            <f:selectItems value="#{cadastroLotacaoBean.listaGrupos}" var="grupo" itemValue="#{grupo}" itemLabel="#{grupo.descricao}" />
+			        </p:selectCheckboxMenu>
 				</p:panelGrid>
 				<p:button value="Cancelar" outcome="/profissional/vinculo/lotacao/pesquisa">
 					<f:param name="vinculo" value="#{cadastroLotacaoBean.vinculo.id}" />

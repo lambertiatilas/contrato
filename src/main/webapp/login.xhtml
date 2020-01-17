@@ -15,7 +15,7 @@
 		       	<p:inputMask id="username" value="#{loginBean.username}" placeholder="Login" mask="999.999.999-99"/>
 		       	<p:password id="password" placeholder="Senha"/>
 	       	</p:panelGrid>
-	       	<p:commandButton value="Acessar" action="#{loginBean.login}" ajax="false"/>
+	       	<p:commandButton value="Acessar" action="#{loginBean.login}" outcome="/lotacao" ajax="false"/>
 		</h:form>  
     </h:body>
 </html>

@@ -1,0 +1,55 @@
+<ui:composition template="/WEB-INF/template/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:define name="titulo">Solicitações</ui:define>
+    <ui:define name="corpo">
+    	<f:metadata>
+			<f:viewAction action="#{pesquisaSolicitacoesBean.preRender}" />
+		</f:metadata>
+		<h:form>
+			<p:messages>
+				<p:autoUpdate />
+			</p:messages>
+			<h:panelGroup>
+				<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaDe}" />
+				<h:outputText value=" a " />
+				<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaAte}" />
+			</h:panelGroup>
+			<p:selectOneMenu id="Estabelecimento" value="#{pesquisaSolicitacoesBean.filtro.estabelecimentoSolicitante}">
+				<f:selectItem itemLabel="Selecione"/>
+	            <f:selectItems value="#{pesquisaSolicitacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}" />
+	        </p:selectOneMenu>
+	        <p:selectOneMenu id="Status" value="#{pesquisaSolicitacoesBean.filtro.status}">
+				<f:selectItem itemLabel="Selecione"/>
+	            <f:selectItems value="#{pesquisaSolicitacoesBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}" />
+	        </p:selectOneMenu>
+    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaSolicitacoes')}" />
+    		<p:dataTable id="tabelaSolicitacoes" value="#{pesquisaSolicitacoesBean.model}" var="solicitacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+	    		<p:column headerText="ID">
+	    			<h:outputText value="#{solicitacao.id}" />
+	    		</p:column>
+	    		<p:column headerText="Data de abertura">
+	    			<h:outputText value="#{solicitacao.dataHoraAbertura}" />
+	    		</p:column>
+	    		<p:column headerText="Localização">
+	    			<h:outputText value="#{solicitacao.estabelecimentoSolcitante}" />
+	    		</p:column>
+	    		<p:column headerText="Status">
+	    			<h:outputText value="#{solicitacao.status}" />
+	    		</p:column>
+	    		<p:column>
+	    			<p:button value="1" outcome="/solicitacao/cadastro">
+	    				<f:param name="solicitacao" value="#{solicitacao.id}" />
+	    			</p:button>
+	    			<p:commandButton value="2" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+	    				<f:setPropertyActionListener target="#{pesquisaSolicitacoesBean.solicitacaoSelecionada}" value="#{solicitacao}" />
+	    			</p:commandButton>
+	    		</p:column>
+	    	</p:dataTable>
+	    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de solicitação" message="Tem certeza que deseja excluir a solicitação #{pesquisaSolicitacoesBean.solicitacaoSelecionada.id}?" widgetVar="confirmacaoExclusao">
+	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaSolicitacoesBean.excluir}" process="@this" update="#{p:component('tabelaSolicitacoes')}" />
+	    	</p:confirmDialog>
+	    	<p:button value="Voltar" outcome="/home" />
+	    	<p:button value="Adicionar" outcome="/solicitacao/cadastro" />
+		</h:form>
+	</ui:define>
+</ui:composition>

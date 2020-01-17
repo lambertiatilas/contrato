@@ -8,14 +8,10 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -38,8 +34,6 @@ public class Profissional implements Serializable {
 	private String telefone;
 	private String senha;
 	private List<Vinculo> vinculos = new ArrayList<>();
-	private List<Grupo> grupos = new ArrayList<>();
-	private Status status = Status.ATIVO;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,27 +96,7 @@ public class Profissional implements Serializable {
 	public void setVinculos(List<Vinculo> vinculos) {
 		this.vinculos = vinculos;
 	}
-
-	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
-	@JoinTable(name = "profissional_grupo", joinColumns = @JoinColumn(name = "profissional_id"), inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
-
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
-	}
-
-	@Enumerated
-	@Column(nullable = false)
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -155,5 +129,27 @@ public class Profissional implements Serializable {
 	
 	public String gerarSenha() {
 		return Caracteres.encoder(cpf.replaceAll("[^0-9]", "") + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+	}
+	
+	public List<Lotacao> listaLotacoes() {
+		List<Lotacao> listaLotacoes = new ArrayList<>();
+		
+		for (Vinculo vinculo : vinculos) {
+			listaLotacoes.addAll(vinculo.getLotacoes());
+		}
+		
+		return listaLotacoes;
+	}
+	
+	public List<Grupo> listaGrupos() {
+		List<Grupo> listaGrupos = new ArrayList<>();
+		
+		for (Vinculo vinculo : vinculos) {
+			for (Lotacao lotacao : vinculo.getLotacoes()) {
+				listaGrupos.addAll(lotacao.getGrupos());
+			}
+		}
+		
+		return listaGrupos;
 	}
 }

@@ -1,6 +1,7 @@
 package pmvv.semsa.rh.contrato.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,10 @@ import javax.inject.Named;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
+import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
+import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
+import pmvv.semsa.rh.contrato.repository.Estabelecimentos;
 import pmvv.semsa.rh.contrato.repository.Solicitacoes;
 import pmvv.semsa.rh.contrato.repository.filter.SolicitacaoFilter;
 import pmvv.semsa.rh.contrato.service.NegocioException;
@@ -29,10 +33,9 @@ public class PesquisaSolicitacoesBean implements Serializable {
 	private LazyDataModel<Solicitacao> model;
 	private Solicitacao solicitacaoSelecionada;
 	
-	public PesquisaSolicitacoesBean() {
-		filtro = new SolicitacaoFilter();
-		pesquisar();
-	}
+	@Inject
+	private Estabelecimentos estabelecimentos;
+	private List<Estabelecimento> listaEstabelecimentos = new ArrayList<>();
 
 	public SolicitacaoFilter getFiltro() {
 		return filtro;
@@ -48,6 +51,20 @@ public class PesquisaSolicitacoesBean implements Serializable {
 
 	public void setSolicitacaoSelecionada(Solicitacao solicitacaoSelecionada) {
 		this.solicitacaoSelecionada = solicitacaoSelecionada;
+	}
+	
+	public List<Estabelecimento> getListaEstabelecimentos() {
+		return listaEstabelecimentos;
+	}
+	
+	public StatusSolicitacao[] getStatuses() {
+		return StatusSolicitacao.values();
+	}
+
+	public void preRender() {
+		filtro = new SolicitacaoFilter();
+		listaEstabelecimentos = estabelecimentos.estabelecimentos();
+		pesquisar();
 	}
 
 	private void pesquisar() {
