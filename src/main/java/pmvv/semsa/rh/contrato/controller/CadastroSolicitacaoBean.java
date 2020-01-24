@@ -10,7 +10,6 @@ import javax.inject.Named;
 
 import pmvv.semsa.rh.contrato.model.Especialidade;
 import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
-import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
 import pmvv.semsa.rh.contrato.repository.Especialidades;
 import pmvv.semsa.rh.contrato.service.CadastroSolicitacaoService;
@@ -27,11 +26,14 @@ public class CadastroSolicitacaoBean implements Serializable {
 	private CadastroSolicitacaoService cadastroSolicitacaoService;
 	private Solicitacao solicitacao;
 	private ItemSolicitacao itemSolicitacao;
-	private Lotacao lotacao;
 	
 	@Inject
 	private Especialidades especialidades;
 	private List<Especialidade> listaEspecialidades = new ArrayList<>();
+	
+	public CadastroSolicitacaoBean() {
+		limpar();
+	}
 	
 	public Solicitacao getSolicitacao() {
 		return solicitacao;
@@ -48,19 +50,11 @@ public class CadastroSolicitacaoBean implements Serializable {
 	public void setItemSolicitacao(ItemSolicitacao itemSolicitacao) {
 		this.itemSolicitacao = itemSolicitacao;
 	}
-
-	public Lotacao getLotacao() {
-		return lotacao;
-	}
-
-	public void setLotacao(Lotacao lotacao) {
-		this.lotacao = lotacao;
-	}
-
+	
 	public List<Especialidade> getListaEspecialidades() {
 		return listaEspecialidades;
 	}
-
+	
 	public void inicializar() {
 		if (solicitacao == null) {
 			limpar();
@@ -72,7 +66,6 @@ public class CadastroSolicitacaoBean implements Serializable {
 	private void limpar() {
 		solicitacao = new Solicitacao();
 		itemSolicitacao = new ItemSolicitacao();
-		lotacao = new Lotacao();
 	}
 	
 	public void adicionarItemSolicitacao() {
@@ -83,15 +76,11 @@ public class CadastroSolicitacaoBean implements Serializable {
 			}
 		}
 		
+		itemSolicitacao.setSolicitacao(solicitacao);
 		solicitacao.getItens().add(itemSolicitacao);
 		itemSolicitacao = new ItemSolicitacao();
 	}
 	
-	public void adicionarLocatacao() {
-		solicitacao.getLotacoes().add(lotacao);
-		lotacao = new Lotacao();
-	}
-
 	public void salvar() {
 		try {
 			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);

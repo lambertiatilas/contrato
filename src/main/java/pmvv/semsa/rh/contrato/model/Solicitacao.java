@@ -20,7 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "solicitacao")
@@ -49,7 +48,6 @@ public class Solicitacao implements Serializable {
 		this.id = id;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_hora_abertura", nullable = false)
 	public Date getDataHoraAbertura() {
@@ -60,9 +58,8 @@ public class Solicitacao implements Serializable {
 		this.dataHoraAbertura = dataHoraAbertura;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_hora_encerramento", nullable = false)
+	@Column(name = "data_hora_encerramento")
 	public Date getDataHoraEncerramento() {
 		return dataHoraEncerramento;
 	}
@@ -71,7 +68,6 @@ public class Solicitacao implements Serializable {
 		this.dataHoraEncerramento = dataHoraEncerramento;
 	}
 
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "profissional_solicitante_id", nullable = false)
 	public Profissional getProfissionalSolicitante() {
@@ -82,7 +78,6 @@ public class Solicitacao implements Serializable {
 		this.profissionalSolicitante = profissionalSolicitante;
 	}
 
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "estabelecimento_solicitante_id", nullable = false)
 	public Estabelecimento getEstabelecimentoSolcitante() {
@@ -93,9 +88,8 @@ public class Solicitacao implements Serializable {
 		this.estabelecimentoSolcitante = estabelecimentoSolcitante;
 	}
 
-	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "profissional_atendente_id", nullable = false)
+	@JoinColumn(name = "profissional_atendente_id")
 	public Profissional getProfissionalAtendente() {
 		return profissionalAtendente;
 	}
@@ -104,9 +98,8 @@ public class Solicitacao implements Serializable {
 		this.profissionalAtendente = profissionalAtendente;
 	}
 
-	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "estabelecimento_atendente_id", nullable = false)
+	@JoinColumn(name = "estabelecimento_atendente_id")
 	public Estabelecimento getEstabelecimentoAtendente() {
 		return estabelecimentoAtendente;
 	}

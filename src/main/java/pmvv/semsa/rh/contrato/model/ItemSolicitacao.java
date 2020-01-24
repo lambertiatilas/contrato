@@ -61,7 +61,7 @@ public class ItemSolicitacao implements Serializable {
 
 	@NotNull
 	@Min(value = 1)
-	@Max(value = 9)
+	@Max(value = 20)
 	@Column(name = "quantidade", nullable = false)
 	public Integer getQuantidade() {
 		return quantidade;

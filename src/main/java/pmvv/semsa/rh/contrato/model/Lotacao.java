@@ -1,11 +1,8 @@
 package pmvv.semsa.rh.contrato.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -13,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -32,7 +27,6 @@ public class Lotacao implements Serializable {
 	private Date dataInicio;
 	private Date dataFim;
 	private Estabelecimento estabelecimento;
-	private List<Grupo> grupos = new ArrayList<>();
 	private Status status;
 	private Vinculo vinculo;
 	private Solicitacao solicitacao;
@@ -77,16 +71,6 @@ public class Lotacao implements Serializable {
 
 	public void setEstabelecimento(Estabelecimento estabelecimento) {
 		this.estabelecimento = estabelecimento;
-	}
-	
-	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
-	@JoinTable(name = "lotacao_grupo", joinColumns = @JoinColumn(name = "lotacao_id"), inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
-
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
 	}
 
 	@Enumerated

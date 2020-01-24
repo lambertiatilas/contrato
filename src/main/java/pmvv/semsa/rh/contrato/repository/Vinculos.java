@@ -1,6 +1,7 @@
 package pmvv.semsa.rh.contrato.repository;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -34,5 +35,9 @@ public class Vinculos implements Serializable {
 	
 	public Vinculo porId(Long id) {
 		return manager.find(Vinculo.class, id);
+	}
+	
+	public List<Vinculo> vinculosIntativos() {
+		return null;
 	}
 }

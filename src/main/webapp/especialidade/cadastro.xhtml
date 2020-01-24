@@ -2,12 +2,12 @@
     <ui:define name="titulo">Especialidade</ui:define>
     <ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="especialidade" value="#{cadastroEspecialidadeBean.especialidade}" />
-			<f:viewAction action="#{cadastroEspecialidadeBean.inicializar}" />
+			<o:viewParam name="especialidade" value="#{cadastroEspecialidadeBean.especialidade}"/>
+			<f:viewAction action="#{cadastroEspecialidadeBean.inicializar}"/>
 		</f:metadata>
 		<h:form>
 			<p:messages>
-				<p:autoUpdate />
+				<p:autoUpdate/>
 			</p:messages>
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Descrição" for="descricao"/>

@@ -23,11 +23,12 @@ public class CadastroSolicitacaoService implements Serializable {
 	
 	@Transactional
 	public Solicitacao salvar(Solicitacao solicitacao) throws NegocioException {
-		Solicitacao solicitacaoExiste = solicitacoes.existe(solicitacao.getEstabelecimentoSolcitante().getId());
+		Solicitacao solicitacaoExiste = solicitacoes.existe(seguranca.getUsuario().getLocalAcesso());
 		
 		if (solicitacao.isNovo()) {
 			solicitacao.setDataHoraAbertura(new Date());
 			solicitacao.setProfissionalSolicitante(seguranca.getUsuario());
+			solicitacao.setEstabelecimentoSolcitante(seguranca.getUsuario().getLocalAcesso());
 			solicitacao.setStatus(StatusSolicitacao.NAO_ENVIADA);
 		}
 		

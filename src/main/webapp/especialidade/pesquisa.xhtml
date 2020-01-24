@@ -3,30 +3,30 @@
     <ui:define name="corpo">
 		<h:form>
 			<p:messages>
-				<p:autoUpdate />
+				<p:autoUpdate/>
 			</p:messages>
-			<p:outputLabel value="Descrição" for="descricao" />
-    		<p:inputText id="descricao" value="#{pesquisaEspecialidadesBean.filtro.descricao}" />
-    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaEspecialidades')}" />
+			<p:outputLabel value="Descrição" for="descricao"/>
+    		<p:inputText id="descricao" value="#{pesquisaEspecialidadesBean.filtro.descricao}"/>
+    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaEspecialidades')}"/>
     		<p:dataTable id="tabelaEspecialidades" value="#{pesquisaEspecialidadesBean.model}" var="especialidade" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="Descrição">
-	    			<h:outputText value="#{especialidade.descricao}" />
+	    			<h:outputText value="#{especialidade.descricao}"/>
 	    		</p:column>
 	    		<p:column>
 	    			<p:button value="1" outcome="/especialidade/cadastro">
-	    				<f:param name="especialidade" value="#{especialidade.id}" />
+	    				<f:param name="especialidade" value="#{especialidade.id}"/>
 	    			</p:button>
 	    			<p:commandButton value="2" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
-	    				<f:setPropertyActionListener target="#{pesquisaEspecialidadesBean.especialidadeSelecionada}" value="#{especialidade}" />
+	    				<f:setPropertyActionListener target="#{pesquisaEspecialidadesBean.especialidadeSelecionada}" value="#{especialidade}"/>
 	    			</p:commandButton>
 	    		</p:column>
 	    	</p:dataTable>
 	    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de especialidade" message="Tem certeza que deseja excluir a especialidade #{pesquisaEspecialidadesBean.especialidadeSelecionada.descricao}?" widgetVar="confirmacaoExclusao">
-	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
-	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaEspecialidadesBean.excluir}" process="@this" update="#{p:component('tabelaEspecialidades')}" />
+	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;"/>
+	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaEspecialidadesBean.excluir}" process="@this" update="#{p:component('tabelaEspecialidades')}"/>
 	    	</p:confirmDialog>
-	    	<p:button value="Voltar" outcome="/home" />
-	    	<p:button value="Adicionar" outcome="/especialidade/cadastro" />
+	    	<p:button value="Voltar" outcome="/home"/>
+	    	<p:button value="Adicionar" outcome="/especialidade/cadastro"/>
 		</h:form>
 	</ui:define>
 </ui:composition>

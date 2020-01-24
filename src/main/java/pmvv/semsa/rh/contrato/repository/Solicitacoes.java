@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 
+import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Profissional;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
 import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
@@ -52,11 +53,11 @@ public class Solicitacoes implements Serializable {
 		return manager.find(Solicitacao.class, id);
 	}
 	
-	public Solicitacao existe(Long estabelecimentoSolcitante) {
+	public Solicitacao existe(Estabelecimento estabelecimentoSolcitante) {
 		try {
-			return manager.createQuery("from Solicitacao where"
-					+ " and estabelecimentoSolcitante = :estabelecimentoSolcitante"
-					+ " status <> :status", Solicitacao.class)
+			return manager.createQuery("from Solicitacao"
+					+ " where estabelecimentoSolcitante = :estabelecimentoSolcitante"
+					+ " and status <> :status", Solicitacao.class)
 					.setParameter("estabelecimentoSolcitante", estabelecimentoSolcitante)
 					.setParameter("status", StatusSolicitacao.ENCERRADA)
 					.getSingleResult();
@@ -70,9 +71,9 @@ public class Solicitacoes implements Serializable {
 			return manager.createQuery("from Solicitacao where"
 					+ " status = :status"
 					+ " order by dataHoraAbertura"
-					, Solicitacao.class)
-					.setParameter("status", StatusSolicitacao.ENVIADA)
-					.getResultList();
+				, Solicitacao.class)
+				.setParameter("status", StatusSolicitacao.ENVIADA)
+				.getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -83,9 +84,9 @@ public class Solicitacoes implements Serializable {
 			return manager.createQuery("from Solicitacao where"
 					+ " status = :status"
 					+ " order by dataHoraAbertura"
-					, Solicitacao.class)
-					.setParameter("status", StatusSolicitacao.ATENDIDA)
-					.getResultList();
+				, Solicitacao.class)
+				.setParameter("status", StatusSolicitacao.ATENDIDA)
+				.getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}

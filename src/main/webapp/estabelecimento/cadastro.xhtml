@@ -2,12 +2,12 @@
     <ui:define name="titulo">Estabelecimento</ui:define>
     <ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="estabelecimento" value="#{cadastroEstabelecimentoBean.estabelecimento}" />
-			<f:viewAction action="#{cadastroEstabelecimentoBean.inicializar}" />
+			<o:viewParam name="estabelecimento" value="#{cadastroEstabelecimentoBean.estabelecimento}"/>
+			<f:viewAction action="#{cadastroEstabelecimentoBean.inicializar}"/>
 		</f:metadata>
 		<h:form>
 			<p:messages>
-				<p:autoUpdate />
+				<p:autoUpdate/>
 			</p:messages>
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Descrição" for="descricao"/>

@@ -2,8 +2,8 @@
     <ui:define name="titulo">Profissional</ui:define>
     <ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="profissional" value="#{cadastroProfissionalBean.profissional}" />
-			<f:viewAction action="#{cadastroProfissionalBean.inicializar}" />
+			<o:viewParam name="profissional" value="#{cadastroProfissionalBean.profissional}"/>
+			<f:viewAction action="#{cadastroProfissionalBean.inicializar}"/>
 		</f:metadata>
 		<h:form>
 			<p:messages>
@@ -14,11 +14,21 @@
 					<p:outputLabel value="Nome" for="nome"/>
 					<p:inputText id="nome" value="#{cadastroProfissionalBean.profissional.nome}"/>
 					<p:outputLabel value="CPF" for="cpf"/>
-					<p:inputMask id="cpf" value="#{cadastroProfissionalBean.profissional.cpf}" mask="999.999.999-99" />
+					<p:inputMask id="cpf" value="#{cadastroProfissionalBean.profissional.cpf}" mask="999.999.999-99"/>
 					<p:outputLabel value="Telefone" for="telefone"/>
-					<p:inputMask id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}" mask="(99) 99999999?9" />
+					<p:inputMask id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}" mask="(99) 99999999?9"/>
+					<p:outputLabel value="Estabelecimento" for="estabelecimento"/>
+		    		<p:selectOneMenu id="estabelecimento" value="#{cadastroProfissionalBean.profissional.localAcesso}" required="true" requiredMessage="Estabelecimento deve ser informado">
+			            <f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{cadastroProfissionalBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
+			        </p:selectOneMenu>
+					<p:outputLabel value="Grupo" for="grupo"/>
+			        <p:selectCheckboxMenu id="grupo" value="#{cadastroProfissionalBean.profissional.grupos}" multiple="true" converter="grupoConverter" required="true" requiredMessage="Grupo deve ser informado">
+			        	<f:attribute name="collectionType" value="java.util.ArrayList"/>
+			            <f:selectItems value="#{cadastroProfissionalBean.listaGrupos}" var="grupo" itemValue="#{grupo}" itemLabel="#{grupo.descricao}"/>
+			        </p:selectCheckboxMenu>
 				</p:panelGrid>
-				<p:button value="Cancelar" outcome="/profissional/pesquisa" />
+				<p:button value="Cancelar" outcome="/profissional/pesquisa"/>
 				<p:commandButton value="Salvar" action="#{cadastroProfissionalBean.salvar}" update="@form"/>
 			</p:panel>
 		</h:form>
