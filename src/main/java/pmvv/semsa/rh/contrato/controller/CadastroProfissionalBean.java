@@ -52,16 +52,17 @@ public class CadastroProfissionalBean implements Serializable {
 	}
 	
 	public void inicializar() {
+		listaEstabelecimentos = estabelecimentos.estabelecimentos();
+		listaGrupos = grupos.grupos();
+		
 		if (profissional == null) {
 			limpar();
 		}
-		
-		listaEstabelecimentos = estabelecimentos.estabelecimentos();
-		listaGrupos = grupos.grupos();
 	}
 	
 	private void limpar() {
 		profissional = new Profissional();
+		profissional.setGrupo(getListaGrupos().get(0));
 	}
 
 	public void salvar() {

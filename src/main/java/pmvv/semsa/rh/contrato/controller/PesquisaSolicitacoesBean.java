@@ -18,6 +18,7 @@ import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
 import pmvv.semsa.rh.contrato.repository.Estabelecimentos;
 import pmvv.semsa.rh.contrato.repository.Solicitacoes;
 import pmvv.semsa.rh.contrato.repository.filter.SolicitacaoFilter;
+import pmvv.semsa.rh.contrato.security.Seguranca;
 import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.jsf.FacesUtil;
 
@@ -26,6 +27,9 @@ import pmvv.semsa.rh.contrato.util.jsf.FacesUtil;
 public class PesquisaSolicitacoesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private Seguranca seguranca;
 	
 	@Inject
 	private Solicitacoes solicitacoes;	
@@ -62,8 +66,9 @@ public class PesquisaSolicitacoesBean implements Serializable {
 	}
 
 	public void preRender() {
-		filtro = new SolicitacaoFilter();
 		listaEstabelecimentos = estabelecimentos.estabelecimentos();
+		filtro = new SolicitacaoFilter();
+		filtro.setEstabelecimentoSolicitante(seguranca.getUsuario().getLocalAcesso());
 		pesquisar();
 	}
 

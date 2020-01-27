@@ -14,8 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -40,7 +38,7 @@ public class Profissional implements Serializable {
 	private String telefone;
 	private String senha;
 	private Estabelecimento localAcesso;
-	private List<Grupo> grupos = new ArrayList<>();
+	private Grupo grupo;
 	private List<Vinculo> vinculos = new ArrayList<>();
 	private Status status;
 
@@ -97,9 +95,8 @@ public class Profissional implements Serializable {
 		this.senha = senha;
 	}
 
-	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "local_acesso_id", nullable = false)
+	@JoinColumn(name = "local_acesso_id")
 	public Estabelecimento getLocalAcesso() {
 		return localAcesso;
 	}
@@ -108,14 +105,15 @@ public class Profissional implements Serializable {
 		this.localAcesso = localAcesso;
 	}
 	
-	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
-	@JoinTable(name = "profissional_grupo", joinColumns = @JoinColumn(name = "profissional_id"), inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-	public List<Grupo> getGrupos() {
-		return grupos;
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "grupo_id", nullable = false)
+	public Grupo getGrupo() {
+		return grupo;
 	}
 
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
 	}
 
 	@OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

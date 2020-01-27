@@ -14,7 +14,7 @@
 					<h:outputText value=" a "/>
 					<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaAte}"/>
 				</h:panelGroup>
-				<p:selectOneMenu id="Estabelecimento" value="#{pesquisaSolicitacoesBean.filtro.estabelecimentoSolicitante}">
+				<p:selectOneMenu id="Estabelecimento" value="#{pesquisaSolicitacoesBean.filtro.estabelecimentoSolicitante}" disabled="#{!seguranca.administradores}">
 					<f:selectItem itemLabel="Selecione"/>
 		            <f:selectItems value="#{pesquisaSolicitacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 		        </p:selectOneMenu>

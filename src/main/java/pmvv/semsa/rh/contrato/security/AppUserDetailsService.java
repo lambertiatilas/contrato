@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import pmvv.semsa.rh.contrato.model.Grupo;
 import pmvv.semsa.rh.contrato.model.Profissional;
 import pmvv.semsa.rh.contrato.repository.Profissionais;
 import pmvv.semsa.rh.contrato.util.cdi.CDIServiceLocator;
@@ -35,11 +34,7 @@ public class AppUserDetailsService implements UserDetailsService {
 
 	private Collection<? extends GrantedAuthority> getGrupos(Profissional profissional) {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		
-		for (Grupo grupo : profissional.getGrupos()) {
-			authorities.add(new SimpleGrantedAuthority("ROLE_" + grupo.getNome().toUpperCase()));
-		}
-		
+		authorities.add(new SimpleGrantedAuthority("ROLE_" + profissional.getGrupo().getNome().toUpperCase()));
 		return authorities;
 	}
 }

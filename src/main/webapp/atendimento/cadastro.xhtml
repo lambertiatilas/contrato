@@ -2,14 +2,14 @@
     <ui:define name="titulo">Atendimento</ui:define>
     <ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="solicitacao" value="#{cadastroSolicitacaoBean.solicitacao}"/>
-			<f:viewAction action="#{cadastroSolicitacaoBean.inicializar}"/>
+			<o:viewParam name="solicitacao" value="#{cadastroAtendimentoBean.solicitacao}"/>
+			<f:viewAction action="#{cadastroAtendimentoBean.inicializar}"/>
 		</f:metadata>
 		<h:form>
 			<p:messages>
 				<p:autoUpdate/>
 			</p:messages>
-			<p:dataTable id="tabelaItens" value="#{cadastroSolicitacaoBean.solicitacao.itens}" var="item" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+			<p:dataTable id="tabelaItens" value="#{cadastroAtendimentoBean.solicitacao.itens}" var="item" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="Especialidade">
 	    			<h:outputText value="#{item.especialidade.descricao}"/>
 	    		</p:column>
@@ -21,26 +21,25 @@
 	    		</p:column>
 	    	</p:dataTable>
 	    	<p:panelGrid columns="2">
-				<p:outputLabel value="Estabelecimento" for="estabelecimento"/>
-	    		<p:selectOneMenu id="estabelecimento" value="#{cadastroLotacaoBean.lotacao.estabelecimento}" required="true" requiredMessage="Estabelecimento deve ser informado">
+				<p:outputLabel value="Vínculo" for="vinculo"/>
+	    		<p:selectOneMenu id="vinculo" value="#{cadastroAtendimentoBean.lotacao.vinculo}" required="true" requiredMessage="Estabelecimento deve ser informado">
 		            <f:selectItem itemLabel="Selecione" />
-		            <f:selectItems value="#{cadastroLotacaoBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}" />
+		            <f:selectItems value="#{cadastroAtendimentoBean.listaVinculos}" var="vinculo" itemValue="#{vinculo}" itemLabel="#{vinculo.profissional.nome}" />
+		        </p:selectOneMenu>
+		        <p:outputLabel value="Estabelecimento" for="estabelecimento"/>
+	    		<p:selectOneMenu id="estabelecimento" value="#{cadastroAtendimentoBean.lotacao.estabelecimento}" required="true" requiredMessage="Estabelecimento deve ser informado">
+		            <f:selectItem itemLabel="Selecione" />
+		            <f:selectItems value="#{cadastroAtendimentoBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}" />
 		        </p:selectOneMenu>
 			</p:panelGrid>
-			<p:commandButton value="Adicionar" action="#{cadastroSolicitacaoBean.adicionarItemSolicitacao}" update="#{p:component('tabelaItens')}"/>
-			<p:dataTable id="tabelaItens" value="#{cadastroSolicitacaoBean.solicitacao.itens}" var="item" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-	    		<p:column headerText="Especialidade">
-	    			<h:outputText value="#{item.especialidade.descricao}"/>
-	    		</p:column>
-	    		<p:column headerText="Carga horária">
-	    			<h:outputText value="#{item.cargaHoraria}"/>
-	    		</p:column>
-	    		<p:column headerText="Quantidade">
-	    			<h:outputText value="#{item.quantidade}"/>
+			<p:commandButton value="Adicionar" action="#{cadastroAtendimentoBean.adicionarLotacao}" update="#{p:component('tabelaLotacoes')}"/>
+			<p:dataTable id="tabelaLotacoes" value="#{cadastroAtendimentoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+	    		<p:column headerText="Profissional">
+	    			<h:outputText value="#{lotacao.vinculo.profissional.nome}"/>
 	    		</p:column>
 	    	</p:dataTable>
 	    	<p:button value="Cancelar" outcome="/atendimento/pesquisa"/>
-			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form"/>
+			<p:commandButton value="Salvar" action="#{cadastroAtendimentoBean.salvar}" update="@form"/>
 		</h:form>
 	</ui:define>
 </ui:composition>

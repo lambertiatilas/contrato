@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
+import pmvv.semsa.rh.contrato.model.Status;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
@@ -38,6 +40,14 @@ public class Vinculos implements Serializable {
 	}
 	
 	public List<Vinculo> vinculosIntativos() {
-		return null;
+		try {
+			return manager.createQuery("select vinculo from Vinculo vinculo left join vinculo.lotacoes lotacao"
+					+ " where lotacao.status == :status"
+				, Vinculo.class)
+				.setParameter("status", Status.INATIVO)
+				.getResultList();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 }
