@@ -2,6 +2,7 @@ package pmvv.semsa.rh.contrato.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -11,6 +12,7 @@ import javax.inject.Named;
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
+import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.Estabelecimentos;
 import pmvv.semsa.rh.contrato.repository.Vinculos;
@@ -90,6 +92,10 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public void adicionarLotacao() {
-		lotacao = new Lotacao();
+		lotacao.setDataInicio(new Date());
+		lotacao.setEstabelecimento(solicitacao.getEstabelecimentoSolcitante());
+		lotacao.setStatus(StatusLotacao.PENDENTE);
+		lotacao.setSolicitacao(solicitacao);
+		solicitacao.getLotacoes().add(lotacao);
 	}
 }

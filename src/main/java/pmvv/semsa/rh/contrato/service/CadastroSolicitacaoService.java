@@ -25,15 +25,15 @@ public class CadastroSolicitacaoService implements Serializable {
 	public Solicitacao salvar(Solicitacao solicitacao) throws NegocioException {
 		Solicitacao solicitacaoExiste = solicitacoes.existe(seguranca.getUsuario().getLocalAcesso());
 		
+		if (solicitacaoExiste != null && !solicitacaoExiste.equals(solicitacao)) {
+			throw new NegocioException("Existe uma solicitação [não encerrada] para o estabelecimento " + solicitacao.getEstabelecimentoSolcitante().getDescricao() + ".");
+		}
+		
 		if (solicitacao.isNovo()) {
 			solicitacao.setDataHoraAbertura(new Date());
 			solicitacao.setProfissionalSolicitante(seguranca.getUsuario());
 			solicitacao.setEstabelecimentoSolcitante(seguranca.getUsuario().getLocalAcesso());
 			solicitacao.setStatus(StatusSolicitacao.NAO_ENVIADA);
-		}
-		
-		if (solicitacaoExiste != null && !solicitacaoExiste.equals(solicitacao)) {
-			throw new NegocioException("Existe uma solicitação [não encerrada] para o estabelecimento " + solicitacao.getEstabelecimentoSolcitante().getDescricao() + ".");
 		}
 		
 		return solicitacoes.guardar(solicitacao);

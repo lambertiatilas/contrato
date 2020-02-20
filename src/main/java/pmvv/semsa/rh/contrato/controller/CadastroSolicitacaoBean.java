@@ -10,7 +10,9 @@ import javax.inject.Named;
 
 import pmvv.semsa.rh.contrato.model.Especialidade;
 import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
+import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
+import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.repository.Especialidades;
 import pmvv.semsa.rh.contrato.service.CadastroSolicitacaoService;
 import pmvv.semsa.rh.contrato.service.NegocioException;
@@ -26,6 +28,7 @@ public class CadastroSolicitacaoBean implements Serializable {
 	private CadastroSolicitacaoService cadastroSolicitacaoService;
 	private Solicitacao solicitacao;
 	private ItemSolicitacao itemSolicitacao;
+	private Lotacao lotacao;
 	
 	@Inject
 	private Especialidades especialidades;
@@ -51,6 +54,14 @@ public class CadastroSolicitacaoBean implements Serializable {
 		this.itemSolicitacao = itemSolicitacao;
 	}
 	
+	public Lotacao getLotacao() {
+		return lotacao;
+	}
+
+	public void setLotacao(Lotacao lotacao) {
+		this.lotacao = lotacao;
+	}
+
 	public List<Especialidade> getListaEspecialidades() {
 		return listaEspecialidades;
 	}
@@ -79,6 +90,11 @@ public class CadastroSolicitacaoBean implements Serializable {
 		itemSolicitacao.setSolicitacao(solicitacao);
 		solicitacao.getItens().add(itemSolicitacao);
 		itemSolicitacao = new ItemSolicitacao();
+	}
+	
+	public void confirmarLotacao() {
+		lotacao.setStatus(StatusLotacao.ATIVO);
+		salvar();
 	}
 	
 	public void salvar() {

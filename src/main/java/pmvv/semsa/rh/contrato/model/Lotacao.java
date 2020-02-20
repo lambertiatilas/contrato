@@ -27,7 +27,7 @@ public class Lotacao implements Serializable {
 	private Date dataInicio;
 	private Date dataFim;
 	private Estabelecimento estabelecimento;
-	private Status status;
+	private StatusLotacao status;
 	private Vinculo vinculo;
 	private Solicitacao solicitacao;
 
@@ -75,11 +75,11 @@ public class Lotacao implements Serializable {
 
 	@Enumerated
 	@Column(nullable = false)
-	public Status getStatus() {
+	public StatusLotacao getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(StatusLotacao status) {
 		this.status = status;
 	}
 	

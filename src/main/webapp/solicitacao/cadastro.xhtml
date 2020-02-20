@@ -34,6 +34,29 @@
 	    	</p:dataTable>
 	    	<p:button value="Cancelar" outcome="/solicitacao/pesquisa"/>
 			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form"/>
+			<p:dataTable id="tabelaLotacoes" value="#{cadastroSolicitacaoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+	    		<p:column headerText="Profissional">
+	    			<h:outputText value="#{lotacao.vinculo.profissional.nome}"/>
+	    		</p:column>
+	    		<p:column headerText="Especialidade">
+	    			<h:outputText value="#{lotacao.vinculo.especialidade.descricao}"/>
+	    		</p:column>
+	    		<p:column headerText="Carga horária">
+	    			<h:outputText value="#{lotacao.vinculo.cargaHoraria}"/>
+	    		</p:column>
+	    		<p:column headerText="Status">
+	    			<h:outputText value="#{lotacao.status}"/>
+	    		</p:column>
+	    		<p:column>
+	    			<p:commandButton value="Confirmar" oncomplete="PF('confirmacao').show()" process="@this" update="#{p:component('confirmacaoConfirmacaoDialog')}" rendered="#{lotacao.status == 'PENDENTE'}">
+	    				<f:setPropertyActionListener target="#{cadastroSolicitacaoBean.lotacao}" value="#{lotacao}"/>
+	    			</p:commandButton>
+	    		</p:column>
+	    	</p:dataTable>
+	    	<p:confirmDialog id="confirmacaoConfirmacaoDialog" header="Confirmar lotação de profissional" message="Tem certeza que deseja confirmar a lotação do profissional #{cadastroSolicitacaoBean.lotacao.vinculo.profissional.nome}?" widgetVar="confirmacao">
+	    		<p:button value="Não" onclick="PF('confirmacao').hide(); return false;"/>
+	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacao').hide();" action="#{cadastroSolicitacaoBean.confirmarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
+	    	</p:confirmDialog>
 		</h:form>
 	</ui:define>
 </ui:composition>

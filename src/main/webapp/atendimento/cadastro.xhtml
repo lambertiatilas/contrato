@@ -22,20 +22,24 @@
 	    	</p:dataTable>
 	    	<p:panelGrid columns="2">
 				<p:outputLabel value="Vínculo" for="vinculo"/>
-	    		<p:selectOneMenu id="vinculo" value="#{cadastroAtendimentoBean.lotacao.vinculo}" required="true" requiredMessage="Estabelecimento deve ser informado">
+	    		<p:selectOneMenu id="vinculo" value="#{cadastroAtendimentoBean.lotacao.vinculo}">
 		            <f:selectItem itemLabel="Selecione" />
-		            <f:selectItems value="#{cadastroAtendimentoBean.listaVinculos}" var="vinculo" itemValue="#{vinculo}" itemLabel="#{vinculo.profissional.nome}" />
-		        </p:selectOneMenu>
-		        <p:outputLabel value="Estabelecimento" for="estabelecimento"/>
-	    		<p:selectOneMenu id="estabelecimento" value="#{cadastroAtendimentoBean.lotacao.estabelecimento}" required="true" requiredMessage="Estabelecimento deve ser informado">
-		            <f:selectItem itemLabel="Selecione" />
-		            <f:selectItems value="#{cadastroAtendimentoBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}" />
+		            <f:selectItems value="#{cadastroAtendimentoBean.listaVinculos}" var="vinculo" itemValue="#{vinculo}" itemLabel="#{vinculo.profissional.nome} - #{vinculo.especialidade.descricao} - #{vinculo.cargaHoraria} horas" />
 		        </p:selectOneMenu>
 			</p:panelGrid>
 			<p:commandButton value="Adicionar" action="#{cadastroAtendimentoBean.adicionarLotacao}" update="#{p:component('tabelaLotacoes')}"/>
 			<p:dataTable id="tabelaLotacoes" value="#{cadastroAtendimentoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="Profissional">
 	    			<h:outputText value="#{lotacao.vinculo.profissional.nome}"/>
+	    		</p:column>
+	    		<p:column headerText="Especialidade">
+	    			<h:outputText value="#{lotacao.vinculo.especialidade.descricao}"/>
+	    		</p:column>
+	    		<p:column headerText="Carga horária">
+	    			<h:outputText value="#{lotacao.vinculo.cargaHoraria}"/>
+	    		</p:column>
+	    		<p:column headerText="Status">
+	    			<h:outputText value="#{lotacao.status}"/>
 	    		</p:column>
 	    	</p:dataTable>
 	    	<p:button value="Cancelar" outcome="/atendimento/pesquisa"/>

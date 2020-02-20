@@ -59,11 +59,9 @@ public class Profissionais implements Serializable {
 	
 	public Profissional ativo(String cpf) {
 		try {
-			return manager.createQuery("select profissional from Profissional profissional"
-					+ " inner join profissional.vinculos vinculo"
-					+ " inner join vinculo.lotacoes lotacao"
-					+ " where profissional.cpf = :cpf"
-					+ " and lotacao.status = :status"
+			return manager.createQuery("from Profissional"
+					+ " where cpf = :cpf"
+					+ " and status = :status"
 				, Profissional.class)
 				.setParameter("cpf", cpf)
 				.setParameter("status", Status.ATIVO)
