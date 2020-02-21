@@ -7,11 +7,18 @@ https://www.iconsdb.com/
 
 use contrato;
 insert into especialidade (id, descricao) values (1, 'Assistente Administrativo');
+insert into especialidade (id, descricao) values (2, 'Médico Clínico');
+insert into especialidade (id, descricao) values (3, 'Enfermeiro');
+insert into especialidade (id, descricao) values (4, 'Cirurgião Dentista');
 insert into estabelecimento (id, descricao) values (1, 'TI Saúde');
-insert into grupo (id, descricao, nome) values (1, 'Funcionários', 'FUNCIONARIOS');
-insert into grupo (id, descricao, nome) values (2, 'Administradores', 'ADMINISTRADORES');
-insert into grupo (id, descricao, nome) values (3, 'Atendentes', 'ATENDENTES');
-insert into grupo (id, descricao, nome) values (4, 'Solicitantes', 'SOLICITANTES');
-insert into profissional (id, cpf, nome, senha, telefone, local_acesso_id, grupo_id, status) values (1, '110.169.877-22', 'ATILAS RODRIGUES LAMBERTI', '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', '(27) 997057718', 1, 2, 0);
-insert into vinculo (id, carga_horaria, data_inicio, status, tipo, especialidade_id, profissional_id) values (1, 40, '2020-01-16', 0, 2, 1, 1);
-insert into lotacao (id, data_inicio, status, estabelecimento_id, vinculo_id) values (1, '2020-01-16', 0, 1, 1);
+insert into estabelecimento (id, descricao) values (2, 'RH Saúde');
+insert into estabelecimento (id, descricao) values (3, 'US Ponta da Fruta');
+insert into estabelecimento (id, descricao) values (4, 'US Araças');
+insert into grupo (id, descricao, nome) values (1, 'Administradores', 'ADMINISTRADORES');
+insert into grupo (id, descricao, nome) values (2, 'Atendentes', 'ATENDENTES');
+insert into grupo (id, descricao, nome) values (3, 'Solicitantes', 'SOLICITANTES');
+insert into grupo (id, descricao, nome) values (4, 'Funcionários', 'FUNCIONARIOS');
+insert into profissional (id, cpf, nome, senha, telefone, local_acesso_id, grupo_id, status) values (1, '110.169.877-22', 'ATILAS RODRIGUES LAMBERTI', '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', '(27) 997057718', 1, 1, 0);
+insert into profissional (id, cpf, nome, senha, telefone, local_acesso_id, grupo_id, status) values (2, '106.530.116-28', 'ALEX RODRIGUES LAMBERTI', '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', '(27) 997057718', 2, 2, 0);
+insert into profissional (id, cpf, nome, senha, telefone, local_acesso_id, grupo_id, status) values (3, '376.037.692-48', 'DAIANE RODRIGUES LAMBERTI', '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', '(27) 997057718', 3, 3, 0);
+insert into profissional (id, cpf, nome, senha, telefone, local_acesso_id, grupo_id, status) values (4, '567.253.865-71', 'ELIDA SILVA LUBASE LAMBERTI', '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', '(27) 997057718', 4, 4, 0);

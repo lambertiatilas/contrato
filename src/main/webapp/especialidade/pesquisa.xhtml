@@ -13,10 +13,10 @@
 	    			<h:outputText value="#{especialidade.descricao}"/>
 	    		</p:column>
 	    		<p:column>
-	    			<p:button value="1" outcome="/especialidade/cadastro">
+	    			<p:button icon="fa fa-fw fa-file" outcome="/especialidade/cadastro">
 	    				<f:param name="especialidade" value="#{especialidade.id}"/>
 	    			</p:button>
-	    			<p:commandButton value="2" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+	    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
 	    				<f:setPropertyActionListener target="#{pesquisaEspecialidadesBean.especialidadeSelecionada}" value="#{especialidade}"/>
 	    			</p:commandButton>
 	    		</p:column>

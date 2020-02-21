@@ -1,5 +1,7 @@
 package pmvv.semsa.rh.contrato.util.jsf;
 
+import java.io.IOException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -19,5 +21,15 @@ public class FacesUtil {
 	
 	public static void addInfoMessage(String message) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
-	}	
+	}
+	
+	public static void redirecionarPagina(String pagina) {
+		try {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.getExternalContext().getFlash().setKeepMessages(true);
+			context.getExternalContext().redirect(pagina);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

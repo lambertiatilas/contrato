@@ -31,8 +31,8 @@
 	    		</p:column>
 	    		<p:column>
 	    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/lotacao/cadastro">
-	    				<f:param name="vinculo" value="#{pesquisaLotacoesBean.vinculo.id}" />
-	    				<f:param name="vinculo" value="#{lotacao.id}" />
+	    				<f:param name="vinculo" value="#{lotacao.vinculo.id}" />
+	    				<f:param name="lotacao" value="#{lotacao.id}" />
 	    			</p:button>
 	    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
 	    				<f:setPropertyActionListener target="#{pesquisaLotacoesBean.lotacao}" value="#{lotacao}" />

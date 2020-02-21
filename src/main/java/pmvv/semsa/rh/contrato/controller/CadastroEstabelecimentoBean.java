@@ -42,8 +42,9 @@ public class CadastroEstabelecimentoBean implements Serializable {
 	public void salvar() {
 		try {
 			estabelecimento = cadastroEstabelecimentoService.salvar(estabelecimento);
-			limpar();	
+			limpar();
 			FacesUtil.addInfoMessage("Estabelecimento salvo com sucesso!");
+			FacesUtil.redirecionarPagina("pesquisa.xhtml");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}

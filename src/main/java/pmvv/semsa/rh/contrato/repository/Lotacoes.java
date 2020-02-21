@@ -1,12 +1,28 @@
 package pmvv.semsa.rh.contrato.repository;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.From;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
+
+import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Lotacao;
+import pmvv.semsa.rh.contrato.model.Profissional;
+import pmvv.semsa.rh.contrato.model.Vinculo;
+import pmvv.semsa.rh.contrato.repository.filter.LotacaoFilter;
 import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
 
@@ -34,5 +50,69 @@ public class Lotacoes implements Serializable {
 	
 	public Lotacao porId(Long id) {
 		return manager.find(Lotacao.class, id);
+	}
+	
+	private List<Predicate> criarPredicatesParaFiltro(LotacaoFilter filtro, Root<Lotacao> lotacaoRoot, From<?, ?> estabelecimentoJoin, From<?, ?> vinculoJoin, From<?, ?> profissionalJoin) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		List<Predicate> predicates = new ArrayList<>();
+		
+		if (StringUtils.isNotBlank(filtro.getCpf())) {
+			predicates.add(builder.equal(profissionalJoin.get("cpf"), filtro.getCpf()));
+		}
+		
+		if (StringUtils.isNotBlank(filtro.getNome())) {
+			predicates.add(builder.like(builder.upper(profissionalJoin.get("nome")), "%" + filtro.getNome().toUpperCase() + "%"));
+		}
+		
+		return predicates;
+	}
+	
+	public List<Lotacao> filtradas(LotacaoFilter filtro) {
+		From<?, ?> orderByFromEntity = null;
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Lotacao> criteriaQuery = builder.createQuery(Lotacao.class);
+		Root<Lotacao> lotacaoRoot = criteriaQuery.from(Lotacao.class);
+		From<?, ?> estabelecimentoJoin = (From<?, ?>) lotacaoRoot.fetch("estabelecimento", JoinType.INNER);
+		From<?, ?> vinculoJoin = (From<?, ?>) lotacaoRoot.fetch("vinculo", JoinType.INNER);
+		From<?, ?> profissionalJoin = (From<?, ?>) vinculoJoin.fetch("profissional", JoinType.INNER);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, estabelecimentoJoin, vinculoJoin, profissionalJoin);
+		
+		criteriaQuery.select(lotacaoRoot);
+		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		
+		if (filtro.getPropriedadeOrdenacao() != null) {
+			String nomePropriedadeOrdenacao = filtro.getPropriedadeOrdenacao();
+			orderByFromEntity = lotacaoRoot;
+			
+			if (filtro.getPropriedadeOrdenacao().contains(".")) {
+				nomePropriedadeOrdenacao = nomePropriedadeOrdenacao.substring(filtro.getPropriedadeOrdenacao().indexOf(".") + 1);
+			}
+			
+			if (filtro.isAscendente() && filtro.getPropriedadeOrdenacao() != null) {
+				criteriaQuery.orderBy(builder.asc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
+			} else if (filtro.getPropriedadeOrdenacao() != null) {
+				criteriaQuery.orderBy(builder.desc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
+			}
+		}
+		
+		TypedQuery<Lotacao> query = manager.createQuery(criteriaQuery);
+		query.setFirstResult(filtro.getPrimeiroRegistro());
+		query.setMaxResults(filtro.getQuantidadeRegistros());
+		return query.getResultList();
+	}
+	
+	public int quantidadeFiltrados(LotacaoFilter filtro) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
+		Root<Lotacao> lotacaoRoot = criteriaQuery.from(Lotacao.class);
+		Join<Lotacao, Estabelecimento> estabelecimentoJoin = lotacaoRoot.join("estabelecimento", JoinType.INNER);
+		Join<Lotacao, Vinculo> vinculoJoin = lotacaoRoot.join("vinculo", JoinType.INNER);
+		Join<Vinculo, Profissional> profissionalJoin = vinculoJoin.join("profissional", JoinType.INNER);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, estabelecimentoJoin, vinculoJoin, profissionalJoin);
+		
+		criteriaQuery.select(builder.count(lotacaoRoot));
+		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		TypedQuery<Long> query = manager.createQuery(criteriaQuery);
+		return query.getSingleResult().intValue();
 	}
 }

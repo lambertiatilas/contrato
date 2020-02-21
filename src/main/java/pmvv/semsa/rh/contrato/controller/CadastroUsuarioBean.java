@@ -69,6 +69,7 @@ public class CadastroUsuarioBean implements Serializable {
 			profissional = cadastroUsuarioService.salvar(profissional);
 			limpar();	
 			FacesUtil.addInfoMessage("Usuário salvo com sucesso!");
+			FacesUtil.redirecionarPagina("pesquisa.xhtml");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}

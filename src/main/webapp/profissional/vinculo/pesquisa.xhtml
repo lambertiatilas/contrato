@@ -25,12 +25,12 @@
 	    			<h:outputText value="#{vinculo.tipo.descricao}" />
 	    		</p:column>
 	    		<p:column>
-	    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/cadastro">
-	    				<f:param name="profissional" value="#{pesquisaVinculosBean.profissional.id}" />
+	    			<p:button icon="fa fa-fw fa-home" outcome="/profissional/vinculo/lotacao/pesquisa">
+	    				<f:param name="profissional" value="#{vinculo.profissional.id}" />
 	    				<f:param name="vinculo" value="#{vinculo.id}" />
 	    			</p:button>
-	    			<p:button icon="fa fa-fw fa-home" outcome="/profissional/vinculo/lotacao/pesquisa">
-	    				<f:param name="profissional" value="#{pesquisaVinculosBean.profissional.id}" />
+	    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/cadastro">
+	    				<f:param name="profissional" value="#{vinculo.profissional.id}" />
 	    				<f:param name="vinculo" value="#{vinculo.id}" />
 	    			</p:button>
 	    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">

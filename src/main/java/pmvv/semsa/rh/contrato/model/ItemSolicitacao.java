@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "item_solicitacao")
@@ -36,7 +35,6 @@ public class ItemSolicitacao implements Serializable {
 		this.id = id;
 	}
 
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "especialidade_id", nullable = false)
 	public Especialidade getEspecialidade() {
@@ -47,7 +45,6 @@ public class ItemSolicitacao implements Serializable {
 		this.especialidade = especialidade;
 	}
 
-	@NotNull
 	@Min(value = 20)
 	@Max(value = 40)
 	@Column(name = "carga_horaria", nullable = false)
@@ -59,7 +56,6 @@ public class ItemSolicitacao implements Serializable {
 		this.cargaHoraria = cargaHoraria;
 	}
 
-	@NotNull
 	@Min(value = 1)
 	@Max(value = 20)
 	@Column(name = "quantidade", nullable = false)

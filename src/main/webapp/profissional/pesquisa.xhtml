@@ -18,10 +18,10 @@
 	    			<h:outputText value="#{profissional.cpf}"/>
 	    		</p:column>
 	    		<p:column>
-	    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/cadastro">
+	    			<p:button icon="fa fa-fw fa-briefcase" outcome="/profissional/vinculo/pesquisa">
 	    				<f:param name="profissional" value="#{profissional.id}"/>
 	    			</p:button>
-	    			<p:button icon="fa fa-fw fa-briefcase" outcome="/profissional/vinculo/pesquisa">
+	    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/cadastro">
 	    				<f:param name="profissional" value="#{profissional.id}"/>
 	    			</p:button>
 	    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">

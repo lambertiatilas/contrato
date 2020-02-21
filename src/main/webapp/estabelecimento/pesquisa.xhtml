@@ -13,10 +13,10 @@
 	    			<h:outputText value="#{estabelecimento.descricao}"/>
 	    		</p:column>
 	    		<p:column>
-	    			<p:button value="1" outcome="/estabelecimento/cadastro">
+	    			<p:button icon="fa fa-fw fa-file" outcome="/estabelecimento/cadastro">
 	    				<f:param name="estabelecimento" value="#{estabelecimento.id}"/>
 	    			</p:button>
-	    			<p:commandButton value="2" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+	    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
 	    				<f:setPropertyActionListener target="#{pesquisaEstabelecimentosBean.estabelecimentoSelecionado}" value="#{estabelecimento}"/>
 	    			</p:commandButton>
 	    		</p:column>

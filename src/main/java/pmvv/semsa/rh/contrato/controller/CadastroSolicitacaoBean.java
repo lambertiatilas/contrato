@@ -13,6 +13,7 @@ import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
 import pmvv.semsa.rh.contrato.model.StatusLotacao;
+import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
 import pmvv.semsa.rh.contrato.repository.Especialidades;
 import pmvv.semsa.rh.contrato.service.CadastroSolicitacaoService;
 import pmvv.semsa.rh.contrato.service.NegocioException;
@@ -76,20 +77,38 @@ public class CadastroSolicitacaoBean implements Serializable {
 	
 	private void limpar() {
 		solicitacao = new Solicitacao();
+		limparItemSolicitacao();
+	}
+	
+	private void limparItemSolicitacao() {
 		itemSolicitacao = new ItemSolicitacao();
 	}
 	
 	public void adicionarItemSolicitacao() {
 		for (ItemSolicitacao item: solicitacao.getItens()) {
 			if (item.getEspecialidade().equals(itemSolicitacao.getEspecialidade()) && item.getCargaHoraria().equals(itemSolicitacao.getCargaHoraria())) {
-				FacesUtil.addErrorMessage("Item já adicionado");
+				FacesUtil.addErrorMessage("Item já adicionado!");
 				return;
 			}
 		}
 		
+		if (itemSolicitacao.getEspecialidade() == null || itemSolicitacao.getCargaHoraria() == null || itemSolicitacao.getQuantidade() == null) {
+			FacesUtil.addErrorMessage("Todos os campos da solicitação devem ser preenchidos!");
+			return;
+		}
+		
 		itemSolicitacao.setSolicitacao(solicitacao);
 		solicitacao.getItens().add(itemSolicitacao);
-		itemSolicitacao = new ItemSolicitacao();
+		limparItemSolicitacao();
+	}
+	
+	public void removerItemSolicitacao() {
+		solicitacao.getItens().remove(itemSolicitacao);
+	}
+	
+	public void enviarSolicitacao() {
+		solicitacao.setStatus(StatusSolicitacao.ENVIADA);
+		salvar();
 	}
 	
 	public void confirmarLotacao() {
@@ -99,8 +118,7 @@ public class CadastroSolicitacaoBean implements Serializable {
 	
 	public void salvar() {
 		try {
-			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
-			limpar();	
+			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);	
 			FacesUtil.addInfoMessage("Solicitação salva com sucesso!");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());

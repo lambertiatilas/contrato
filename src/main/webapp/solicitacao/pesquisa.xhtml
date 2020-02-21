@@ -41,7 +41,7 @@
 	    			<p:button value="1" outcome="/solicitacao/cadastro">
 	    				<f:param name="solicitacao" value="#{solicitacao.id}"/>
 	    			</p:button>
-	    			<p:commandButton value="2" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+	    			<p:commandButton value="2" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}" rendered="#{solicitacao.status == 'NAO_ENVIADA'}">
 	    				<f:setPropertyActionListener target="#{pesquisaSolicitacoesBean.solicitacaoSelecionada}" value="#{solicitacao}"/>
 	    			</p:commandButton>
 	    		</p:column>

@@ -44,6 +44,7 @@ public class CadastroProfissionalBean implements Serializable {
 			profissional = cadastroProfissionalService.salvar(profissional);
 			limpar();	
 			FacesUtil.addInfoMessage("Profissional salvo com sucesso!");
+			FacesUtil.redirecionarPagina("pesquisa.xhtml");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}

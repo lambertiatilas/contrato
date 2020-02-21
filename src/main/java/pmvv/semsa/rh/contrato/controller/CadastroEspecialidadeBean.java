@@ -44,6 +44,7 @@ public class CadastroEspecialidadeBean implements Serializable {
 			especialidade = cadastroEspecialidadeService.salvar(especialidade);
 			limpar();	
 			FacesUtil.addInfoMessage("Especialidade salva com sucesso!");
+			FacesUtil.redirecionarPagina("pesquisa.xhtml");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}

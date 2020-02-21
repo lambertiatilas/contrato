@@ -86,6 +86,7 @@ private static final long serialVersionUID = 1L;
 			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
 			limpar();	
 			FacesUtil.addInfoMessage("Solicitação salva com sucesso!");
+			FacesUtil.redirecionarPagina("pesquisa.xhtml");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}

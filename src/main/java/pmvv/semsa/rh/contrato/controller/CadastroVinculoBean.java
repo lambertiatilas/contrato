@@ -73,6 +73,7 @@ public class CadastroVinculoBean implements Serializable {
 			vinculo = cadastroVinculoService.salvar(profissional, vinculo);
 			limpar();	
 			FacesUtil.addInfoMessage("Vínculo salvo com sucesso!");
+			FacesUtil.redirecionarPagina("pesquisa.xhtml?profissional=" + profissional.getId());
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}

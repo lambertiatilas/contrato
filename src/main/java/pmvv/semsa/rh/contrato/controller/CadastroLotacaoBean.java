@@ -73,6 +73,7 @@ public class CadastroLotacaoBean implements Serializable {
 			lotacao = cadastroLotacaoService.salvar(vinculo, lotacao);
 			limpar();	
 			FacesUtil.addInfoMessage("Lotação salva com sucesso!");
+			FacesUtil.redirecionarPagina("pesquisa.xhtml?vinculo=" + vinculo.getId());
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}
