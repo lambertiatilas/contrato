@@ -18,7 +18,6 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 
-import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Profissional;
 import pmvv.semsa.rh.contrato.model.Vinculo;
@@ -52,7 +51,7 @@ public class Lotacoes implements Serializable {
 		return manager.find(Lotacao.class, id);
 	}
 	
-	private List<Predicate> criarPredicatesParaFiltro(LotacaoFilter filtro, Root<Lotacao> lotacaoRoot, From<?, ?> estabelecimentoJoin, From<?, ?> vinculoJoin, From<?, ?> profissionalJoin) {
+	private List<Predicate> criarPredicatesParaFiltro(LotacaoFilter filtro, Root<Lotacao> lotacaoRoot, From<?, ?> vinculoJoin, From<?, ?> profissionalJoin) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		List<Predicate> predicates = new ArrayList<>();
 		
@@ -64,6 +63,22 @@ public class Lotacoes implements Serializable {
 			predicates.add(builder.like(builder.upper(profissionalJoin.get("nome")), "%" + filtro.getNome().toUpperCase() + "%"));
 		}
 		
+		if (filtro.getEspecialidade() != null) {
+			predicates.add(lotacaoRoot.get("especialidade").in(filtro.getEspecialidade()));
+		}
+		
+		if (filtro.getTipoVinculo() != null) {
+			predicates.add(vinculoJoin.get("tipo").in(filtro.getTipoVinculo()));
+		}
+		
+		if (filtro.getCargaHoraria() != null) {
+			predicates.add(vinculoJoin.get("cargaHoraria").in(filtro.getCargaHoraria()));
+		}
+		
+		if (filtro.getEstabelecimento() != null) {
+			predicates.add(lotacaoRoot.get("estabelecimento").in(filtro.getEstabelecimento()));
+		}
+		
 		return predicates;
 	}
 	
@@ -72,10 +87,9 @@ public class Lotacoes implements Serializable {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Lotacao> criteriaQuery = builder.createQuery(Lotacao.class);
 		Root<Lotacao> lotacaoRoot = criteriaQuery.from(Lotacao.class);
-		From<?, ?> estabelecimentoJoin = (From<?, ?>) lotacaoRoot.fetch("estabelecimento", JoinType.INNER);
 		From<?, ?> vinculoJoin = (From<?, ?>) lotacaoRoot.fetch("vinculo", JoinType.INNER);
 		From<?, ?> profissionalJoin = (From<?, ?>) vinculoJoin.fetch("profissional", JoinType.INNER);
-		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, estabelecimentoJoin, vinculoJoin, profissionalJoin);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, vinculoJoin, profissionalJoin);
 		
 		criteriaQuery.select(lotacaoRoot);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
@@ -101,14 +115,13 @@ public class Lotacoes implements Serializable {
 		return query.getResultList();
 	}
 	
-	public int quantidadeFiltrados(LotacaoFilter filtro) {
+	public int quantidadeFiltradas(LotacaoFilter filtro) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
 		Root<Lotacao> lotacaoRoot = criteriaQuery.from(Lotacao.class);
-		Join<Lotacao, Estabelecimento> estabelecimentoJoin = lotacaoRoot.join("estabelecimento", JoinType.INNER);
 		Join<Lotacao, Vinculo> vinculoJoin = lotacaoRoot.join("vinculo", JoinType.INNER);
 		Join<Vinculo, Profissional> profissionalJoin = vinculoJoin.join("profissional", JoinType.INNER);
-		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, estabelecimentoJoin, vinculoJoin, profissionalJoin);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, vinculoJoin, profissionalJoin);
 		
 		criteriaQuery.select(builder.count(lotacaoRoot));
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
