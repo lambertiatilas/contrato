@@ -2,13 +2,13 @@
     <ui:define name="titulo">Atendimentos</ui:define>
     <ui:define name="corpo">
     	<f:metadata>
-			<f:viewAction action="#{pesquisaSolicitacoesBean.preRender}"/>
+			<f:viewAction action="#{pesquisaAtendimentosBean.preRender}"/>
 		</f:metadata>
 		<h:form>
 			<p:messages>
 				<p:autoUpdate/>
 			</p:messages>
-    		<p:dataTable id="tabelaSolicitacoes" value="#{pesquisaSolicitacoesBean.model}" var="solicitacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+    		<p:dataTable id="tabelaSolicitacoes" value="#{pesquisaAtendimentosBean.solicitacoesEnviadas}" var="solicitacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="ID">
 	    			<h:outputText value="#{solicitacao.id}"/>
 	    		</p:column>

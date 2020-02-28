@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
+import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
+import pmvv.semsa.rh.contrato.model.Status;
+import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
@@ -38,12 +41,18 @@ public class Vinculos implements Serializable {
 		return manager.find(Vinculo.class, id);
 	}
 	
-	public List<Vinculo> vinculosIntativos() {
+	public List<Vinculo> vinculosDisponiveis(ItemSolicitacao item) {
 		try {
 			return manager.createQuery("select vinculo from Vinculo vinculo left join vinculo.lotacoes lotacao"
-					+ " where vinculo.status = 0"
-					+ " and (lotacao.status is null or lotacao.status = 2)"
+					+ " where vinculo.status = :status"
+					+ " and (lotacao.status is null or lotacao.status = :statusLotacao)"
+					+ " and vinculo.especialidade = :especialidade"
+					+ " and vinculo.cargaHoraria = :cargaHoraria"
 				, Vinculo.class)
+				.setParameter("status", Status.ATIVO)
+				.setParameter("statusLotacao", StatusLotacao.INATIVO)
+				.setParameter("especialidade", item.getEspecialidade())
+				.setParameter("cargaHoraria", item.getCargaHoraria())
 				.getResultList();
 		} catch (NoResultException e) {
 			return null;

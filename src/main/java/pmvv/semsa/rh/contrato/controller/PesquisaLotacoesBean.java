@@ -20,6 +20,7 @@ import pmvv.semsa.rh.contrato.repository.Especialidades;
 import pmvv.semsa.rh.contrato.repository.Estabelecimentos;
 import pmvv.semsa.rh.contrato.repository.Lotacoes;
 import pmvv.semsa.rh.contrato.repository.filter.LotacaoFilter;
+import pmvv.semsa.rh.contrato.security.Seguranca;
 import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.jsf.FacesUtil;
 
@@ -29,6 +30,8 @@ public class PesquisaLotacoesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject
+	private Seguranca seguranca;
 	@Inject
 	private Especialidades especialidades;
 	@Inject
@@ -41,12 +44,16 @@ public class PesquisaLotacoesBean implements Serializable {
 	private Lotacao lotacao;
 	private List<Especialidade> listaEspecialidades;
 	private List<Estabelecimento> listaEstabelecimentos;
-
+	
 	public PesquisaLotacoesBean() {
 		filtro = new LotacaoFilter();
+		pesquisar();
+	}
+	
+	public void inicializar() {
 		listaEspecialidades = especialidades.especialidades();
 		listaEstabelecimentos = estabelecimentos.estabelecimentos();
-		pesquisar();
+		filtro.setEstabelecimento(seguranca.getUsuario().getLocalAcesso());
 	}
 	
 	public LotacaoFilter getFiltro() {

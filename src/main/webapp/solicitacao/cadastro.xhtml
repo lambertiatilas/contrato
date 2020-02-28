@@ -62,7 +62,7 @@
 	    	</p:confirmDialog>
 	    	<p:button value="Voltar" outcome="/solicitacao/pesquisa"/>
 			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form" rendered="#{cadastroSolicitacaoBean.solicitacao.status == null or cadastroSolicitacaoBean.solicitacao.status == 'NAO_ENVIADA'}"/>
-			<p:commandButton value="Enviar solicitação" oncomplete="PF('envio').show()" process="@this" update="#{p:component('enviarSolicitacaoDialog')}" rendered="#{cadastroSolicitacaoBean.solicitacao.status == 'NAO_ENVIADA'}"/>
+			<p:commandButton value="Enviar solicitação" oncomplete="PF('envio').show()" process="@this" update="#{p:component('enviarSolicitacaoDialog')}" rendered="#{cadastroSolicitacaoBean.solicitacao.status == 'NAO_ENVIADA' and not empty cadastroSolicitacaoBean.solicitacao.itens}"/>
 			<p:confirmDialog id="enviarSolicitacaoDialog" header="Enviar solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja enviar a solicitação?" widgetVar="envio">
 	    		<p:button value="Não" onclick="PF('envio').hide(); return false;"/>
 	    		<p:commandButton id="yesButtonEnvio" value="Sim" oncomplete="PF('envio').hide();" action="#{cadastroSolicitacaoBean.enviarSolicitacao}" process="@this" update="@form"/>

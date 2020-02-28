@@ -64,7 +64,7 @@ public class Lotacoes implements Serializable {
 		}
 		
 		if (filtro.getEspecialidade() != null) {
-			predicates.add(lotacaoRoot.get("especialidade").in(filtro.getEspecialidade()));
+			predicates.add(vinculoJoin.get("especialidade").in(filtro.getEspecialidade()));
 		}
 		
 		if (filtro.getTipoVinculo() != null) {

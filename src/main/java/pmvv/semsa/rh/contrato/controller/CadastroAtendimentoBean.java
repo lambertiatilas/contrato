@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
+import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
 import pmvv.semsa.rh.contrato.model.StatusLotacao;
@@ -71,9 +72,9 @@ private static final long serialVersionUID = 1L;
 		if (solicitacao == null) {
 			limpar();
 		}
-		
-		listaVinculos = vinculos.vinculosIntativos();
+
 		listaEstabelecimentos = estabelecimentos.estabelecimentos();
+		verificarVinculosDisponiveis();
 	}
 	
 	private void limpar() {
@@ -84,9 +85,7 @@ private static final long serialVersionUID = 1L;
 	public void salvar() {
 		try {
 			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
-			limpar();	
 			FacesUtil.addInfoMessage("Solicitação salva com sucesso!");
-			FacesUtil.redirecionarPagina("pesquisa.xhtml");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}
@@ -98,5 +97,11 @@ private static final long serialVersionUID = 1L;
 		lotacao.setStatus(StatusLotacao.PENDENTE);
 		lotacao.setSolicitacao(solicitacao);
 		solicitacao.getLotacoes().add(lotacao);
+	}
+	
+	private void verificarVinculosDisponiveis() {
+		for (ItemSolicitacao item : solicitacao.getItens()) {
+			listaVinculos.addAll(vinculos.vinculosDisponiveis(item));
+		}
 	}
 }
