@@ -8,7 +8,23 @@
 			<p:messages>
 				<p:autoUpdate/>
 			</p:messages>
-    		<p:dataTable id="tabelaSolicitacoes" value="#{pesquisaAtendimentosBean.solicitacoesEnviadas}" var="solicitacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+			<p:panelGrid columns="3">
+				<h:panelGroup>
+					<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaDe}"/>
+					<h:outputText value=" a "/>
+					<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaAte}"/>
+				</h:panelGroup>
+				<p:selectOneMenu id="Estabelecimento" value="#{pesquisaAtendimentosBean.filtro.estabelecimentoSolicitante}">
+					<f:selectItem itemLabel="Selecione"/>
+		            <f:selectItems value="#{pesquisaAtendimentosBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
+		        </p:selectOneMenu>
+		        <p:selectOneMenu id="Status" value="#{pesquisaAtendimentosBean.filtro.status}">
+					<f:selectItem itemLabel="Selecione"/>
+		            <f:selectItems value="#{pesquisaAtendimentosBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
+		        </p:selectOneMenu>
+	        </p:panelGrid>
+    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaSolicitacoes')}"/>
+    		<p:dataTable id="tabelaSolicitacoes" value="#{pesquisaAtendimentosBean.model}" var="solicitacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="ID">
 	    			<h:outputText value="#{solicitacao.id}"/>
 	    		</p:column>

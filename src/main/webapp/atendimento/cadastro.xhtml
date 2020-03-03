@@ -20,14 +20,14 @@
 	    			<h:outputText value="#{item.quantidade}"/>
 	    		</p:column>
 	    	</p:dataTable>
-	    	<p:panelGrid columns="2">
+	    	<p:panelGrid id="consultarVinculos" columns="2" rendered="#{cadastroAtendimentoBean.solicitacao.status == 'ENVIADA'}">
 				<p:outputLabel value="Vínculo" for="vinculo"/>
-	    		<p:selectOneMenu id="vinculo" value="#{cadastroAtendimentoBean.lotacao.vinculo}">
+	    		<p:selectOneMenu id="vinculo" value="#{cadastroAtendimentoBean.vinculo}">
 		            <f:selectItem itemLabel="Selecione" />
 		            <f:selectItems value="#{cadastroAtendimentoBean.listaVinculos}" var="vinculo" itemValue="#{vinculo}" itemLabel="#{vinculo.profissional.nome} - #{vinculo.especialidade.descricao} - #{vinculo.cargaHoraria} horas" />
 		        </p:selectOneMenu>
 			</p:panelGrid>
-			<p:commandButton value="Adicionar" action="#{cadastroAtendimentoBean.adicionarLotacao}" update="#{p:component('tabelaLotacoes')}"/>
+			<p:commandButton value="Adicionar" action="#{cadastroAtendimentoBean.adicionarLotacao}" update="#{p:component('consultarVinculos')}, #{p:component('tabelaLotacoes')}" rendered="#{cadastroAtendimentoBean.solicitacao.status == 'ENVIADA'}"/>
 			<p:dataTable id="tabelaLotacoes" value="#{cadastroAtendimentoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="Profissional">
 	    			<h:outputText value="#{lotacao.vinculo.profissional.nome}"/>
@@ -41,9 +41,19 @@
 	    		<p:column headerText="Status">
 	    			<h:outputText value="#{lotacao.status}"/>
 	    		</p:column>
+	    		<p:column rendered="#{cadastroAtendimentoBean.solicitacao.status == 'ENVIADA'}">
+	    			<p:commandButton value="Remover" action="#{cadastroAtendimentoBean.removerLotacao}" process="@this" update="#{p:component('consultarVinculos')}, #{p:component('tabelaLotacoes')}">
+	    				<f:setPropertyActionListener target="#{cadastroAtendimentoBean.lotacao}" value="#{lotacao}"/>
+	    			</p:commandButton>
+	    		</p:column>
 	    	</p:dataTable>
-	    	<p:button value="Cancelar" outcome="/atendimento/pesquisa"/>
-			<p:commandButton value="Salvar" action="#{cadastroAtendimentoBean.salvar}" update="@form"/>
+	    	<p:button value="Voltar" outcome="/atendimento/pesquisa"/>
+			<p:commandButton value="Salvar" action="#{cadastroAtendimentoBean.salvar}" update="@form" rendered="#{cadastroAtendimentoBean.solicitacao.status == 'ENVIADA'}"/>
+			<p:commandButton value="Atender solicitação" oncomplete="PF('atendimento').show()" process="@this" update="#{p:component('atenderSolicitacaoDialog')}" rendered="#{cadastroAtendimentoBean.solicitacao.status == 'ENVIADA' and not empty cadastroAtendimentoBean.solicitacao.lotacoes}"/>
+			<p:confirmDialog id="atenderSolicitacaoDialog" header="Enviar solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja atender a solicitação?" widgetVar="atendimento">
+	    		<p:button value="Não" onclick="PF('atendimento').hide(); return false;"/>
+	    		<p:commandButton id="yesButtonEnvio" value="Sim" oncomplete="PF('atendimento').hide();" action="#{cadastroAtendimentoBean.atenderSolicitacao}" process="@this" update="@form"/>
+	    	</p:confirmDialog>
 		</h:form>
 	</ui:define>
 </ui:composition>

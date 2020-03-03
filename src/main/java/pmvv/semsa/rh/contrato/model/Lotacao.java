@@ -41,9 +41,8 @@ public class Lotacao implements Serializable {
 		this.id = id;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_inicio", nullable = false)
+	@Column(name = "data_inicio")
 	public Date getDataInicio() {
 		return dataInicio;
 	}

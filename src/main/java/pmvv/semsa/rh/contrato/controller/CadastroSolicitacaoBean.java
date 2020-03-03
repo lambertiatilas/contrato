@@ -2,6 +2,7 @@ package pmvv.semsa.rh.contrato.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -111,8 +112,14 @@ public class CadastroSolicitacaoBean implements Serializable {
 		salvar();
 	}
 	
-	public void confirmarLotacao() {
+	public void aceitarLotacao() {
+		lotacao.setDataInicio(new Date());
 		lotacao.setStatus(StatusLotacao.ATIVO);
+		salvar();
+	}
+	
+	public void rejeitarLotacao() {
+		lotacao.setStatus(StatusLotacao.INATIVO);
 		salvar();
 	}
 	
