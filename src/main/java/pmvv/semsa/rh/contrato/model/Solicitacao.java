@@ -165,4 +165,99 @@ public class Solicitacao implements Serializable {
 	public boolean isNovo() {
 		return id == null;
 	}
+	
+	@Transient
+	public boolean isExistente() {
+		return !isNovo();
+	}
+	
+	@Transient
+	private boolean isNaoEnviada() {
+		return StatusSolicitacao.NAO_ENVIADA.equals(status);
+	}
+	
+	@Transient
+	private boolean isEnviada() {
+		return StatusSolicitacao.ENVIADA.equals(status);
+	}
+	
+	@Transient
+	private boolean isAtendida() {
+		return StatusSolicitacao.ATENDIDA.equals(status);
+	}
+	
+	@Transient
+	private boolean isEncerrada() {
+		return StatusSolicitacao.ENCERRADA.equals(status);
+	}
+	
+	@Transient
+	public boolean isItemExistente() {
+		return !itens.isEmpty();
+	}
+	
+	@Transient
+	public boolean isItemNaoExistente() {
+		return !isItemExistente();
+	}
+	
+	@Transient
+	public boolean isLotacaoExistente() {
+		return !lotacoes.isEmpty();
+	}
+	
+	@Transient
+	public boolean isLotacaoNaoExistente() {
+		return !isLotacaoExistente();
+	}
+	
+	@Transient
+	public boolean isRequisicaoAlteravel() {
+		return (isNovo() || isNaoEnviada());
+	}
+	
+	@Transient
+	public boolean isRequisicaoNaoAlteravel() {
+		return !isRequisicaoSalvavel();
+	}
+	
+	@Transient
+	public boolean isRequisicaoSalvavel() {
+		return (isNovo() || isNaoEnviada()) && isItemExistente();
+	}
+	
+	@Transient
+	public boolean isRequisicaoNaoSalvavel() {
+		return !isRequisicaoSalvavel();
+	}
+	
+	@Transient
+	public boolean isAtendimentoAteravel() {
+		return isEnviada();
+	}
+	
+	@Transient
+	public boolean isAtendimentoNaoAteravel() {
+		return !isAtendimentoSalvavel();
+	}
+	
+	@Transient
+	public boolean isAtendimentoSalvavel() {
+		return isEnviada() && isLotacaoExistente();
+	}
+	
+	@Transient
+	public boolean isAtendimentoNaoSalvavel() {
+		return !isAtendimentoSalvavel();
+	}
+	
+	@Transient
+	public boolean isEncerravel() {
+		return isAtendida();
+	}
+	
+	@Transient
+	public boolean isNaoEncerravel() {
+		return !isEncerravel();
+	}
 }

@@ -41,9 +41,8 @@ public class Lotacao implements Serializable {
 		this.id = id;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_inicio", nullable = false)
+	@Column(name = "data_inicio")
 	public Date getDataInicio() {
 		return dataInicio;
 	}
@@ -131,5 +130,30 @@ public class Lotacao implements Serializable {
 	@Transient
 	public boolean isNovo() {
 		return id == null;
+	}
+	
+	@Transient
+	public boolean isExistente() {
+		return !isNovo();
+	}
+	
+	@Transient
+	private boolean isAtivo() {
+		return StatusLotacao.ATIVO.equals(status);
+	}
+	
+	@Transient
+	private boolean isPendente() {
+		return StatusLotacao.PENDENTE.equals(status);
+	}
+	
+	@Transient
+	private boolean isInativo() {
+		return StatusLotacao.INATIVO.equals(status);
+	}
+	
+	@Transient
+	public boolean isAceitavelOuRejeitavel() {
+		return isExistente() && isPendente();
 	}
 }

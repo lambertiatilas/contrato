@@ -9,7 +9,7 @@
 			<p:messages>
 				<p:autoUpdate/>
 			</p:messages>
-			<p:panelGrid id="camposItens" columns="2" rendered="#{cadastroSolicitacaoBean.solicitacao.status == null or cadastroSolicitacaoBean.solicitacao.status == 'NAO_ENVIADA'}">
+			<p:panelGrid id="camposItens" columns="2" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoAlteravel}">
 				<p:outputLabel value="Especialidade" for="especialidade"/>
 				<p:selectOneMenu id="especialidade" value="#{cadastroSolicitacaoBean.itemSolicitacao.especialidade}">
 					<f:selectItem itemLabel="Selecione"/>
@@ -20,7 +20,7 @@
 		        <p:outputLabel value="Quantidade" for="quantidade"/>
 				<p:inputMask id="quantidade" value="#{cadastroSolicitacaoBean.itemSolicitacao.quantidade}" mask="9?9"/>
 			</p:panelGrid>
-			<p:commandButton value="Adicionar" action="#{cadastroSolicitacaoBean.adicionarItemSolicitacao}" update="#{p:component('camposItens')}, #{p:component('tabelaItens')}" rendered="#{cadastroSolicitacaoBean.solicitacao.status == null or cadastroSolicitacaoBean.solicitacao.status == 'NAO_ENVIADA'}"/>
+			<p:commandButton value="Adicionar" action="#{cadastroSolicitacaoBean.adicionarItemSolicitacao}" update="@form" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoAlteravel}"/>
 			<p:dataTable id="tabelaItens" value="#{cadastroSolicitacaoBean.solicitacao.itens}" var="item" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="Especialidade">
 	    			<h:outputText value="#{item.especialidade.descricao}"/>
@@ -31,13 +31,13 @@
 	    		<p:column headerText="Quantidade">
 	    			<h:outputText value="#{item.quantidade}"/>
 	    		</p:column>
-	    		<p:column rendered="#{cadastroSolicitacaoBean.solicitacao.status == null or cadastroSolicitacaoBean.solicitacao.status == 'NAO_ENVIADA'}">
-	    			<p:commandButton value="Remover" action="#{cadastroSolicitacaoBean.removerItemSolicitacao}" process="@this" update="#{p:component('camposItens')}, #{p:component('tabelaItens')}">
+	    		<p:column rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoAlteravel}">
+	    			<p:commandButton value="Remover" action="#{cadastroSolicitacaoBean.removerItemSolicitacao}" process="@this" update="@form">
 	    				<f:setPropertyActionListener target="#{cadastroSolicitacaoBean.itemSolicitacao}" value="#{item}"/>
 	    			</p:commandButton>
 	    		</p:column>
 	    	</p:dataTable>
-			<p:dataTable id="tabelaLotacoes" value="#{cadastroSolicitacaoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado." rendered="#{not empty lotacao}">
+			<p:dataTable id="tabelaLotacoes" value="#{cadastroSolicitacaoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado." rendered="#{cadastroSolicitacaoBean.solicitacao.encerravel}">
 	    		<p:column headerText="Profissional">
 	    			<h:outputText value="#{lotacao.vinculo.profissional.nome}"/>
 	    		</p:column>
@@ -50,19 +50,26 @@
 	    		<p:column headerText="Status">
 	    			<h:outputText value="#{lotacao.status}"/>
 	    		</p:column>
-	    		<p:column>
-	    			<p:commandButton value="Confirmar" oncomplete="PF('confirmacao').show()" process="@this" update="#{p:component('confirmacaoConfirmacaoDialog')}" rendered="#{lotacao.status == 'PENDENTE'}">
+	    		<p:column rendered="#{lotacao.aceitavelOuRejeitavel}">
+	    			<p:commandButton value="Aceitar" oncomplete="PF('aceitacao').show()" process="@this" update="#{p:component('aceitacaoLotacaoDialog')}">
+	    				<f:setPropertyActionListener target="#{cadastroSolicitacaoBean.lotacao}" value="#{lotacao}"/>
+	    			</p:commandButton>
+	    			<p:commandButton value="Rejeitar" oncomplete="PF('rejeicao').show()" process="@this" update="#{p:component('rejeicaoLotacaoDialog')}">
 	    				<f:setPropertyActionListener target="#{cadastroSolicitacaoBean.lotacao}" value="#{lotacao}"/>
 	    			</p:commandButton>
 	    		</p:column>
 	    	</p:dataTable>
-	    	<p:confirmDialog id="confirmacaoConfirmacaoDialog" header="Confirmar lotação de profissional" message="Tem certeza que deseja confirmar a lotação do profissional #{cadastroSolicitacaoBean.lotacao.vinculo.profissional.nome}?" widgetVar="confirmacao">
-	    		<p:button value="Não" onclick="PF('confirmacao').hide(); return false;"/>
-	    		<p:commandButton id="yesButtonConfirmacao" value="Sim" oncomplete="PF('confirmacao').hide();" action="#{cadastroSolicitacaoBean.confirmarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
+	    	<p:confirmDialog id="aceitacaoLotacaoDialog" header="Aceitar lotação de profissional" message="Tem certeza que deseja aceitar a lotação do profissional #{cadastroSolicitacaoBean.lotacao.vinculo.profissional.nome}?" widgetVar="aceitacao">
+	    		<p:button value="Não" onclick="PF('aceitacao').hide(); return false;"/>
+	    		<p:commandButton id="yesButtonAceitacao" value="Sim" oncomplete="PF('aceitacao').hide();" action="#{cadastroSolicitacaoBean.aceitarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
+	    	</p:confirmDialog>
+	    	<p:confirmDialog id="rejeicaoLotacaoDialog" header="Rejeitar lotação de profissional" message="Tem certeza que deseja rejeitar a lotação do profissional #{cadastroSolicitacaoBean.lotacao.vinculo.profissional.nome}?" widgetVar="rejeicao">
+	    		<p:button value="Não" onclick="PF('rejeicao').hide(); return false;"/>
+	    		<p:commandButton id="yesButtonRejeicao" value="Sim" oncomplete="PF('rejeicao').hide();" action="#{cadastroSolicitacaoBean.rejeitarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
 	    	</p:confirmDialog>
 	    	<p:button value="Voltar" outcome="/solicitacao/pesquisa"/>
-			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form" rendered="#{cadastroSolicitacaoBean.solicitacao.status == null or cadastroSolicitacaoBean.solicitacao.status == 'NAO_ENVIADA'}"/>
-			<p:commandButton value="Enviar solicitação" oncomplete="PF('envio').show()" process="@this" update="#{p:component('enviarSolicitacaoDialog')}" rendered="#{cadastroSolicitacaoBean.solicitacao.status == 'NAO_ENVIADA' and not empty cadastroSolicitacaoBean.solicitacao.itens}"/>
+			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoSalvavel}"/>
+			<p:commandButton value="Enviar solicitação" oncomplete="PF('envio').show()" process="@this" update="#{p:component('enviarSolicitacaoDialog')}" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoSalvavel}"/>
 			<p:confirmDialog id="enviarSolicitacaoDialog" header="Enviar solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja enviar a solicitação?" widgetVar="envio">
 	    		<p:button value="Não" onclick="PF('envio').hide(); return false;"/>
 	    		<p:commandButton id="yesButtonEnvio" value="Sim" oncomplete="PF('envio').hide();" action="#{cadastroSolicitacaoBean.enviarSolicitacao}" process="@this" update="@form"/>

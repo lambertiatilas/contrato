@@ -162,4 +162,19 @@ public class Vinculo implements Serializable {
 	public boolean isNovo() {
 		return id == null;
 	}
+	
+	@Transient
+	public boolean isExistente() {
+		return !isNovo();
+	}
+	
+	@Transient
+	private boolean isAtivo() {
+		return Status.ATIVO.equals(status);
+	}
+	
+	@Transient
+	private boolean isInativo() {
+		return Status.INATIVO.equals(status);
+	}
 }

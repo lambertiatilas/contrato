@@ -2,8 +2,11 @@ package pmvv.semsa.rh.contrato.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,10 +30,11 @@ public class CadastroSolicitacaoBean implements Serializable {
 	
 	@Inject
 	private CadastroSolicitacaoService cadastroSolicitacaoService;
+	@Produces
+	@Edicao
 	private Solicitacao solicitacao;
 	private ItemSolicitacao itemSolicitacao;
 	private Lotacao lotacao;
-	
 	@Inject
 	private Especialidades especialidades;
 	private List<Especialidade> listaEspecialidades = new ArrayList<>();
@@ -111,17 +115,29 @@ public class CadastroSolicitacaoBean implements Serializable {
 		salvar();
 	}
 	
-	public void confirmarLotacao() {
+	public void aceitarLotacao() {
+		lotacao.setDataInicio(new Date());
 		lotacao.setStatus(StatusLotacao.ATIVO);
 		salvar();
 	}
 	
+	public void rejeitarLotacao() {
+		lotacao.setStatus(StatusLotacao.INATIVO);
+		salvar();
+	}
+	
 	public void salvar() {
-		try {
-			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);	
-			FacesUtil.addInfoMessage("Solicitação salva com sucesso!");
-		} catch (NegocioException ne) {
-			FacesUtil.addErrorMessage(ne.getMessage());
+		if (solicitacao.isRequisicaoSalvavel()) {
+			try {
+				solicitacao = cadastroSolicitacaoService.salvar(solicitacao);	
+				FacesUtil.addInfoMessage("Solicitação salva com sucesso!");
+			} catch (NegocioException ne) {
+				FacesUtil.addErrorMessage(ne.getMessage());
+			}
 		}
+	}
+	
+	public void solicitacaoAlterada(@Observes EventSolicitacaoAlterada event) {
+		solicitacao = event.getSolicitacao();
 	}
 }
