@@ -14,23 +14,23 @@ import pmvv.semsa.rh.contrato.util.jsf.FacesUtil;
 
 @Named
 @RequestScoped
-public class EdicaoSolicitacaoBean implements Serializable {
+public class EdicaoAtendimentoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
 	private EdicaoSolicitacaoService edicaoSolicitacaoService;
 	@Inject
-	@EdicaoSolicitacao
+	@EdicaoAtendimento
 	private Solicitacao solicitacao;
 	@Inject
 	private Event<EventSolicitacaoAlterada> eventSolicitacaoAlterada;
 	
-	public void enviarSolicitacao() {
+	public void atenderSolicitacao() {
 		try {
-			solicitacao = edicaoSolicitacaoService.enviarSolicitacao(solicitacao);
+			solicitacao = edicaoSolicitacaoService.atenderSolicitacao(solicitacao);
 			eventSolicitacaoAlterada.fire(new EventSolicitacaoAlterada(solicitacao));
-			FacesUtil.addInfoMessage("Solicitação enviada com sucesso!");
+			FacesUtil.addInfoMessage("Solicitação atendida com sucesso!");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}

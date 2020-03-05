@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -12,7 +14,6 @@ import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
 import pmvv.semsa.rh.contrato.model.StatusLotacao;
-import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.Vinculos;
 import pmvv.semsa.rh.contrato.service.CadastroSolicitacaoService;
@@ -23,14 +24,15 @@ import pmvv.semsa.rh.contrato.util.jsf.FacesUtil;
 @ViewScoped
 public class CadastroAtendimentoBean implements Serializable {
 
-private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	@Inject
 	private CadastroSolicitacaoService cadastroSolicitacaoService;
+	@Produces
+	@EdicaoAtendimento
 	private Solicitacao solicitacao;
 	private Vinculo vinculo;
 	private Lotacao lotacao;
-	
 	@Inject
 	private Vinculos vinculos;
 	private List<Vinculo> listaVinculos = new ArrayList<>();
@@ -114,8 +116,7 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	
-	public void atenderSolicitacao() {
-		solicitacao.setStatus(StatusSolicitacao.ATENDIDA);
-		salvar();
+	public void solicitacaoAlterada(@Observes EventSolicitacaoAlterada event) {
+		solicitacao = event.getSolicitacao();
 	}
 }

@@ -2,7 +2,6 @@ package pmvv.semsa.rh.contrato.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.event.Observes;
@@ -15,8 +14,6 @@ import pmvv.semsa.rh.contrato.model.Especialidade;
 import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
-import pmvv.semsa.rh.contrato.model.StatusLotacao;
-import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
 import pmvv.semsa.rh.contrato.repository.Especialidades;
 import pmvv.semsa.rh.contrato.service.CadastroSolicitacaoService;
 import pmvv.semsa.rh.contrato.service.NegocioException;
@@ -31,9 +28,11 @@ public class CadastroSolicitacaoBean implements Serializable {
 	@Inject
 	private CadastroSolicitacaoService cadastroSolicitacaoService;
 	@Produces
-	@Edicao
+	@EdicaoSolicitacao
 	private Solicitacao solicitacao;
 	private ItemSolicitacao itemSolicitacao;
+	@Produces
+	@Edicao
 	private Lotacao lotacao;
 	@Inject
 	private Especialidades especialidades;
@@ -110,22 +109,6 @@ public class CadastroSolicitacaoBean implements Serializable {
 		solicitacao.getItens().remove(itemSolicitacao);
 	}
 	
-	public void enviarSolicitacao() {
-		solicitacao.setStatus(StatusSolicitacao.ENVIADA);
-		salvar();
-	}
-	
-	public void aceitarLotacao() {
-		lotacao.setDataInicio(new Date());
-		lotacao.setStatus(StatusLotacao.ATIVO);
-		salvar();
-	}
-	
-	public void rejeitarLotacao() {
-		lotacao.setStatus(StatusLotacao.INATIVO);
-		salvar();
-	}
-	
 	public void salvar() {
 		if (solicitacao.isRequisicaoSalvavel()) {
 			try {
@@ -139,5 +122,9 @@ public class CadastroSolicitacaoBean implements Serializable {
 	
 	public void solicitacaoAlterada(@Observes EventSolicitacaoAlterada event) {
 		solicitacao = event.getSolicitacao();
+	}
+	
+	public void lotacaoAlterada(@Observes EventLotacaoAlterada event) {
+		solicitacao = event.getLotacao().getSolicitacao();
 	}
 }

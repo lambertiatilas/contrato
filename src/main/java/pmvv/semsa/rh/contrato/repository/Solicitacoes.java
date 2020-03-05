@@ -57,10 +57,11 @@ public class Solicitacoes implements Serializable {
 		try {
 			return manager.createQuery("from Solicitacao"
 					+ " where estabelecimentoSolcitante = :estabelecimentoSolcitante"
-					+ " and status <> :status", Solicitacao.class)
-					.setParameter("estabelecimentoSolcitante", estabelecimentoSolcitante)
-					.setParameter("status", StatusSolicitacao.ENCERRADA)
-					.getSingleResult();
+					+ " and status <> :status"
+				, Solicitacao.class)
+				.setParameter("estabelecimentoSolcitante", estabelecimentoSolcitante)
+				.setParameter("status", StatusSolicitacao.ENCERRADA)
+				.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}

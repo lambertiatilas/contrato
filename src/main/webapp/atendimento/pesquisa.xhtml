@@ -38,7 +38,7 @@
 	    			<h:outputText value="#{solicitacao.status.descricao}"/>
 	    		</p:column>
 	    		<p:column>
-	    			<p:button value="1" outcome="/atendimento/cadastro">
+	    			<p:button value="1" outcome="/atendimento/cadastro" rendered="#{solicitacao.requisicaoNaoSalvavel}">
 	    				<f:param name="solicitacao" value="#{solicitacao.id}"/>
 	    			</p:button>
 	    		</p:column>

@@ -117,7 +117,7 @@ public class Solicitacao implements Serializable {
 		this.itens = itens;
 	}
 
-	@OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	public List<Lotacao> getLotacoes() {
 		return lotacoes;
 	}
@@ -217,11 +217,6 @@ public class Solicitacao implements Serializable {
 	}
 	
 	@Transient
-	public boolean isRequisicaoNaoAlteravel() {
-		return !isRequisicaoSalvavel();
-	}
-	
-	@Transient
 	public boolean isRequisicaoSalvavel() {
 		return (isNovo() || isNaoEnviada()) && isItemExistente();
 	}
@@ -232,13 +227,13 @@ public class Solicitacao implements Serializable {
 	}
 	
 	@Transient
-	public boolean isAtendimentoAteravel() {
-		return isEnviada();
+	public boolean isRequisicaoLotacaoVisivel() {
+		return isAtendida() || isEncerrada();
 	}
 	
 	@Transient
-	public boolean isAtendimentoNaoAteravel() {
-		return !isAtendimentoSalvavel();
+	public boolean isAtendimentoAlteravel() {
+		return isEnviada();
 	}
 	
 	@Transient
@@ -250,14 +245,19 @@ public class Solicitacao implements Serializable {
 	public boolean isAtendimentoNaoSalvavel() {
 		return !isAtendimentoSalvavel();
 	}
-	
+		
 	@Transient
-	public boolean isEncerravel() {
-		return isAtendida();
+	public boolean isLotacoesPendentes() {
+		for (Lotacao lotacao : lotacoes) {
+			if (StatusLotacao.PENDENTE.equals(lotacao.getStatus())) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Transient
-	public boolean isNaoEncerravel() {
-		return !isEncerravel();
+	public boolean isLotacoesNaoPendentes() {
+		return isLotacaoExistente() && !isLotacoesPendentes();
 	}
 }
