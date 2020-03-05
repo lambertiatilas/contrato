@@ -37,7 +37,11 @@
 	    			</p:commandButton>
 	    		</p:column>
 	    	</p:dataTable>
+<<<<<<< HEAD
 			<p:dataTable id="tabelaLotacoes" value="#{cadastroSolicitacaoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado." rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoLotacaoVisivel}">
+=======
+			<p:dataTable id="tabelaLotacoes" value="#{cadastroSolicitacaoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado." rendered="#{not empty cadastroSolicitacaoBean.solicitacao.lotacoes}">
+>>>>>>> 9692d182d51850227879399a33697c256fdf211d
 	    		<p:column headerText="Profissional">
 	    			<h:outputText value="#{lotacao.vinculo.profissional.nome}"/>
 	    		</p:column>
@@ -50,22 +54,38 @@
 	    		<p:column headerText="Status">
 	    			<h:outputText value="#{lotacao.status}"/>
 	    		</p:column>
+<<<<<<< HEAD
 	    		<p:column  headerText="Ações">
 	    			<p:commandButton value="Aceitar" oncomplete="PF('aceitacao').show()" process="@this" update="#{p:component('aceitacaoLotacaoDialog')}" rendered="#{lotacao.aceitavelOuRejeitavel}">
 	    				<f:setPropertyActionListener target="#{cadastroSolicitacaoBean.lotacao}" value="#{lotacao}"/>
 	    			</p:commandButton>
 	    			<p:commandButton value="Rejeitar" oncomplete="PF('rejeicao').show()" process="@this" update="#{p:component('rejeicaoLotacaoDialog')}" rendered="#{lotacao.aceitavelOuRejeitavel}">
+=======
+	    		<p:column rendered="#{lotacao.status == 'PENDENTE'}">
+	    			<p:commandButton value="Aceitar" oncomplete="PF('aceitacao').show()" process="@this" update="#{p:component('aceitacaoLotacaoDialog')}">
+	    				<f:setPropertyActionListener target="#{cadastroSolicitacaoBean.lotacao}" value="#{lotacao}"/>
+	    			</p:commandButton>
+	    			<p:commandButton value="Rejeitar" oncomplete="PF('rejeicao').show()" process="@this" update="#{p:component('rejeicaoLotacaoDialog')}">
+>>>>>>> 9692d182d51850227879399a33697c256fdf211d
 	    				<f:setPropertyActionListener target="#{cadastroSolicitacaoBean.lotacao}" value="#{lotacao}"/>
 	    			</p:commandButton>
 	    		</p:column>
 	    	</p:dataTable>
 	    	<p:confirmDialog id="aceitacaoLotacaoDialog" header="Aceitar lotação de profissional" message="Tem certeza que deseja aceitar a lotação do profissional #{cadastroSolicitacaoBean.lotacao.vinculo.profissional.nome}?" widgetVar="aceitacao">
 	    		<p:button value="Não" onclick="PF('aceitacao').hide(); return false;"/>
+<<<<<<< HEAD
 	    		<p:commandButton id="yesButtonAceitacao" value="Sim" oncomplete="PF('aceitacao').hide();" action="#{edicaoLotacaoBean.aceitarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
 	    	</p:confirmDialog>
 	    	<p:confirmDialog id="rejeicaoLotacaoDialog" header="Rejeitar lotação de profissional" message="Tem certeza que deseja rejeitar a lotação do profissional #{cadastroSolicitacaoBean.lotacao.vinculo.profissional.nome}?" widgetVar="rejeicao">
 	    		<p:button value="Não" onclick="PF('rejeicao').hide(); return false;"/>
 	    		<p:commandButton id="yesButtonRejeicao" value="Sim" oncomplete="PF('rejeicao').hide();" action="#{edicaoLotacaoBean.rejeitarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
+=======
+	    		<p:commandButton id="yesButtonAceitacao" value="Sim" oncomplete="PF('aceitacao').hide();" action="#{cadastroSolicitacaoBean.aceitarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
+	    	</p:confirmDialog>
+	    	<p:confirmDialog id="rejeicaoLotacaoDialog" header="Rejeitar lotação de profissional" message="Tem certeza que deseja rejeitar a lotação do profissional #{cadastroSolicitacaoBean.lotacao.vinculo.profissional.nome}?" widgetVar="rejeicao">
+	    		<p:button value="Não" onclick="PF('rejeicao').hide(); return false;"/>
+	    		<p:commandButton id="yesButtonRejeicao" value="Sim" oncomplete="PF('rejeicao').hide();" action="#{cadastroSolicitacaoBean.rejeitarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
+>>>>>>> 9692d182d51850227879399a33697c256fdf211d
 	    	</p:confirmDialog>
 	    	<p:button value="Voltar" outcome="/solicitacao/pesquisa"/>
 			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoSalvavel}"/>

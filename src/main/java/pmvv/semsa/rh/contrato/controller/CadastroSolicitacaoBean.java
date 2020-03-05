@@ -2,6 +2,7 @@ package pmvv.semsa.rh.contrato.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.event.Observes;
@@ -120,11 +121,32 @@ public class CadastroSolicitacaoBean implements Serializable {
 		}
 	}
 	
+<<<<<<< HEAD
 	public void solicitacaoAlterada(@Observes EventSolicitacaoAlterada event) {
 		solicitacao = event.getSolicitacao();
 	}
 	
 	public void lotacaoAlterada(@Observes EventLotacaoAlterada event) {
 		solicitacao = event.getLotacao().getSolicitacao();
+=======
+	public void aceitarLotacao() {
+		lotacao.setDataInicio(new Date());
+		lotacao.setStatus(StatusLotacao.ATIVO);
+		salvar();
+	}
+	
+	public void rejeitarLotacao() {
+		lotacao.setStatus(StatusLotacao.INATIVO);
+		salvar();
+	}
+	
+	public void salvar() {
+		try {
+			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);	
+			FacesUtil.addInfoMessage("Solicitação salva com sucesso!");
+		} catch (NegocioException ne) {
+			FacesUtil.addErrorMessage(ne.getMessage());
+		}
+>>>>>>> 9692d182d51850227879399a33697c256fdf211d
 	}
 }
