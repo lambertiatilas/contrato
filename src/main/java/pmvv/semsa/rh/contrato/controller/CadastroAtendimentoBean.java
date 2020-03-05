@@ -14,7 +14,6 @@ import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
 import pmvv.semsa.rh.contrato.model.StatusLotacao;
-import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.Vinculos;
 import pmvv.semsa.rh.contrato.service.CadastroSolicitacaoService;
@@ -117,13 +116,7 @@ public class CadastroAtendimentoBean implements Serializable {
 		}
 	}
 	
-<<<<<<< HEAD
 	public void solicitacaoAlterada(@Observes EventSolicitacaoAlterada event) {
 		solicitacao = event.getSolicitacao();
-=======
-	public void atenderSolicitacao() {
-		solicitacao.setStatus(StatusSolicitacao.ATENDIDA);
-		salvar();
->>>>>>> 9692d182d51850227879399a33697c256fdf211d
 	}
 }
