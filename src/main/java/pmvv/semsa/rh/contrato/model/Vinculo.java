@@ -31,10 +31,11 @@ public class Vinculo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	private Long matricula;
 	private Date dataInicio;
 	private Date dataFim;
 	private Especialidade especialidade;
-	private Integer cargaHoraria;
+	private CargaHorariaSemanal cargaHoraria;
 	private TipoVinculo tipo;
 	private List<Lotacao> lotacoes = new ArrayList<>();
 	private Status status;
@@ -48,6 +49,18 @@ public class Vinculo implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	@NotNull
+	@Min(value = 1000)
+	@Max(value = 99999999)
+	@Column(nullable = false, unique = true)
+	public Long getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(Long matricula) {
+		this.matricula = matricula;
 	}
 
 	@NotNull
@@ -83,14 +96,13 @@ public class Vinculo implements Serializable {
 	}
 
 	@NotNull
-	@Min(value = 20)
-	@Max(value = 40)
-	@Column(name = "carga_horaria", nullable = false)
-	public Integer getCargaHoraria() {
+	@Enumerated
+	@Column(name = "carga_horaria_semanal", nullable = false)
+	public CargaHorariaSemanal getCargaHoraria() {
 		return cargaHoraria;
 	}
 
-	public void setCargaHoraria(Integer cargaHoraria) {
+	public void setCargaHoraria(CargaHorariaSemanal cargaHoraria) {
 		this.cargaHoraria = cargaHoraria;
 	}
 
@@ -176,5 +188,18 @@ public class Vinculo implements Serializable {
 	@Transient
 	private boolean isInativo() {
 		return Status.INATIVO.equals(status);
+	}
+	
+	@Transient
+	public List<Lotacao> getLotacoesIniciadas() {
+		List<Lotacao> lotacoes = new ArrayList<>();
+		
+		for (Lotacao lotacao : this.lotacoes) {
+			if (lotacao.getDataInicio() != null) {
+				lotacoes.add(lotacao);
+			}
+		}
+		
+ 		return lotacoes;
 	}
 }

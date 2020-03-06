@@ -5,7 +5,8 @@ public enum StatusSolicitacao {
 	NAO_ENVIADA("Não enviada"),
 	ENVIADA("Enviada"),
 	ATENDIDA("Atendida"),
-	ENCERRADA("Encerrada");
+	CANCELADA("Cancelada"),
+	FINALIZADA("Finalizada");
 
 	private String descricao;
 

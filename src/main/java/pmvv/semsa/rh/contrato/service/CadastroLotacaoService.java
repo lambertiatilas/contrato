@@ -23,6 +23,11 @@ public class CadastroLotacaoService implements Serializable {
 	
 	@Transactional
 	public Lotacao salvar(Vinculo vinculo, Lotacao lotacao) throws NegocioException {
+		Lotacao lotacaoExiste = lotacoes.existe(lotacao);
+		
+		if (lotacaoExiste != null && !lotacaoExiste.equals(lotacao)) {
+			throw new NegocioException("O profissional já possui uma lotação ativa ou pendete, neste estabelecimento");
+		}
 		
 		if (lotacao.isNovo()) {
 			lotacao.setStatus(StatusLotacao.ATIVO);

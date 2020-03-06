@@ -31,6 +31,19 @@ public class EdicaoSolicitacaoService implements Serializable {
 	}
 	
 	@Transactional
+	public Solicitacao cancelarSolicitacao(Solicitacao solicitacao) throws NegocioException {
+		solicitacao = solicitacoes.porId(solicitacao.getId());
+		
+		if (solicitacao.isAtendimentoNaoAlteravel()) {
+			throw new NegocioException("Solicitação não pode ser cancelada!");
+		}
+		
+		solicitacao.getLotacoes().clear();
+		solicitacao.setStatus(StatusSolicitacao.CANCELADA);
+		return solicitacoes.guardar(solicitacao);
+	}
+	
+	@Transactional
 	public Solicitacao atenderSolicitacao(Solicitacao solicitacao) throws NegocioException {
 		solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
 		

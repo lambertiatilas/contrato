@@ -79,7 +79,6 @@ public class CadastroAtendimentoBean implements Serializable {
 	
 	private void limpar() {
 		solicitacao = new Solicitacao();
-		lotacao = new Lotacao();
 	}
 	
 	public void salvar() {
@@ -95,6 +94,7 @@ public class CadastroAtendimentoBean implements Serializable {
 	
 	public void adicionarLotacao() {
 		if (vinculo != null) {
+			lotacao = new Lotacao();
 			lotacao.setEstabelecimento(solicitacao.getEstabelecimentoSolcitante());
 			lotacao.setStatus(StatusLotacao.PENDENTE);
 			lotacao.setVinculo(vinculo);

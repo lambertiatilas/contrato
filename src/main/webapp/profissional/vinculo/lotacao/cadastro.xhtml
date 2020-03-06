@@ -27,7 +27,7 @@
 			<p:panel header="Lotação">
 				<p:panelGrid columns="2">
 					<p:outputLabel value="Data de início" for="dataInicio"/>
-					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroLotacaoBean.lotacao.dataInicio}" />
+					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroLotacaoBean.lotacao.dataInicio}" required="true" requiredMessage="Data de início deve ser informada" />
 					<p:outputLabel value="Estabelecimento" for="estabelecimento"/>
 		    		<p:selectOneMenu id="estabelecimento" value="#{cadastroLotacaoBean.lotacao.estabelecimento}" required="true" requiredMessage="Estabelecimento deve ser informado">
 			            <f:selectItem itemLabel="Selecione" />

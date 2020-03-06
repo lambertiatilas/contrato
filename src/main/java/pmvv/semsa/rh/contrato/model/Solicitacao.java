@@ -187,8 +187,13 @@ public class Solicitacao implements Serializable {
 	}
 	
 	@Transient
-	private boolean isEncerrada() {
-		return StatusSolicitacao.ENCERRADA.equals(status);
+	private boolean isCancelada() {
+		return StatusSolicitacao.CANCELADA.equals(status);
+	}
+	
+	@Transient
+	private boolean isFinalizada() {
+		return StatusSolicitacao.FINALIZADA.equals(status);
 	}
 	
 	@Transient
@@ -228,12 +233,17 @@ public class Solicitacao implements Serializable {
 	
 	@Transient
 	public boolean isRequisicaoLotacaoVisivel() {
-		return isAtendida() || isEncerrada();
+		return isAtendida() || isFinalizada();
 	}
 	
 	@Transient
 	public boolean isAtendimentoAlteravel() {
 		return isEnviada();
+	}
+	
+	@Transient
+	public boolean isAtendimentoNaoAlteravel() {
+		return !isAtendimentoAlteravel();
 	}
 	
 	@Transient

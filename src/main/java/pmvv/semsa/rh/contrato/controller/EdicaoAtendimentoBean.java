@@ -26,6 +26,16 @@ public class EdicaoAtendimentoBean implements Serializable {
 	@Inject
 	private Event<EventSolicitacaoAlterada> eventSolicitacaoAlterada;
 	
+	public void cancelarSolicitacao() {
+		try {
+			solicitacao = edicaoSolicitacaoService.cancelarSolicitacao(solicitacao);
+			eventSolicitacaoAlterada.fire(new EventSolicitacaoAlterada(solicitacao));
+			FacesUtil.addInfoMessage("Solicitação cancelada com sucesso!");
+		} catch (NegocioException ne) {
+			FacesUtil.addErrorMessage(ne.getMessage());
+		}
+	}
+	
 	public void atenderSolicitacao() {
 		try {
 			solicitacao = edicaoSolicitacaoService.atenderSolicitacao(solicitacao);

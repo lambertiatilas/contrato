@@ -22,7 +22,7 @@
 			    <h:outputText value="Tipo:" />
 			    <h:outputText value="#{pesquisaLotacoesBean.vinculo.tipo.descricao}" />
 			</p:panelGrid>
-    		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.vinculo.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+    		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.vinculo.lotacoesIniciadas}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 	    		<p:column headerText="Estabelecimento">
 	    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
 	    		</p:column>

@@ -1,6 +1,7 @@
 package pmvv.semsa.rh.contrato.service;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -26,6 +27,7 @@ public class EdicaoLotacaoService implements Serializable {
 			throw new NegocioException("Lotação não pode ser aceita!");
 		}
 		
+		lotacao.setDataInicio(new Date());
 		lotacao.setStatus(StatusLotacao.ATIVO);
 		cadastroSolicitacaoService.salvar(lotacao.getSolicitacao());
 		return lotacao;

@@ -37,7 +37,7 @@ public class CadastroSolicitacaoService implements Serializable {
 		}
 		
 		if (solicitacao.isLotacoesNaoPendentes()) {
-			solicitacao.setStatus(StatusSolicitacao.ENCERRADA);
+			solicitacao.setStatus(StatusSolicitacao.FINALIZADA);
 		}
 		
 		return solicitacoes.guardar(solicitacao);

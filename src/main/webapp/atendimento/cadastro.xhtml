@@ -49,10 +49,15 @@
 	    	</p:dataTable>
 	    	<p:button value="Voltar" outcome="/atendimento/pesquisa"/>
 			<p:commandButton value="Salvar" action="#{cadastroAtendimentoBean.salvar}" update="@form" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoSalvavel}"/>
+			<p:commandButton value="Cancelar solicitação" oncomplete="PF('cancelamento').show()" process="@this" update="#{p:component('cancelarSolicitacaoDialog')}" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}"/>
+			<p:confirmDialog id="cancelarSolicitacaoDialog" header="Cancelar solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja cancelar a solicitação?" widgetVar="cancelamento">
+	    		<p:button value="Não" onclick="PF('cancelamento').hide(); return false;"/>
+	    		<p:commandButton id="yesButtonCancelamento" value="Sim" oncomplete="PF('cancelamento').hide();" action="#{edicaoAtendimentoBean.cancelarSolicitacao}" process="@this" update="@form"/>
+	    	</p:confirmDialog>
 			<p:commandButton value="Atender solicitação" oncomplete="PF('atendimento').show()" process="@this" update="#{p:component('atenderSolicitacaoDialog')}" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoSalvavel}"/>
 			<p:confirmDialog id="atenderSolicitacaoDialog" header="Atender solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja atender a solicitação?" widgetVar="atendimento">
 	    		<p:button value="Não" onclick="PF('atendimento').hide(); return false;"/>
-	    		<p:commandButton id="yesButtonEnvio" value="Sim" oncomplete="PF('atendimento').hide();" action="#{edicaoAtendimentoBean.atenderSolicitacao}" process="@this" update="@form"/>
+	    		<p:commandButton id="yesButtonAtendimento" value="Sim" oncomplete="PF('atendimento').hide();" action="#{edicaoAtendimentoBean.atenderSolicitacao}" process="@this" update="@form"/>
 	    	</p:confirmDialog>
 		</h:form>
 	</ui:define>

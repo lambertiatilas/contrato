@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Profissional;
+import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.filter.LotacaoFilter;
 import pmvv.semsa.rh.contrato.service.NegocioException;
@@ -51,6 +53,21 @@ public class Lotacoes implements Serializable {
 		return manager.find(Lotacao.class, id);
 	}
 	
+	public Lotacao existe(Lotacao lotacao) {
+		try {
+			return manager.createQuery("from Lotacao"
+					+ " where estabelecimento = :estabelecimento"
+					+ " and (status = :ativo or status = :pendente)"
+				, Lotacao.class)
+				.setParameter("estabelecimento", lotacao.getEstabelecimento())
+				.setParameter("ativo", StatusLotacao.ATIVO)
+				.setParameter("pendente", StatusLotacao.PENDENTE)
+				.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
 	private List<Predicate> criarPredicatesParaFiltro(LotacaoFilter filtro, Root<Lotacao> lotacaoRoot, From<?, ?> vinculoJoin, From<?, ?> profissionalJoin) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		List<Predicate> predicates = new ArrayList<>();
@@ -78,6 +95,8 @@ public class Lotacoes implements Serializable {
 		if (filtro.getEstabelecimento() != null) {
 			predicates.add(lotacaoRoot.get("estabelecimento").in(filtro.getEstabelecimento()));
 		}
+		
+		predicates.add(builder.isNotNull(lotacaoRoot.get("dataInicio")));
 		
 		return predicates;
 	}

@@ -12,6 +12,8 @@
 			</p:messages>
 			<p:panel header="Profissional">
 				<p:panelGrid columns="2">
+					<p:outputLabel value="Matrícula" for="matricula"/>
+					<p:inputMask id="matricula" value="#{cadastroVinculoBean.vinculo.matricula}" mask="9999?9999"/>
 					<p:outputLabel value="Data de início" for="dataInicio"/>
 					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroVinculoBean.vinculo.dataInicio}"/>
 					<p:outputLabel value="Especialidade:" for="especialidade"/>
@@ -19,8 +21,11 @@
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroVinculoBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}"/>
 			        </p:selectOneMenu>
-			        <p:outputLabel value="Carga horária" for="cargaHoraria"/>
-					<p:inputMask id="cargaHoraria" value="#{cadastroVinculoBean.vinculo.cargaHoraria}" mask="99"/>
+					<p:outputLabel value="Carga horária:" for="cargaHoraria"/>
+		    		<p:selectOneMenu id="cargaHoraria" value="#{cadastroVinculoBean.vinculo.cargaHoraria}" required="true" requiredMessage="Carga horária deve ser informada">
+			            <f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{cadastroVinculoBean.horarios}" var="cargaHoraria" itemValue="#{cargaHoraria}" itemLabel="#{cargaHoraria.descricao}"/>
+			        </p:selectOneMenu>
 					<p:outputLabel value="Tipo" for="tipo"/>
 					<p:selectOneMenu id="tipo" value="#{cadastroVinculoBean.vinculo.tipo}" required="true" requiredMessage="Tipo deve ser informado">
 			            <f:selectItem itemLabel="Selecione"/>

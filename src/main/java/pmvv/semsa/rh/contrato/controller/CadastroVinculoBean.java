@@ -8,6 +8,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import pmvv.semsa.rh.contrato.model.CargaHorariaSemanal;
 import pmvv.semsa.rh.contrato.model.Especialidade;
 import pmvv.semsa.rh.contrato.model.Profissional;
 import pmvv.semsa.rh.contrato.model.TipoVinculo;
@@ -50,6 +51,10 @@ public class CadastroVinculoBean implements Serializable {
 
 	public List<Especialidade> getListaEspecialidades() {
 		return listaEspecialidades;
+	}
+	
+	public CargaHorariaSemanal[] getHorarios() {
+		return CargaHorariaSemanal.values();
 	}
 	
 	public TipoVinculo[] getTipos() {

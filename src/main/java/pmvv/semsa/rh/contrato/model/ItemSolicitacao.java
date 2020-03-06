@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class ItemSolicitacao implements Serializable {
 
 	private Long id;
 	private Especialidade especialidade;
-	private Integer cargaHoraria;
+	private CargaHorariaSemanal cargaHoraria;
 	private Integer quantidade;
 	private Solicitacao solicitacao;
 
@@ -45,14 +46,13 @@ public class ItemSolicitacao implements Serializable {
 		this.especialidade = especialidade;
 	}
 
-	@Min(value = 20)
-	@Max(value = 40)
-	@Column(name = "carga_horaria", nullable = false)
-	public Integer getCargaHoraria() {
+	@Enumerated
+	@Column(name = "carga_horaria_semanal", nullable = false)
+	public CargaHorariaSemanal getCargaHoraria() {
 		return cargaHoraria;
 	}
 
-	public void setCargaHoraria(Integer cargaHoraria) {
+	public void setCargaHoraria(CargaHorariaSemanal cargaHoraria) {
 		this.cargaHoraria = cargaHoraria;
 	}
 
