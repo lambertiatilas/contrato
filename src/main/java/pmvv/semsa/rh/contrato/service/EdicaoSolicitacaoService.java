@@ -47,7 +47,7 @@ public class EdicaoSolicitacaoService implements Serializable {
 	public Solicitacao atenderSolicitacao(Solicitacao solicitacao) throws NegocioException {
 		solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
 		
-		if (solicitacao.isAtendimentoNaoSalvavel()) {
+		if (solicitacao.isNaoAtendivel()) {
 			throw new NegocioException("Solicitação não pode ser atendida!");
 		}
 		

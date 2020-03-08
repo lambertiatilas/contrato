@@ -28,7 +28,10 @@
 		        </p:selectOneMenu>
 			</p:panelGrid>
 			<p:commandButton value="Adicionar" action="#{cadastroAtendimentoBean.adicionarLotacao}" update="@form" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}"/>
-			<p:dataTable id="tabelaLotacoes" value="#{cadastroAtendimentoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+			<p:dataTable id="tabelaLotacoes" value="#{cadastroAtendimentoBean.solicitacao.lotacoes}" var="lotacao" rowStatePreserved="true" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+	    		<p:column headerText="Objeto">
+	    			<h:outputText value="#{lotacao}"/>
+	    		</p:column>
 	    		<p:column headerText="Profissional">
 	    			<h:outputText value="#{lotacao.vinculo.profissional.nome}"/>
 	    		</p:column>
@@ -42,19 +45,16 @@
 	    			<h:outputText value="#{lotacao.status}"/>
 	    		</p:column>
 	    		<p:column rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}">
-	    			<p:commandButton value="Remover" action="#{cadastroAtendimentoBean.removerLotacao}" process="@this" update="@form">
-	    				<f:setPropertyActionListener target="#{cadastroAtendimentoBean.lotacao}" value="#{lotacao}"/>
-	    			</p:commandButton>
+	    			<p:commandButton value="Remover" action="#{cadastroAtendimentoBean.removerLotacao(lotacao)}" process="@this" update="@form"/>
 	    		</p:column>
 	    	</p:dataTable>
 	    	<p:button value="Voltar" outcome="/atendimento/pesquisa"/>
-			<p:commandButton value="Salvar" action="#{cadastroAtendimentoBean.salvar}" update="@form" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoSalvavel}"/>
 			<p:commandButton value="Cancelar solicitação" oncomplete="PF('cancelamento').show()" process="@this" update="#{p:component('cancelarSolicitacaoDialog')}" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}"/>
 			<p:confirmDialog id="cancelarSolicitacaoDialog" header="Cancelar solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja cancelar a solicitação?" widgetVar="cancelamento">
 	    		<p:button value="Não" onclick="PF('cancelamento').hide(); return false;"/>
 	    		<p:commandButton id="yesButtonCancelamento" value="Sim" oncomplete="PF('cancelamento').hide();" action="#{edicaoAtendimentoBean.cancelarSolicitacao}" process="@this" update="@form"/>
 	    	</p:confirmDialog>
-			<p:commandButton value="Atender solicitação" oncomplete="PF('atendimento').show()" process="@this" update="#{p:component('atenderSolicitacaoDialog')}" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoSalvavel}"/>
+			<p:commandButton value="Atender solicitação" oncomplete="PF('atendimento').show()" process="@this" update="#{p:component('atenderSolicitacaoDialog')}" rendered="#{cadastroAtendimentoBean.solicitacao.atendivel}"/>
 			<p:confirmDialog id="atenderSolicitacaoDialog" header="Atender solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja atender a solicitação?" widgetVar="atendimento">
 	    		<p:button value="Não" onclick="PF('atendimento').hide(); return false;"/>
 	    		<p:commandButton id="yesButtonAtendimento" value="Sim" oncomplete="PF('atendimento').hide();" action="#{edicaoAtendimentoBean.atenderSolicitacao}" process="@this" update="@form"/>

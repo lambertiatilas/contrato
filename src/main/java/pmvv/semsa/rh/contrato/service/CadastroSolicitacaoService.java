@@ -23,10 +23,12 @@ public class CadastroSolicitacaoService implements Serializable {
 	
 	@Transactional
 	public Solicitacao salvar(Solicitacao solicitacao) throws NegocioException {
-		Solicitacao solicitacaoExiste = solicitacoes.existe(seguranca.getUsuario().getLocalAcesso());
-		
-		if (solicitacaoExiste != null && !solicitacaoExiste.equals(solicitacao) && solicitacao.isRequisicaoSalvavel()) {
-			throw new NegocioException("Existe uma solicitação [não encerrada] para o seu estabelecimento!");
+		if (solicitacao.isRequisicaoSalvavel()) {
+			Solicitacao solicitacaoExiste = solicitacoes.existe(seguranca.getUsuario().getLocalAcesso());
+			
+			if (solicitacaoExiste != null && !solicitacaoExiste.equals(solicitacao)) {
+				throw new NegocioException("Existe uma solicitação [não encerrada] para o seu estabelecimento!");
+			}
 		}
 		
 		if (solicitacao.isNovo()) {

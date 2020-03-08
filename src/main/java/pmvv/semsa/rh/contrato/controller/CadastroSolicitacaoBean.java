@@ -93,32 +93,33 @@ public class CadastroSolicitacaoBean implements Serializable {
 	}
 	
 	public void adicionarItemSolicitacao() {
-		for (ItemSolicitacao item: solicitacao.getItens()) {
-			if (item.getEspecialidade().equals(itemSolicitacao.getEspecialidade()) && item.getCargaHoraria().equals(itemSolicitacao.getCargaHoraria())) {
-				FacesUtil.addErrorMessage("Item já adicionado!");
-				return;
-			}
-		}
-		
 		if (itemSolicitacao.getEspecialidade() == null || itemSolicitacao.getCargaHoraria() == null || itemSolicitacao.getQuantidade() == null) {
 			FacesUtil.addErrorMessage("Todos os campos da solicitação devem ser preenchidos!");
 			return;
 		}
 		
+		for (ItemSolicitacao item: solicitacao.getItens()) {
+			if (item.getEspecialidade().equals(itemSolicitacao.getEspecialidade()) && item.getCargaHoraria().equals(itemSolicitacao.getCargaHoraria())) {
+				FacesUtil.addErrorMessage("Já existe um cargo de " + item.getEspecialidade().getDescricao() + " de " + item.getCargaHoraria().getDescricao() + " nesta solicitação!");
+				return;
+			}
+		}
+		
 		itemSolicitacao.setSolicitacao(solicitacao);
 		solicitacao.getItens().add(itemSolicitacao);
 		limparItemSolicitacao();
+		salvar();
 	}
 	
 	public void removerItemSolicitacao() {
 		solicitacao.getItens().remove(itemSolicitacao);
+		salvar();
 	}
 	
 	public void salvar() {
 		if (solicitacao.isRequisicaoSalvavel()) {
 			try {
 				solicitacao = cadastroSolicitacaoService.salvar(solicitacao);	
-				FacesUtil.addInfoMessage("Solicitação salva com sucesso!");
 			} catch (NegocioException ne) {
 				FacesUtil.addErrorMessage(ne.getMessage());
 			}

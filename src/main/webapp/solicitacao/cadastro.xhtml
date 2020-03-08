@@ -71,7 +71,6 @@
 	    		<p:commandButton id="yesButtonRejeicao" value="Sim" oncomplete="PF('rejeicao').hide();" action="#{edicaoLotacaoBean.rejeitarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
 	    	</p:confirmDialog>
 	    	<p:button value="Voltar" outcome="/solicitacao/pesquisa"/>
-			<p:commandButton value="Salvar" action="#{cadastroSolicitacaoBean.salvar}" update="@form" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoSalvavel}"/>
 			<p:commandButton value="Enviar solicitação" oncomplete="PF('envio').show()" process="@this" update="#{p:component('enviarSolicitacaoDialog')}" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoSalvavel}"/>
 			<p:confirmDialog id="enviarSolicitacaoDialog" header="Enviar solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja enviar a solicitação?" widgetVar="envio">
 	    		<p:button value="Não" onclick="PF('envio').hide(); return false;"/>

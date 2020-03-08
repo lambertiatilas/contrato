@@ -32,7 +32,6 @@ public class CadastroAtendimentoBean implements Serializable {
 	@EdicaoAtendimento
 	private Solicitacao solicitacao;
 	private Vinculo vinculo;
-	private Lotacao lotacao;
 	@Inject
 	private Vinculos vinculos;
 	private List<Vinculo> listaVinculos = new ArrayList<>();
@@ -57,14 +56,6 @@ public class CadastroAtendimentoBean implements Serializable {
 		this.vinculo = vinculo;
 	}
 
-	public Lotacao getLotacao() {
-		return lotacao;
-	}
-
-	public void setLotacao(Lotacao lotacao) {
-		this.lotacao = lotacao;
-	}
-
 	public List<Vinculo> getListaVinculos() {
 		return listaVinculos;
 	}
@@ -82,35 +73,36 @@ public class CadastroAtendimentoBean implements Serializable {
 	}
 	
 	public void salvar() {
-		if (solicitacao.isAtendimentoSalvavel()) {
-			try {
-				solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
-				FacesUtil.addInfoMessage("Solicitação salva com sucesso!");
-			} catch (NegocioException ne) {
-				FacesUtil.addErrorMessage(ne.getMessage());
-			}
+		vinculo = new Vinculo();
+		
+		try {
+			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
+			verificarVinculosDisponiveis();
+		} catch (NegocioException ne) {
+			FacesUtil.addErrorMessage(ne.getMessage());
 		}
 	}
 	
 	public void adicionarLotacao() {
 		if (vinculo != null) {
-			lotacao = new Lotacao();
+			Lotacao lotacao = new Lotacao();
 			lotacao.setEstabelecimento(solicitacao.getEstabelecimentoSolcitante());
 			lotacao.setStatus(StatusLotacao.PENDENTE);
 			lotacao.setVinculo(vinculo);
 			lotacao.setSolicitacao(solicitacao);
 			solicitacao.getLotacoes().add(lotacao);
-			listaVinculos.remove(vinculo);
+			salvar();
 		}
 	}
 	
-	public void removerLotacao() {
+	public void removerLotacao(Lotacao lotacao) {
 		solicitacao.getLotacoes().remove(lotacao);
-		listaVinculos.add(lotacao.getVinculo());
-		vinculo = lotacao.getVinculo();
+		salvar();
 	}
 	
 	private void verificarVinculosDisponiveis() {
+		listaVinculos.clear();
+		
 		for (ItemSolicitacao item : solicitacao.getItens()) {
 			listaVinculos.addAll(vinculos.vinculosDisponiveis(item));
 		}

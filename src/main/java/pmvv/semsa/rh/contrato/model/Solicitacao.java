@@ -247,13 +247,13 @@ public class Solicitacao implements Serializable {
 	}
 	
 	@Transient
-	public boolean isAtendimentoSalvavel() {
+	public boolean isAtendivel() {
 		return isEnviada() && isLotacaoExistente();
 	}
 	
 	@Transient
-	public boolean isAtendimentoNaoSalvavel() {
-		return !isAtendimentoSalvavel();
+	public boolean isNaoAtendivel() {
+		return !isAtendivel();
 	}
 		
 	@Transient
