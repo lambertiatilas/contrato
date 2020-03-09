@@ -24,6 +24,9 @@
 	    		<p:column headerText="Tipo">
 	    			<h:outputText value="#{vinculo.tipo.descricao}" />
 	    		</p:column>
+	    		<p:column headerText="Status">
+	    			<h:outputText value="#{vinculo.status.descricao}" />
+	    		</p:column>
 	    		<p:column>
 	    			<p:button icon="fa fa-fw fa-home" outcome="/profissional/vinculo/lotacao/pesquisa">
 	    				<f:param name="profissional" value="#{vinculo.profissional.id}" />

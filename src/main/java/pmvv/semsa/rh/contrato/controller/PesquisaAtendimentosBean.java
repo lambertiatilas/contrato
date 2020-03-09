@@ -74,8 +74,15 @@ public class PesquisaAtendimentosBean implements Serializable {
 			public List<Solicitacao> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
 				filtro.setPrimeiroRegistro(first);
 				filtro.setQuantidadeRegistros(pageSize);
-				filtro.setPropriedadeOrdenacao(sortField);
-				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
+				
+				if (sortField == null) {
+					filtro.setAscendente(SortOrder.DESCENDING.equals(sortOrder));
+					filtro.setPropriedadeOrdenacao("id");
+				} else {
+					filtro.setPropriedadeOrdenacao(sortField);
+					filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
+				}
+			
 				setRowCount(solicitacoes.quantidadeFiltradas(filtro));
 				return solicitacoes.filtradas(filtro);
 			}

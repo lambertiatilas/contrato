@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,12 +27,12 @@ public class CadastroUsuarioBean implements Serializable {
 	
 	@Inject
 	private CadastroUsuarioService cadastroUsuarioService;
+	@Produces
+	@Edicao
 	private Profissional profissional;
-	
 	@Inject
 	private Estabelecimentos estabelecimentos;
 	private List<Estabelecimento> listaEstabelecimentos = new ArrayList<>();
-	
 	@Inject
 	private Grupos grupos;
 	private List<Grupo> listaGrupos = new ArrayList<>();
@@ -73,5 +75,9 @@ public class CadastroUsuarioBean implements Serializable {
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}
+	}
+	
+	public void usuarioAlterado(@Observes EventUsuarioAlterado event) {
+		profissional = event.getProfissional();
 	}
 }

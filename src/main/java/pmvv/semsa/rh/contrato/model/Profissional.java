@@ -161,6 +161,16 @@ public class Profissional implements Serializable {
 	}
 	
 	@Transient
+	private boolean isAtivo() {
+		return Status.ATIVO.equals(status);
+	}
+	
+	@Transient
+	private boolean isInativo() {
+		return Status.INATIVO.equals(status);
+	}
+	
+	@Transient
 	public boolean isNovo() {
 		return id == null;
 	}
@@ -171,16 +181,40 @@ public class Profissional implements Serializable {
 	}
 	
 	@Transient
-	private boolean isAtivo() {
-		return Status.ATIVO.equals(status);
+	public boolean isAlteravel() {
+		return isExistente();
 	}
 	
 	@Transient
-	private boolean isInativo() {
-		return Status.INATIVO.equals(status);
+	public boolean isNaoAlteravel() {
+		return !isExistente();
+	}
+	
+	@Transient
+	public boolean isAtivavel() {
+		return isExistente() && isInativo();
+	}
+	
+	@Transient
+	public boolean isInativavel() {
+		return isExistente() && isAtivo();
+	}
+	
+	@Transient
+	public String getValueBotaoAtivarOrInativar() {
+		if (isAtivavel()) {
+			return "Ativar";
+		}
+		
+		return "Inativar";
+	}
+	
+	@Transient
+	public String getSenhaPadrao() {
+		return cpf.replaceAll("[^0-9]", "") + String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 	}
 	
 	public String gerarSenha() {
-		return Caracteres.encoder(cpf.replaceAll("[^0-9]", "") + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+		return Caracteres.encoder(getSenhaPadrao());
 	}
 }

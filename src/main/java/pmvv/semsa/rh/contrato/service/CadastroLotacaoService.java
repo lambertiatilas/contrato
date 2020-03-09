@@ -9,6 +9,7 @@ import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.Lotacoes;
 import pmvv.semsa.rh.contrato.repository.Profissionais;
+import pmvv.semsa.rh.contrato.repository.Vinculos;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
 
 public class CadastroLotacaoService implements Serializable {
@@ -17,7 +18,8 @@ public class CadastroLotacaoService implements Serializable {
 	
 	@Inject
 	private Lotacoes lotacoes;
-	
+	@Inject
+	private Vinculos vinculos;
 	@Inject
 	private Profissionais profissionais;
 	
@@ -36,6 +38,13 @@ public class CadastroLotacaoService implements Serializable {
 			profissionais.guardar(lotacao.getVinculo().getProfissional());
 		}
 		
+		if (vinculo.isTodasLotacoesInativas()) {
+			vinculo.setLotado(false);
+		} else {
+			vinculo.setLotado(true);
+		}
+		
+		vinculos.guardar(vinculo);
 		return lotacoes.guardar(lotacao);
 	}
 }

@@ -43,7 +43,7 @@ public class Vinculos implements Serializable {
 	
 	public List<Vinculo> vinculosDisponiveis(ItemSolicitacao item) {
 		try {
-			return manager.createQuery("select vinculo from Vinculo vinculo left join vinculo.lotacoes lotacao"
+			return manager.createQuery("select distinct(vinculo) from Vinculo vinculo left join vinculo.lotacoes lotacao"
 					+ " where vinculo.status = :status"
 					+ " and (lotacao.status is null or lotacao.status = :statusLotacao)"
 					+ " and vinculo.especialidade = :especialidade"

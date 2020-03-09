@@ -31,6 +31,10 @@
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroVinculoBean.tipos}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
 			        </p:selectOneMenu>
+			        <p:outputLabel value="Status" for="status"/>
+			        <p:selectOneRadio id="status" value="#{cadastroVinculoBean.vinculo.status}">
+			            <f:selectItems value="#{cadastroVinculoBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
+			        </p:selectOneRadio>
 				</p:panelGrid>
 				<p:button value="Cancelar" outcome="/profissional/vinculo/pesquisa">
 					<f:param name="profissional" value="#{cadastroVinculoBean.profissional.id}"/>

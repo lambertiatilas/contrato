@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Lotacao;
+import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.TipoVinculo;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.Estabelecimentos;
@@ -54,6 +55,10 @@ public class CadastroLotacaoBean implements Serializable {
 
 	public TipoVinculo[] getTipos() {
 		return TipoVinculo.values();
+	}
+	
+	public StatusLotacao[] getStatuses() {
+		return StatusLotacao.values();
 	}
 
 	public void inicializar() {

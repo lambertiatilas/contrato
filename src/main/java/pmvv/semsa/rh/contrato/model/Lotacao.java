@@ -27,7 +27,7 @@ public class Lotacao implements Serializable {
 	private Date dataInicio;
 	private Date dataFim;
 	private Estabelecimento estabelecimento;
-	private StatusLotacao status;
+	private StatusLotacao status = StatusLotacao.ATIVO;
 	private Vinculo vinculo;
 	private Solicitacao solicitacao;
 
