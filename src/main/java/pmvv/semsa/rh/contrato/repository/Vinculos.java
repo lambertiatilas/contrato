@@ -10,7 +10,6 @@ import javax.persistence.PersistenceException;
 
 import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
 import pmvv.semsa.rh.contrato.model.Status;
-import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
@@ -41,19 +40,17 @@ public class Vinculos implements Serializable {
 		return manager.find(Vinculo.class, id);
 	}
 	
-	public List<Vinculo> vinculosDisponiveis(ItemSolicitacao item) {
+	public List<Vinculo> vinculosEncontrados(ItemSolicitacao item) {
 		try {
-			return manager.createQuery("select distinct(vinculo) from Vinculo vinculo left join vinculo.lotacoes lotacao"
-					+ " where vinculo.status = :status"
-					+ " and (lotacao.status is null or lotacao.status = :statusLotacao)"
-					+ " and vinculo.especialidade = :especialidade"
-					+ " and vinculo.cargaHoraria = :cargaHoraria"
-				, Vinculo.class)
-				.setParameter("status", Status.ATIVO)
-				.setParameter("statusLotacao", StatusLotacao.INATIVO)
-				.setParameter("especialidade", item.getEspecialidade())
-				.setParameter("cargaHoraria", item.getCargaHoraria())
-				.getResultList();
+			return manager.createQuery("from Vinculo vinculo"
+				+ " where status = :status"
+				+ " and especialidade = :especialidade"
+				+ " and cargaHoraria = :cargaHoraria"
+			, Vinculo.class)
+			.setParameter("status", Status.ATIVO)
+			.setParameter("especialidade", item.getEspecialidade())
+			.setParameter("cargaHoraria", item.getCargaHoraria())
+			.getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}

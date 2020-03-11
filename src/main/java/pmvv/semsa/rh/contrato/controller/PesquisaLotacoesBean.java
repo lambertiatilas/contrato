@@ -11,6 +11,7 @@ import javax.inject.Named;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
+import pmvv.semsa.rh.contrato.model.CargaHorariaSemanal;
 import pmvv.semsa.rh.contrato.model.Especialidade;
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Lotacao;
@@ -53,7 +54,10 @@ public class PesquisaLotacoesBean implements Serializable {
 	public void inicializar() {
 		listaEspecialidades = especialidades.especialidades();
 		listaEstabelecimentos = estabelecimentos.estabelecimentos();
-		filtro.setEstabelecimento(seguranca.getUsuario().getLocalAcesso());
+		
+		if (seguranca.getUsuario() != null) {
+			filtro.setEstabelecimento(seguranca.getUsuario().getLocalAcesso());
+		}
 	}
 	
 	public LotacaoFilter getFiltro() {
@@ -86,6 +90,10 @@ public class PesquisaLotacoesBean implements Serializable {
 	
 	public TipoVinculo[] getTiposVinculo() {
 		return TipoVinculo.values();
+	}
+	
+	public CargaHorariaSemanal[] getHorarios() {
+		return CargaHorariaSemanal.values();
 	}
 
 	public List<Estabelecimento> getListaEstabelecimentos() {

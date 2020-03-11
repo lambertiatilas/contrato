@@ -80,6 +80,10 @@ public class Lotacoes implements Serializable {
 			predicates.add(builder.like(builder.upper(profissionalJoin.get("nome")), "%" + filtro.getNome().toUpperCase() + "%"));
 		}
 		
+		if (filtro.getMatricula() != null) {
+			predicates.add(builder.equal(vinculoJoin.get("matricula"), filtro.getMatricula()));
+		}
+		
 		if (filtro.getEspecialidade() != null) {
 			predicates.add(vinculoJoin.get("especialidade").in(filtro.getEspecialidade()));
 		}

@@ -3,23 +3,33 @@
    	<h:head>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title><ui:insert name="titulo">##</ui:insert></title>
+        <h:outputStylesheet library="css" name="index.css" />
     </h:head>
     <h:body>
-    	<p:menubar>
-    		<p:menuitem value="Atendimento" outcome="/atendimento/pesquisa"/>
-    		<p:menuitem value="Solicitação" outcome="/solicitacao/pesquisa"/>
-    		<p:menuitem value="Profissional" outcome="/profissional/pesquisa"/>
-    		<p:submenu label="Administração">
-    			<p:menuitem value="Usuário" outcome="/usuario/pesquisa"/>
-	            <p:menuitem value="Especialidade" outcome="/especialidade/pesquisa"/>
-	            <p:menuitem value="Estabelecimento" outcome="/estabelecimento/pesquisa"/>
-	        </p:submenu>
-	        <p:submenu label="Relatorios">
-    			<p:menuitem value="Profissionais" outcome="/relatorio/lotacao"/>
-	        </p:submenu>
-	        <p:menuitem value="Sair" url="/contrato/logout"/>
-    	</p:menubar>
-    	<h:outputText value="Nome: #{seguranca.usuario.nome}"/>
-		<ui:insert name="corpo"/>
+    	<header>
+    		<h:link outcome="/home">
+    			<h:graphicImage library="images" name="rh.png"/>
+    		</h:link>
+    		<p:menubar>
+	    		<p:menuitem icon="fa fa-ticket" value="Atendimento" outcome="/atendimento/pesquisa"/>
+	    		<p:menuitem icon="fa fa-comment" value="Solicitação" outcome="/solicitacao/pesquisa"/>
+	    		<p:menuitem icon="fa fa-briefcase" value="Profissional" outcome="/profissional/pesquisa"/>
+	    		<p:submenu icon="fa fa-user-plus" label="Administração">
+	    			<p:menuitem icon="fa fa-user" value="Usuário" outcome="/usuario/pesquisa"/>
+		            <p:menuitem icon="fa fa-graduation-cap" value="Especialidade" outcome="/especialidade/pesquisa"/>
+		            <p:menuitem icon="fa fa-institution" value="Estabelecimento" outcome="/estabelecimento/pesquisa"/>
+		        </p:submenu>
+		        <p:submenu icon="fa fa-bar-chart" label="Relatorios">
+	    			<p:menuitem icon="fa fa-briefcase" value="Profissionais" outcome="/relatorio/lotacao"/>
+		        </p:submenu>
+		        <p:submenu icon="fa fa-user" label="#{seguranca.usuario.nome}">
+	    			<p:menuitem icon="fa fa-key" value="Redefinir senha" outcome="/perfil/cadastro-senha"/>
+	    			<p:menuitem icon="fa fa-sign-out" value="Sair" url="/contrato/logout"/>
+		        </p:submenu>
+	    	</p:menubar>
+    	</header>
+    	<section>
+   			<ui:insert name="corpo"/>
+    	</section>
     </h:body>
 </html>

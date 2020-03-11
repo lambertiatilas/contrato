@@ -2,8 +2,10 @@ package pmvv.semsa.rh.contrato.repository.filter;
 
 import java.io.Serializable;
 
+import pmvv.semsa.rh.contrato.model.CargaHorariaSemanal;
 import pmvv.semsa.rh.contrato.model.Especialidade;
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
+import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.TipoVinculo;
 
 public class LotacaoFilter extends OrdenacaoFilter implements Serializable {
@@ -12,10 +14,12 @@ public class LotacaoFilter extends OrdenacaoFilter implements Serializable {
 
 	private String cpf;
 	private String nome;
+	private Long matricula;
 	private Especialidade especialidade;
 	private TipoVinculo tipoVinculo;
-	private Integer cargaHoraria;
+	private CargaHorariaSemanal cargaHoraria;
 	private Estabelecimento estabelecimento;
+	private StatusLotacao status;
 
 	public String getCpf() {
 		return cpf;
@@ -31,6 +35,14 @@ public class LotacaoFilter extends OrdenacaoFilter implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Long getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(Long matricula) {
+		this.matricula = matricula;
 	}
 
 	public Especialidade getEspecialidade() {
@@ -49,11 +61,11 @@ public class LotacaoFilter extends OrdenacaoFilter implements Serializable {
 		this.tipoVinculo = tipoVinculo;
 	}
 
-	public Integer getCargaHoraria() {
+	public CargaHorariaSemanal getCargaHoraria() {
 		return cargaHoraria;
 	}
 
-	public void setCargaHoraria(Integer cargaHoraria) {
+	public void setCargaHoraria(CargaHorariaSemanal cargaHoraria) {
 		this.cargaHoraria = cargaHoraria;
 	}
 
@@ -63,5 +75,13 @@ public class LotacaoFilter extends OrdenacaoFilter implements Serializable {
 
 	public void setEstabelecimento(Estabelecimento estabelecimento) {
 		this.estabelecimento = estabelecimento;
+	}
+
+	public StatusLotacao getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusLotacao status) {
+		this.status = status;
 	}
 }

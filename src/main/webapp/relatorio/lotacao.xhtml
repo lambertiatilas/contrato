@@ -8,8 +8,10 @@
 			<p:messages>
 				<p:autoUpdate />
 			</p:messages>
+			<p:outputLabel value="Matrícula" for="matricula"/>
+    		<p:inputMask id="matricula" value="#{pesquisaLotacoesBean.filtro.matricula}" mask="9999?9999"/>
 			<p:outputLabel value="CPF" for="cpf"/>
-    		<p:inputText id="cpf" value="#{pesquisaLotacoesBean.filtro.cpf}"/>
+    		<p:inputMask id="cpf" value="#{pesquisaLotacoesBean.filtro.cpf}" mask="999.999.999-99"/>
     		<p:outputLabel value="Nome" for="nome"/>
     		<p:inputText id="nome" value="#{pesquisaLotacoesBean.filtro.nome}"/>
     		<p:outputLabel value="Especialidade" for="especialidade"/>
@@ -27,8 +29,11 @@
 	            <f:selectItem itemLabel="Selecione"/>
 	            <f:selectItems value="#{pesquisaLotacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 	        </p:selectOneMenu>
-	        <p:outputLabel value="Carga horária" for="cargaHoraria"/>
-	        <p:inputText id="cargaHoraria" value="#{pesquisaLotacoesBean.filtro.cargaHoraria}"/>
+	        <p:outputLabel value="Carga horária:" for="cargaHoraria"/>
+    		<p:selectOneMenu id="cargaHoraria" value="#{pesquisaLotacoesBean.filtro.cargaHoraria}">
+	            <f:selectItem itemLabel="Selecione"/>
+	            <f:selectItems value="#{pesquisaLotacoesBean.horarios}" var="cargaHoraria" itemValue="#{cargaHoraria}" itemLabel="#{cargaHoraria.descricao}"/>
+	        </p:selectOneMenu>
     		<p:commandButton value="Pesquisar" update="#{p:component('tabelaLotacoes')}"/>
     		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.model}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
     			<p:column headerText="Nome">

@@ -68,7 +68,11 @@ public class PesquisaSolicitacoesBean implements Serializable {
 	public void preRender() {
 		listaEstabelecimentos = estabelecimentos.estabelecimentos();
 		filtro = new SolicitacaoFilter();
-		filtro.setEstabelecimentoSolicitante(seguranca.getUsuario().getLocalAcesso());
+		
+		if (seguranca.getUsuario() != null) {
+			filtro.setEstabelecimentoSolicitante(seguranca.getUsuario().getLocalAcesso());
+		}
+		
 		pesquisar();
 	}
 
@@ -96,11 +100,15 @@ public class PesquisaSolicitacoesBean implements Serializable {
 	}
 	
 	public void excluir() {
-		try {
-			solicitacoes.remover(solicitacaoSelecionada);
-			FacesUtil.addInfoMessage("Solicitacão " + solicitacaoSelecionada.getId() + " excluída com sucesso.");
-		} catch (NegocioException ne) {
-			FacesUtil.addErrorMessage(ne.getMessage());
+		if (solicitacaoSelecionada.isRequisicaoAlteravel()) {
+			try {
+				solicitacoes.remover(solicitacaoSelecionada);
+				FacesUtil.addInfoMessage("Solicitacão " + solicitacaoSelecionada.getId() + " excluída com sucesso.");
+			} catch (NegocioException ne) {
+				FacesUtil.addErrorMessage(ne.getMessage());
+			}
+		} else {
+			FacesUtil.addErrorMessage("Solicitação não pode ser excluída!");
 		}
 	}
 }

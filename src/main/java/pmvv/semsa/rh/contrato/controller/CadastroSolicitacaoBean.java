@@ -116,13 +116,11 @@ public class CadastroSolicitacaoBean implements Serializable {
 		salvar();
 	}
 	
-	public void salvar() {
-		if (solicitacao.isRequisicaoSalvavel()) {
-			try {
-				solicitacao = cadastroSolicitacaoService.salvar(solicitacao);	
-			} catch (NegocioException ne) {
-				FacesUtil.addErrorMessage(ne.getMessage());
-			}
+	private void salvar() {
+		try {
+			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);	
+		} catch (NegocioException ne) {
+			FacesUtil.addErrorMessage(ne.getMessage());
 		}
 	}
 	

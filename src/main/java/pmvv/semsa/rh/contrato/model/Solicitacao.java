@@ -117,7 +117,7 @@ public class Solicitacao implements Serializable {
 		this.itens = itens;
 	}
 
-	@OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<Lotacao> getLotacoes() {
 		return lotacoes;
 	}

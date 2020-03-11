@@ -38,7 +38,6 @@ public class Vinculo implements Serializable {
 	private CargaHorariaSemanal cargaHoraria;
 	private TipoVinculo tipo;
 	private List<Lotacao> lotacoes = new ArrayList<>();
-	private boolean Lotado = false;
 	private Status status  = Status.ATIVO;
 	private Profissional profissional;
 
@@ -117,7 +116,7 @@ public class Vinculo implements Serializable {
 		this.tipo = tipo;
 	}
 
-	@OneToMany(mappedBy = "vinculo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "vinculo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<Lotacao> getLotacoes() {
 		return lotacoes;
 	}
@@ -136,15 +135,6 @@ public class Vinculo implements Serializable {
 		this.status = status;
 	}
 	
-	@Column(nullable = false)
-	public boolean isLotado() {
-		return Lotado;
-	}
-
-	public void setLotado(boolean lotado) {
-		Lotado = lotado;
-	}
-
 	@ManyToOne
 	@JoinColumn(name = "profissional_id", nullable = false)
 	public Profissional getProfissional() {
@@ -196,7 +186,7 @@ public class Vinculo implements Serializable {
 	}
 	
 	@Transient
-	private boolean isInativo() {
+	public boolean isInativo() {
 		return Status.INATIVO.equals(status);
 	}
 	
@@ -213,16 +203,20 @@ public class Vinculo implements Serializable {
  		return lotacoes;
 	}
 	
-	@Transient
-	public boolean isTodasLotacoesInativas() {
+	public void inativarLotacoes() {
 		for (Lotacao lotacao : lotacoes) {
-			if (lotacao.getStatus().equals(StatusLotacao.PENDENTE) || lotacao.getStatus().equals(StatusLotacao.ATIVO)) {
-				System.out.println("false");
+			lotacao.setStatus(StatusLotacao.INATIVO);
+		}
+	}
+	
+	@Transient
+	public boolean isDisponivel() {
+		for (Lotacao lotacao : lotacoes) {
+			if (lotacao.isVinculada()) {
 				return false;
 			}
 		}
 		
-		System.out.println("true");
 		return true;
 	}
 }

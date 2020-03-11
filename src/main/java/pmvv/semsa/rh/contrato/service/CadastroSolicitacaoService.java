@@ -23,6 +23,11 @@ public class CadastroSolicitacaoService implements Serializable {
 	
 	@Transactional
 	public Solicitacao salvar(Solicitacao solicitacao) throws NegocioException {
+		if (seguranca.getUsuario() == null) {
+			throw new NegocioException("Você está logado para salvar a solicitação");
+		}
+		
+		
 		if (solicitacao.isRequisicaoSalvavel()) {
 			Solicitacao solicitacaoExiste = solicitacoes.existe(seguranca.getUsuario().getLocalAcesso());
 			

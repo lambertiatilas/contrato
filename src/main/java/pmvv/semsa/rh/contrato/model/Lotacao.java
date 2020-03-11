@@ -161,4 +161,9 @@ public class Lotacao implements Serializable {
 	public boolean isNaoAceitavelOuNaoRejeitavel() {
 		return !isAceitavelOuRejeitavel();
 	}
+	
+	@Transient
+	public boolean isVinculada() {
+		return isPendente() || isAtivo();
+	}
 }

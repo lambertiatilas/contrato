@@ -1,0 +1,93 @@
+body {
+	margin: 0;
+	background-color: #f0f0f0;
+}
+
+.form-login {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.form-login img {
+	height: 188px;
+	margin-right: 20px;
+}
+
+.form-login .ui-panelgrid .ui-panelgrid-content {
+	padding: 20px;
+}
+
+header {
+	min-width: 1280px;
+	display: flex;
+	background-color: #fff;
+	justify-content: space-between;
+	padding: 0 10px;
+}
+
+header img {
+	height: 33px;
+}
+
+header .ui-menu {
+	border: none;
+}
+
+header .ui-menu .ui-menuitem-text {
+	font-weight: 600 !important;
+}
+
+section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+section .form {
+	min-width: 1200px;
+	margin: 40px;
+	background-color: #fff;
+}
+
+.tabela-id {
+	width: 70px;
+	text-align: center;
+}
+
+.tabela-data-hora, .tabela-status {
+	width: 150px;
+	text-align: center;
+}
+
+.tabela-acao-1 {
+	width: 70px;
+	text-align: center;
+}
+
+.form .ui-g {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.form .ui-panelgrid-cell, .ui-g {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.form .ui-panelgrid-cell .ui-outputlabel {
+	margin-right: 30px;
+	font-weight: 600;
+}
+
+.form .ui-panelgrid-cell .separador {
+	padding: 0 10px;
+}
+
+.form .ui-panelgrid, .form .ui-button, .form .ui-datatable {
+	margin: 10px;
+}

@@ -23,7 +23,9 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.string.Caracteres;
 
 @Entity
@@ -216,5 +218,13 @@ public class Profissional implements Serializable {
 	
 	public String gerarSenha() {
 		return Caracteres.encoder(getSenhaPadrao());
+	}
+	
+	public void conferirSenhas(String senhaAtual, String senhaNova) throws NegocioException {
+		if (BCrypt.checkpw(senhaAtual, senha)) {
+			senha = Caracteres.encoder(senhaNova);
+		} else {
+			throw new NegocioException("A senha atual está incorreta.");
+		}
 	}
 }

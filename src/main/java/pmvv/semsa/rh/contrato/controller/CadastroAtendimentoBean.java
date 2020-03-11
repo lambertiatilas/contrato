@@ -65,7 +65,7 @@ public class CadastroAtendimentoBean implements Serializable {
 			limpar();
 		}
 
-		verificarVinculosDisponiveis();
+		verificarVinculos();
 	}
 	
 	private void limpar() {
@@ -77,21 +77,24 @@ public class CadastroAtendimentoBean implements Serializable {
 		
 		try {
 			solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
-			verificarVinculosDisponiveis();
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}
 	}
 	
 	public void adicionarLotacao() {
-		if (vinculo != null) {
-			Lotacao lotacao = new Lotacao();
-			lotacao.setEstabelecimento(solicitacao.getEstabelecimentoSolcitante());
-			lotacao.setStatus(StatusLotacao.PENDENTE);
-			lotacao.setVinculo(vinculo);
-			lotacao.setSolicitacao(solicitacao);
-			solicitacao.getLotacoes().add(lotacao);
-			salvar();
+		if (vinculo.isDisponivel()) {
+			if (vinculo != null) {
+				Lotacao lotacao = new Lotacao();
+				lotacao.setEstabelecimento(solicitacao.getEstabelecimentoSolcitante());
+				lotacao.setStatus(StatusLotacao.PENDENTE);
+				lotacao.setVinculo(vinculo);
+				lotacao.setSolicitacao(solicitacao);
+				solicitacao.getLotacoes().add(lotacao);
+				salvar();
+			}
+		} else {
+			FacesUtil.addErrorMessage("erro");
 		}
 	}
 	
@@ -100,11 +103,11 @@ public class CadastroAtendimentoBean implements Serializable {
 		salvar();
 	}
 	
-	private void verificarVinculosDisponiveis() {
+	private void verificarVinculos() {
 		listaVinculos.clear();
 		
 		for (ItemSolicitacao item : solicitacao.getItens()) {
-			listaVinculos.addAll(vinculos.vinculosDisponiveis(item));
+			listaVinculos.addAll(vinculos.vinculosEncontrados(item));
 		}
 	}
 	

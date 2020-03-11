@@ -2,9 +2,9 @@ package pmvv.semsa.rh.contrato.model;
 
 public enum CargaHorariaSemanal {
 	
-	VINTE("Vinte horas semanais"),
-	TRINTA("Trinta horas semanais"),
-	QUARENTA("Quarenta horas semanais");
+	VINTE("Vinte horas"),
+	TRINTA("Trinta horas"),
+	QUARENTA("Quarenta horas");
 	
 	private String descricao;
 	
