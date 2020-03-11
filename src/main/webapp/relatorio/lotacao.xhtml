@@ -4,49 +4,58 @@
     	<f:metadata>
 	   		<f:viewAction action="#{pesquisaLotacoesBean.inicializar}" />
 	   	</f:metadata>
-		<h:form>
-			<p:messages>
-				<p:autoUpdate />
-			</p:messages>
-			<p:outputLabel value="Matrícula" for="matricula"/>
-    		<p:inputMask id="matricula" value="#{pesquisaLotacoesBean.filtro.matricula}" mask="9999?9999"/>
-			<p:outputLabel value="CPF" for="cpf"/>
-    		<p:inputMask id="cpf" value="#{pesquisaLotacoesBean.filtro.cpf}" mask="999.999.999-99"/>
-    		<p:outputLabel value="Nome" for="nome"/>
-    		<p:inputText id="nome" value="#{pesquisaLotacoesBean.filtro.nome}"/>
-    		<p:outputLabel value="Especialidade" for="especialidade"/>
-	        <p:selectOneMenu id="especialidade" value="#{pesquisaLotacoesBean.filtro.especialidade}" filter="true" filterMatchMode="contains">
-	            <f:selectItem itemLabel="Selecione"/>
-	            <f:selectItems value="#{pesquisaLotacoesBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}"/>
-	        </p:selectOneMenu>
-	        <p:outputLabel value="Tipo de vínculos" for="tipoVinculo"/>
-	         <p:selectOneMenu id="tipoVinculo" value="#{pesquisaLotacoesBean.filtro.tipoVinculo}" filter="true" filterMatchMode="contains">
-	            <f:selectItem itemLabel="Selecione"/>
-	            <f:selectItems value="#{pesquisaLotacoesBean.tiposVinculo}" var="tipoVinculo" itemValue="#{tipoVinculo}" itemLabel="#{tipoVinculo.descricao}"/>
-	        </p:selectOneMenu>
-	        <p:outputLabel value="Estabelecimento" for="estabelecimento"/>
-	         <p:selectOneMenu id="estabelecimento" value="#{pesquisaLotacoesBean.filtro.estabelecimento}" filter="true" filterMatchMode="contains" disabled="#{!seguranca.administradores}">
-	            <f:selectItem itemLabel="Selecione"/>
-	            <f:selectItems value="#{pesquisaLotacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
-	        </p:selectOneMenu>
-	        <p:outputLabel value="Carga horária:" for="cargaHoraria"/>
-    		<p:selectOneMenu id="cargaHoraria" value="#{pesquisaLotacoesBean.filtro.cargaHoraria}">
-	            <f:selectItem itemLabel="Selecione"/>
-	            <f:selectItems value="#{pesquisaLotacoesBean.horarios}" var="cargaHoraria" itemValue="#{cargaHoraria}" itemLabel="#{cargaHoraria.descricao}"/>
-	        </p:selectOneMenu>
-    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaLotacoes')}"/>
-    		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.model}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-    			<p:column headerText="Nome">
-	    			<h:outputText value="#{lotacao.vinculo.profissional.nome}" />
-	    		</p:column>
-	    		<p:column headerText="Estabelecimento">
-	    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
-	    		</p:column>
-	    		<p:column headerText="Status">
-	    			<h:outputText value="#{lotacao.status.descricao}" />
-	    		</p:column>
-	    	</p:dataTable>
-	    	<p:button value="Voltar" outcome="/home"/>
-		</h:form>
+	   	<p:panel header="Pesquisa de profissionais por estabelecimento" class="form-pesquisa">
+			<h:form>
+				<p:messages>
+					<p:autoUpdate />
+				</p:messages>
+				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+					<p:outputLabel value="Matrícula:" for="matricula"/>
+		    		<p:inputMask id="matricula" value="#{pesquisaLotacoesBean.filtro.matricula}" mask="9999?9999" size="7"/>
+					<p:outputLabel value="CPF:" for="cpf"/>
+		    		<p:inputMask id="cpf" value="#{pesquisaLotacoesBean.filtro.cpf}" mask="999.999.999-99" size="12"/>
+		    		<p:outputLabel value="Nome:" for="nome"/>
+		    		<p:inputText id="nome" value="#{pesquisaLotacoesBean.filtro.nome}" size="28"/>
+		    		<p:outputLabel value="Especialidade:" for="especialidade"/>
+			        <p:selectOneMenu id="especialidade" value="#{pesquisaLotacoesBean.filtro.especialidade}" filter="true" filterMatchMode="contains">
+			            <f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{pesquisaLotacoesBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}"/>
+			        </p:selectOneMenu>
+			        <p:outputLabel value="Tipo de vínculos:" for="tipoVinculo"/>
+			         <p:selectOneMenu id="tipoVinculo" value="#{pesquisaLotacoesBean.filtro.tipoVinculo}" filter="true" filterMatchMode="contains">
+			            <f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{pesquisaLotacoesBean.tiposVinculo}" var="tipoVinculo" itemValue="#{tipoVinculo}" itemLabel="#{tipoVinculo.descricao}"/>
+			        </p:selectOneMenu>
+			        <p:outputLabel value="Estabelecimento:" for="estabelecimento"/>
+			         <p:selectOneMenu id="estabelecimento" value="#{pesquisaLotacoesBean.filtro.estabelecimento}" filter="true" filterMatchMode="contains" disabled="#{!seguranca.atendentes}">
+			            <f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{pesquisaLotacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
+			        </p:selectOneMenu>
+			        <p:outputLabel value="Carga horária:" for="cargaHoraria"/>
+		    		<p:selectOneMenu id="cargaHoraria" value="#{pesquisaLotacoesBean.filtro.cargaHoraria}">
+			            <f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{pesquisaLotacoesBean.horarios}" var="cargaHoraria" itemValue="#{cargaHoraria}" itemLabel="#{cargaHoraria.descricao}"/>
+			        </p:selectOneMenu>
+			        <p:outputLabel value="Situação:" for="situacao"/>
+		    		<p:selectOneMenu id="situacao" value="#{pesquisaLotacoesBean.filtro.status}">
+			            <f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{pesquisaLotacoesBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
+			        </p:selectOneMenu>
+		        </p:panelGrid>
+		        <p:button value="Voltar" outcome="/home"/>
+	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaLotacoes')}"/>
+	    		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.model}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+	    			<p:column headerText="Nome">
+		    			<h:outputText value="#{lotacao.vinculo.profissional.nome}" />
+		    		</p:column>
+		    		<p:column headerText="Estabelecimento">
+		    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Status">
+		    			<h:outputText value="#{lotacao.status.descricao}" />
+		    		</p:column>
+		    	</p:dataTable>
+			</h:form>
+		</p:panel>
 	</ui:define>
 </ui:composition>

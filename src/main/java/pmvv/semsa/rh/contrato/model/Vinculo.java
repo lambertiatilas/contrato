@@ -181,7 +181,7 @@ public class Vinculo implements Serializable {
 	}
 	
 	@Transient
-	private boolean isAtivo() {
+	public boolean isAtivo() {
 		return Status.ATIVO.equals(status);
 	}
 	
@@ -206,6 +206,7 @@ public class Vinculo implements Serializable {
 	public void inativarLotacoes() {
 		for (Lotacao lotacao : lotacoes) {
 			lotacao.setStatus(StatusLotacao.INATIVO);
+			lotacao.setDataFim(new Date());
 		}
 	}
 	

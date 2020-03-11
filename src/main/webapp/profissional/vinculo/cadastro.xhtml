@@ -6,16 +6,22 @@
 			<o:viewParam name="vinculo" value="#{cadastroVinculoBean.vinculo}"/>
 			<f:viewAction action="#{cadastroVinculoBean.inicializar}"/>
 		</f:metadata>
-		<h:form>
-			<p:messages>
-				<p:autoUpdate/>
-			</p:messages>
-			<p:panel header="Profissional">
-				<p:panelGrid columns="2">
-					<p:outputLabel value="Matrícula" for="matricula"/>
-					<p:inputMask id="matricula" value="#{cadastroVinculoBean.vinculo.matricula}" mask="9999?9999"/>
-					<p:outputLabel value="Data de início" for="dataInicio"/>
-					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroVinculoBean.vinculo.dataInicio}"/>
+		<p:panel header="Cadastro vínculo" class="form-pesquisa">
+			<h:form>
+				<p:messages>
+					<p:autoUpdate/>
+				</p:messages>
+				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+				    <h:outputText value="Nome:" />
+				    <h:outputText value="#{cadastroVinculoBean.profissional.nome}" />
+				    <h:outputText value="CPF:" />
+				    <h:outputText value="#{cadastroVinculoBean.profissional.cpf}" />
+				</p:panelGrid>
+				<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
+					<p:outputLabel value="Matrícula:" for="matricula"/>
+					<p:inputMask id="matricula" value="#{cadastroVinculoBean.vinculo.matricula}" mask="9999?9999" size="7"/>
+					<p:outputLabel value="Data de início:" for="dataInicio"/>
+					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroVinculoBean.vinculo.dataInicio}" size="10"/>
 					<p:outputLabel value="Especialidade:" for="especialidade"/>
 		    		<p:selectOneMenu id="especialidade" value="#{cadastroVinculoBean.vinculo.especialidade}" required="true" requiredMessage="Especialidade deve ser informada">
 			            <f:selectItem itemLabel="Selecione"/>
@@ -26,12 +32,12 @@
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroVinculoBean.horarios}" var="cargaHoraria" itemValue="#{cargaHoraria}" itemLabel="#{cargaHoraria.descricao}"/>
 			        </p:selectOneMenu>
-					<p:outputLabel value="Tipo" for="tipo"/>
+					<p:outputLabel value="Tipo:" for="tipo"/>
 					<p:selectOneMenu id="tipo" value="#{cadastroVinculoBean.vinculo.tipo}" required="true" requiredMessage="Tipo deve ser informado">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroVinculoBean.tipos}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
 			        </p:selectOneMenu>
-			        <p:outputLabel value="Status" for="status"/>
+			        <p:outputLabel value="Status:" for="status"/>
 			        <p:selectOneRadio id="status" value="#{cadastroVinculoBean.vinculo.status}">
 			            <f:selectItems value="#{cadastroVinculoBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
 			        </p:selectOneRadio>
@@ -40,7 +46,7 @@
 					<f:param name="profissional" value="#{cadastroVinculoBean.profissional.id}"/>
 				</p:button>
 				<p:commandButton value="Salvar" action="#{cadastroVinculoBean.salvar}" update="@form"/>
-			</p:panel>
-		</h:form>
+			</h:form>
+		</p:panel>
 	</ui:define>
 </ui:composition>

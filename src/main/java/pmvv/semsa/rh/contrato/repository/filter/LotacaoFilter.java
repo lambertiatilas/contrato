@@ -19,7 +19,7 @@ public class LotacaoFilter extends OrdenacaoFilter implements Serializable {
 	private TipoVinculo tipoVinculo;
 	private CargaHorariaSemanal cargaHoraria;
 	private Estabelecimento estabelecimento;
-	private StatusLotacao status;
+	private StatusLotacao status = StatusLotacao.ATIVO;
 
 	public String getCpf() {
 		return cpf;

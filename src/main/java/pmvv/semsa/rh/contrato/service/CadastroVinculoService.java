@@ -1,6 +1,7 @@
 package pmvv.semsa.rh.contrato.service;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -19,14 +20,31 @@ public class CadastroVinculoService implements Serializable {
 	
 	@Transactional
 	public Vinculo salvar(Profissional profissional, Vinculo vinculo) throws NegocioException {
+		Vinculo vinculoExiste = vinculos.porMatricula(vinculo.getMatricula());
+		
+		if (vinculoExiste != null && !vinculoExiste.equals(vinculo)) {
+			throw new NegocioException("Já existe um vínculo cadastrado com a matrícula informada.");
+		}
+		
+		Long quantidadeVinculosAtivos = vinculos.quantidadeVinculosAtivos(profissional);
+		
+		if (vinculo.isAtivo() && quantidadeVinculosAtivos >= 2) {
+			throw new NegocioException("O profissional já possui " + quantidadeVinculosAtivos + " ativos!");
+		}
 		
 		if (vinculo.isNovo()) {
 			vinculo.setStatus(Status.ATIVO);
 			vinculo.setProfissional(profissional);
 		}
-
+		
+		if (vinculo.isExistente() && vinculo.isAtivo()) {
+			vinculo.setDataFim(null);
+		}
+		
 		if (vinculo.isExistente() && vinculo.isInativo()) {
 			vinculo = vinculos.porId(vinculo.getId());
+			vinculo.setStatus(Status.INATIVO);
+			vinculo.setDataFim(new Date());
 			vinculo.inativarLotacoes();
 		}
 		

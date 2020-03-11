@@ -11,8 +11,12 @@
     			<h:graphicImage library="images" name="rh.png"/>
     		</h:link>
     		<p:menubar>
-	    		<p:menuitem icon="fa fa-ticket" value="Atendimento" outcome="/atendimento/pesquisa"/>
-	    		<p:menuitem icon="fa fa-comment" value="Solicitação" outcome="/solicitacao/pesquisa"/>
+    			<p:submenu icon="fa fa-ticket" label="Atendimento">
+	    			<p:menuitem icon="fa fa-briefcase" value="Solicitação de profissionais" outcome="/atendimento/pesquisa"/>
+	    		</p:submenu>
+	    		<p:submenu icon="fa fa-comment" label="Solicitação">
+	    			<p:menuitem icon="fa fa-briefcase" value="Solicitar profissionais" outcome="/solicitacao/pesquisa"/>
+	    		</p:submenu>
 	    		<p:menuitem icon="fa fa-briefcase" value="Profissional" outcome="/profissional/pesquisa"/>
 	    		<p:submenu icon="fa fa-user-plus" label="Administração">
 	    			<p:menuitem icon="fa fa-user" value="Usuário" outcome="/usuario/pesquisa"/>
@@ -22,7 +26,7 @@
 		        <p:submenu icon="fa fa-bar-chart" label="Relatorios">
 	    			<p:menuitem icon="fa fa-briefcase" value="Profissionais" outcome="/relatorio/lotacao"/>
 		        </p:submenu>
-		        <p:submenu icon="fa fa-user" label="#{seguranca.usuario.nome}">
+		        <p:submenu icon="fa fa-user" label="#{seguranca.usuario.primeiroNome}(#{seguranca.usuario.localAcesso.descricao})">
 	    			<p:menuitem icon="fa fa-key" value="Redefinir senha" outcome="/perfil/cadastro-senha"/>
 	    			<p:menuitem icon="fa fa-sign-out" value="Sair" url="/contrato/logout"/>
 		        </p:submenu>

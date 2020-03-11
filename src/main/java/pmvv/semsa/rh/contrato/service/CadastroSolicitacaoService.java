@@ -17,7 +17,6 @@ public class CadastroSolicitacaoService implements Serializable {
 	
 	@Inject
 	private Seguranca seguranca;
-	
 	@Inject
 	private Solicitacoes solicitacoes;
 	
@@ -44,6 +43,7 @@ public class CadastroSolicitacaoService implements Serializable {
 		}
 		
 		if (solicitacao.isLotacoesNaoPendentes()) {
+			solicitacao.setDataHoraEncerramento(new Date());
 			solicitacao.setStatus(StatusSolicitacao.FINALIZADA);
 		}
 		

@@ -5,50 +5,46 @@
 			<o:viewParam name="profissional" value="#{pesquisaVinculosBean.profissional}" />
 		</f:metadata>
 		<h:form>
-			<p:messages>
-				<p:autoUpdate />
-			</p:messages>
-			<p:panelGrid columns="2">
-			    <h:outputText value="Nome:" />
-			    <h:outputText value="#{pesquisaVinculosBean.profissional.nome}" />
-			    <h:outputText value="CPF:" />
-			    <h:outputText value="#{pesquisaVinculosBean.profissional.cpf}" />
-			</p:panelGrid>
-    		<p:dataTable id="tabelaVinculos" value="#{pesquisaVinculosBean.profissional.vinculos}" var="vinculo" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-	    		<p:column headerText="Especialidade">
-	    			<h:outputText value="#{vinculo.especialidade.descricao}" />
-	    		</p:column>
-	    		<p:column headerText="Carga horária">
-	    			<h:outputText value="#{vinculo.cargaHoraria}" />
-	    		</p:column>
-	    		<p:column headerText="Tipo">
-	    			<h:outputText value="#{vinculo.tipo.descricao}" />
-	    		</p:column>
-	    		<p:column headerText="Status">
-	    			<h:outputText value="#{vinculo.status.descricao}" />
-	    		</p:column>
-	    		<p:column>
-	    			<p:button icon="fa fa-fw fa-home" outcome="/profissional/vinculo/lotacao/pesquisa">
-	    				<f:param name="profissional" value="#{vinculo.profissional.id}" />
-	    				<f:param name="vinculo" value="#{vinculo.id}" />
-	    			</p:button>
-	    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/cadastro">
-	    				<f:param name="profissional" value="#{vinculo.profissional.id}" />
-	    				<f:param name="vinculo" value="#{vinculo.id}" />
-	    			</p:button>
-	    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
-	    				<f:setPropertyActionListener target="#{pesquisaVinculosBean.vinculo}" value="#{vinculo}" />
-	    			</p:commandButton>
-	    		</p:column>
-	    	</p:dataTable>
-	    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de vínculo" message="Tem certeza que deseja excluir o vínculo #{pesquisaVinculosBean.vinculo.especialidade.descricao}?" widgetVar="confirmacaoExclusao">
-	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
-	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaVinculosBean.excluir}" process="@this" update="#{p:component('tabelaVinculos')}" />
-	    	</p:confirmDialog>
-	    	<p:button value="Voltar" outcome="/profissional/pesquisa" />
-	    	<p:button value="Adicionar" outcome="/profissional/vinculo/cadastro">
-	    		<f:param name="profissional" value="#{pesquisaVinculosBean.profissional.id}" />
-	    	</p:button>
+			<p:panel header="Vínculo(s) de #{pesquisaVinculosBean.profissional.nome}" class="form-pesquisa">
+				<p:messages>
+					<p:autoUpdate />
+				</p:messages>
+	    		<p:dataTable id="tabelaVinculos" value="#{pesquisaVinculosBean.profissional.vinculos}" var="vinculo" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+		    		<p:column headerText="Cargo">
+		    			<h:outputText value="#{vinculo.especialidade.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Carga horária" class="tabela-carga-horaria">
+		    			<h:outputText value="#{vinculo.cargaHoraria.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Tipo" class="tabela-tipo-vinculo">
+		    			<h:outputText value="#{vinculo.tipo.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Status" class="tabela-status">
+		    			<h:outputText value="#{vinculo.status.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Ações" class="tabela-acao-3">
+		    			<p:button icon="fa fa-fw fa-home" outcome="/profissional/vinculo/lotacao/pesquisa">
+		    				<f:param name="profissional" value="#{vinculo.profissional.id}" />
+		    				<f:param name="vinculo" value="#{vinculo.id}" />
+		    			</p:button>
+		    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/cadastro">
+		    				<f:param name="profissional" value="#{vinculo.profissional.id}" />
+		    				<f:param name="vinculo" value="#{vinculo.id}" />
+		    			</p:button>
+		    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+		    				<f:setPropertyActionListener target="#{pesquisaVinculosBean.vinculo}" value="#{vinculo}" />
+		    			</p:commandButton>
+		    		</p:column>
+		    	</p:dataTable>
+		    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de vínculo" message="Tem certeza que deseja excluir o vínculo #{pesquisaVinculosBean.vinculo.especialidade.descricao}?" widgetVar="confirmacaoExclusao">
+		    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
+		    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaVinculosBean.excluir}" process="@this" update="#{p:component('tabelaVinculos')}" />
+		    	</p:confirmDialog>
+		    	<p:button value="Voltar" outcome="/profissional/pesquisa" />
+		    	<p:button value="Adicionar" outcome="/profissional/vinculo/cadastro">
+		    		<f:param name="profissional" value="#{pesquisaVinculosBean.profissional.id}" />
+		    	</p:button>
+	    	</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -94,7 +94,7 @@ public class CadastroAtendimentoBean implements Serializable {
 				salvar();
 			}
 		} else {
-			FacesUtil.addErrorMessage("erro");
+			FacesUtil.addErrorMessage("Este profissional já está vinculado à outro estabelecimento!");
 		}
 	}
 	

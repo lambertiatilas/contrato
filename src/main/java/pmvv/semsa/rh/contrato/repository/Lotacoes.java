@@ -53,16 +53,16 @@ public class Lotacoes implements Serializable {
 		return manager.find(Lotacao.class, id);
 	}
 	
-	public Lotacao existe(Lotacao lotacao) {
+	public Lotacao existe(Vinculo vinculo) {
 		try {
 			return manager.createQuery("from Lotacao"
-					+ " where estabelecimento = :estabelecimento"
-					+ " and (status = :ativo or status = :pendente)"
-				, Lotacao.class)
-				.setParameter("estabelecimento", lotacao.getEstabelecimento())
-				.setParameter("ativo", StatusLotacao.ATIVO)
-				.setParameter("pendente", StatusLotacao.PENDENTE)
-				.getSingleResult();
+				+ " where (status = :ativo or status = :pendente)"
+				+ " and vinculo = :vinculo"
+			, Lotacao.class)
+			.setParameter("ativo", StatusLotacao.ATIVO)
+			.setParameter("pendente", StatusLotacao.PENDENTE)
+			.setParameter("vinculo", vinculo)
+			.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -98,6 +98,10 @@ public class Lotacoes implements Serializable {
 		
 		if (filtro.getEstabelecimento() != null) {
 			predicates.add(lotacaoRoot.get("estabelecimento").in(filtro.getEstabelecimento()));
+		}
+		
+		if (filtro.getStatus() != null) {
+			predicates.add(lotacaoRoot.get("status").in(filtro.getStatus()));
 		}
 		
 		predicates.add(builder.isNotNull(lotacaoRoot.get("dataInicio")));

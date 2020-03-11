@@ -9,6 +9,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
 import pmvv.semsa.rh.contrato.model.ItemSolicitacao;
+import pmvv.semsa.rh.contrato.model.Profissional;
 import pmvv.semsa.rh.contrato.model.Status;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.service.NegocioException;
@@ -40,9 +41,31 @@ public class Vinculos implements Serializable {
 		return manager.find(Vinculo.class, id);
 	}
 	
+	public Vinculo porMatricula(Long matricula) {
+		try {
+			return manager.createQuery("from Vinculo where matricula = :matricula", Vinculo.class).setParameter("matricula", matricula).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public Long quantidadeVinculosAtivos(Profissional profissioal) {
+		try {
+			return manager.createQuery("select count(vinculo) from Vinculo vinculo"
+				+ " where status = :status"
+				+ " and profissional = :profissional"
+			, Long.class)
+			.setParameter("status", Status.ATIVO)
+			.setParameter("profissional", profissioal)
+			.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
 	public List<Vinculo> vinculosEncontrados(ItemSolicitacao item) {
 		try {
-			return manager.createQuery("from Vinculo vinculo"
+			return manager.createQuery("from Vinculo"
 				+ " where status = :status"
 				+ " and especialidade = :especialidade"
 				+ " and cargaHoraria = :cargaHoraria"

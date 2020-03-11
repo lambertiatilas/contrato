@@ -6,36 +6,36 @@
 			<f:viewAction action="#{cadastroUsuarioBean.inicializar}"/>
 		</f:metadata>
 		<h:form>
-			<p:messages>
-				<p:autoUpdate />
-			</p:messages>
-			<p:panel header="Usuário">
-				<p:panelGrid columns="2">
-					<p:outputLabel value="Nome" for="nome"/>
-					<p:inputText id="nome" value="#{cadastroUsuarioBean.profissional.nome}"/>
-					<p:outputLabel value="CPF" for="cpf"/>
-					<p:inputMask id="cpf" value="#{cadastroUsuarioBean.profissional.cpf}" mask="999.999.999-99"/>
-					<p:outputLabel value="Telefone" for="telefone"/>
-					<p:inputMask id="telefone" value="#{cadastroUsuarioBean.profissional.telefone}" mask="(99) 99999999?9"/>
-					<p:outputLabel value="Estabelecimento" for="estabelecimento"/>
+			<p:panel header="Cadastro usuário" class="form-pesquisa">
+				<p:messages>
+					<p:autoUpdate />
+				</p:messages>
+				<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
+					<p:outputLabel value="Nome:" for="nome"/>
+					<p:inputText id="nome" value="#{cadastroUsuarioBean.profissional.nome}" size="60"/>
+					<p:outputLabel value="CPF:" for="cpf"/>
+					<p:inputMask id="cpf" value="#{cadastroUsuarioBean.profissional.cpf}" mask="999.999.999-99" size="12"/>
+					<p:outputLabel value="Telefone:" for="telefone"/>
+					<p:inputMask id="telefone" value="#{cadastroUsuarioBean.profissional.telefone}" mask="(99) 99999999?9" size="12"/>
+					<p:outputLabel value="Estabelecimento:" for="estabelecimento"/>
 		    		<p:selectOneMenu id="estabelecimento" value="#{cadastroUsuarioBean.profissional.localAcesso}" required="true" requiredMessage="Estabelecimento deve ser informado">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroUsuarioBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 			        </p:selectOneMenu>
-			        <p:outputLabel value="Grupo" for="grupo"/>
-			        <p:selectOneMenu id="grupo" value="#{cadastroUsuarioBean.profissional.grupo}" required="true" requiredMessage="Estabelecimento deve ser informado">
+			        <p:outputLabel value="Grupo:" for="grupo"/>
+			        <p:selectOneMenu id="grupo" value="#{cadastroUsuarioBean.profissional.grupo}" required="true" requiredMessage="Grupo deve ser informado">
 			        	<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroUsuarioBean.listaGrupos}" var="grupo" itemValue="#{grupo}" itemLabel="#{grupo.descricao}"/>
 			        </p:selectOneMenu>
 				</p:panelGrid>
 				<p:button value="Cancelar" outcome="/usuario/pesquisa"/>
 				<p:commandButton value="Salvar" action="#{cadastroUsuarioBean.salvar}" update="@form"/>
-				<p:commandButton value="Redefinir senha" oncomplete="PF('senha').show()" process="@this" update="#{p:component('redefinirSenhaDialog')}"/>
-				<p:confirmDialog id="redefinirSenhaDialog" header="Redefinir senha" message="Deseja redefinir a senha do usuario #{cadastroUsuarioBean.profissional.nome} para '#{cadastroUsuarioBean.profissional.senhaPadrao}'?" widgetVar="senha">
+				<p:commandButton value="Redefinir senha" oncomplete="PF('senha').show()" process="@this" update="#{p:component('redefinirSenhaDialog')}" rendered="#{cadastroUsuarioBean.profissional.existente}"/>
+				<p:confirmDialog id="redefinirSenhaDialog" header="Redefinir senha" message="Deseja redefinir a senha do usuario #{cadastroUsuarioBean.profissional.nome} para '#{cadastroUsuarioBean.profissional.senhaPadrao}'?" widgetVar="senha" rendered="#{cadastroUsuarioBean.profissional.existente}">
 		    		<p:button value="Não" onclick="PF('senha').hide(); return false;"/>
 		    		<p:commandButton id="yesButtonSenha" value="Sim" oncomplete="PF('senha').hide();" action="#{edicaoUsuarioBean.redefinirSenha}" process="@this" update="@form"/>
 		    	</p:confirmDialog>
-		    	<p:commandButton value="#{cadastroUsuarioBean.profissional.valueBotaoAtivarOrInativar}" action="#{edicaoUsuarioBean.ativarOuInativar}" process="@this" update="@form"/>
+		    	<p:commandButton value="#{cadastroUsuarioBean.profissional.valueBotaoAtivarOrInativar}" action="#{edicaoUsuarioBean.ativarOuInativar}" process="@this" update="@form" rendered="#{cadastroUsuarioBean.profissional.existente}"/>
 			</p:panel>
 		</h:form>
 	</ui:define>

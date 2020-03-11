@@ -117,7 +117,7 @@ public class Solicitacao implements Serializable {
 		this.itens = itens;
 	}
 
-	@OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	public List<Lotacao> getLotacoes() {
 		return lotacoes;
 	}
@@ -182,7 +182,7 @@ public class Solicitacao implements Serializable {
 	}
 	
 	@Transient
-	private boolean isAtendida() {
+	public boolean isAtendida() {
 		return StatusSolicitacao.ATENDIDA.equals(status);
 	}
 	

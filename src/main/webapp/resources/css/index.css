@@ -21,7 +21,7 @@ body {
 }
 
 header {
-	min-width: 1280px;
+	min-width: 1300px;
 	display: flex;
 	background-color: #fff;
 	justify-content: space-between;
@@ -46,9 +46,9 @@ section {
 	align-items: center;
 }
 
-section .form {
-	min-width: 1200px;
-	margin: 40px;
+section .form-home, section .form-pesquisa {
+	min-width: 1286px;
+	margin: 20px;
 	background-color: #fff;
 }
 
@@ -57,7 +57,7 @@ section .form {
 	text-align: center;
 }
 
-.tabela-data-hora, .tabela-status {
+.tabela-data-hora, .tabela-status, .tabela-cpf, .tabela-matricula, .tabela-telefone, .tabela-tipo-vinculo, .tabela-acao-3 {
 	width: 150px;
 	text-align: center;
 }
@@ -67,27 +67,30 @@ section .form {
 	text-align: center;
 }
 
-.form .ui-g {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
+.tabela-acao-2, .tabela-quantidade {
+	width: 100px;
+	text-align: center;
 }
 
-.form .ui-panelgrid-cell, .ui-g {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.tabela-carga-horaria {
+	width: 200px;
+	text-align: center;
 }
 
-.form .ui-panelgrid-cell .ui-outputlabel {
-	margin-right: 30px;
+.rotulo {
+	width: 150px !important;
+	text-align: right;
 	font-weight: 600;
 }
 
-.form .ui-panelgrid-cell .separador {
-	padding: 0 10px;
+.campo {
+	min-width: 250px !important;
 }
 
-.form .ui-panelgrid, .form .ui-button, .form .ui-datatable {
-	margin: 10px;
+.form-pesquisa .ui-panelgrid, .form-pesquisa .ui-button, .form-pesquisa .ui-datatable {
+	margin-bottom: 10px;
+}
+
+.form-pesquisa .ui-button {
+	margin-right: 10px;
 }

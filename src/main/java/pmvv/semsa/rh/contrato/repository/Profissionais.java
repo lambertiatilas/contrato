@@ -62,6 +62,7 @@ public class Profissionais implements Serializable {
 			return manager.createQuery("from Profissional"
 					+ " where cpf = :cpf"
 					+ " and status = :status"
+					+ " and localAcesso is not null"
 				, Profissional.class)
 				.setParameter("cpf", cpf)
 				.setParameter("status", Status.ATIVO)

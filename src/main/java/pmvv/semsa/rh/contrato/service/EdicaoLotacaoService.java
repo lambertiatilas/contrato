@@ -6,8 +6,10 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import pmvv.semsa.rh.contrato.model.Lotacao;
+import pmvv.semsa.rh.contrato.model.Profissional;
 import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.repository.Lotacoes;
+import pmvv.semsa.rh.contrato.repository.Profissionais;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
 
 public class EdicaoLotacaoService implements Serializable {
@@ -18,6 +20,8 @@ public class EdicaoLotacaoService implements Serializable {
 	private CadastroSolicitacaoService cadastroSolicitacaoService;
 	@Inject
 	private Lotacoes lotacoes;
+	@Inject
+	private Profissionais profissionais;
 
 	@Transactional
 	public Lotacao aceitarLotacao(Lotacao lotacao) throws NegocioException {
@@ -29,6 +33,9 @@ public class EdicaoLotacaoService implements Serializable {
 		
 		lotacao.setDataInicio(new Date());
 		lotacao.setStatus(StatusLotacao.ATIVO);
+		Profissional profissional = lotacao.getVinculo().getProfissional();
+		profissional.setLocalAcesso(lotacao.getEstabelecimento());
+		profissionais.guardar(profissional);
 		cadastroSolicitacaoService.salvar(lotacao.getSolicitacao());
 		return lotacao;
 	}

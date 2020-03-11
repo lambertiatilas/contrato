@@ -15,6 +15,7 @@ import pmvv.semsa.rh.contrato.model.CargaHorariaSemanal;
 import pmvv.semsa.rh.contrato.model.Especialidade;
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Lotacao;
+import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.TipoVinculo;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.Especialidades;
@@ -95,6 +96,11 @@ public class PesquisaLotacoesBean implements Serializable {
 	public CargaHorariaSemanal[] getHorarios() {
 		return CargaHorariaSemanal.values();
 	}
+	
+	public StatusLotacao[] getStatuses() {
+		return StatusLotacao.values();
+	}
+
 
 	public List<Estabelecimento> getListaEstabelecimentos() {
 		return listaEstabelecimentos;

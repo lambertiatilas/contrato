@@ -6,15 +6,17 @@
 			<f:viewAction action="#{cadastroEstabelecimentoBean.inicializar}"/>
 		</f:metadata>
 		<h:form>
-			<p:messages>
-				<p:autoUpdate/>
-			</p:messages>
-			<p:panelGrid columns="2">
-				<p:outputLabel value="Descrição" for="descricao"/>
-				<p:inputText id="descricao" value="#{cadastroEstabelecimentoBean.estabelecimento.descricao}"/>
-			</p:panelGrid>
-			<p:button value="Cancelar" outcome="/estabelecimento/pesquisa"/>
-			<p:commandButton value="Salvar" action="#{cadastroEstabelecimentoBean.salvar}" update="@form"/>
+			<p:panel header="Cadastro estabelecimento" class="form-pesquisa">
+				<p:messages>
+					<p:autoUpdate/>
+				</p:messages>
+				<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
+					<p:outputLabel value="Descrição" for="descricao"/>
+					<p:inputText id="descricao" value="#{cadastroEstabelecimentoBean.estabelecimento.descricao}" size="60"/>
+				</p:panelGrid>
+				<p:button value="Cancelar" outcome="/estabelecimento/pesquisa"/>
+				<p:commandButton value="Salvar" action="#{cadastroEstabelecimentoBean.salvar}" update="@form"/>
+			</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

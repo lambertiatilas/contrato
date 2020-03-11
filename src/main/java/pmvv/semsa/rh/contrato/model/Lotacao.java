@@ -138,7 +138,7 @@ public class Lotacao implements Serializable {
 	}
 	
 	@Transient
-	private boolean isAtivo() {
+	public boolean isAtivo() {
 		return StatusLotacao.ATIVO.equals(status);
 	}
 	
@@ -148,7 +148,7 @@ public class Lotacao implements Serializable {
 	}
 	
 	@Transient
-	private boolean isInativo() {
+	public boolean isInativo() {
 		return StatusLotacao.INATIVO.equals(status);
 	}
 	

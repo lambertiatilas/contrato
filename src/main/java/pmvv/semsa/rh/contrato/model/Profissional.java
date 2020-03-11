@@ -227,4 +227,9 @@ public class Profissional implements Serializable {
 			throw new NegocioException("A senha atual está incorreta.");
 		}
 	}
+	
+	@Transient
+	public String getPrimeiroNome() {
+		return nome.split(" ")[0];
+	}
 }

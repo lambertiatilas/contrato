@@ -4,51 +4,47 @@
     	<f:metadata>
 			<f:viewAction action="#{pesquisaAtendimentosBean.preRender}"/>
 		</f:metadata>
-		<p:panel header="Pesquisar atendimentos" class="form">
+		<p:panel header="Pesquisa solicitações de profissionais" class="form-pesquisa">
 			<h:form>
 				<p:messages>
 					<p:autoUpdate/>
 				</p:messages>
-				<p:panelGrid columns="4" layout="grid">
+				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+					<p:outputLabel value="Período:"/>
 					<h:panelGroup>
-						<p:outputLabel value="Período"/>
-						<h:panelGroup>
-							<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaDe}" size="10"/>
-							<h:outputText value=" a " class="separador"/>
-							<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaAte}" size="10"/>
-						</h:panelGroup>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaDe}" size="10"/>
+						<h:outputText value=" a " class="separador"/>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaAte}" size="10"/>
 					</h:panelGroup>
-					<h:panelGroup>
-						<p:outputLabel value="Local" for="estabelecimento"/>
-						<p:selectOneMenu id="estabelecimento" value="#{pesquisaAtendimentosBean.filtro.estabelecimentoSolicitante}">
-							<f:selectItem itemLabel="Selecione"/>
-				            <f:selectItems value="#{pesquisaAtendimentosBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
-				        </p:selectOneMenu>
-			        </h:panelGroup>
-			        <h:panelGroup>
-			        	<p:outputLabel value="Status" for="status"/>
-				        <p:selectOneMenu id="status" value="#{pesquisaAtendimentosBean.filtro.status}">
-							<f:selectItem itemLabel="Selecione"/>
-				            <f:selectItems value="#{pesquisaAtendimentosBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
-				        </p:selectOneMenu>
-			        </h:panelGroup>
+					<p:outputLabel value="Local:" for="estabelecimento"/>
+					<p:selectOneMenu id="estabelecimento" value="#{pesquisaAtendimentosBean.filtro.estabelecimentoSolicitante}">
+						<f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{pesquisaAtendimentosBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
+			        </p:selectOneMenu>
+		        	<p:outputLabel value="Status:" for="status"/>
+			        <p:selectOneMenu id="status" value="#{pesquisaAtendimentosBean.filtro.status}">
+						<f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{pesquisaAtendimentosBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
+			        </p:selectOneMenu>
 		        </p:panelGrid>
 	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaSolicitacoes')}"/>
 	    		<p:dataTable id="tabelaSolicitacoes" value="#{pesquisaAtendimentosBean.model}" var="solicitacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-		    		<p:column headerText="ID">
+		    		<p:column headerText="ID" class="tabela-id">
 		    			<h:outputText value="#{solicitacao.id}"/>
 		    		</p:column>
-		    		<p:column headerText="Data de abertura">
-		    			<h:outputText value="#{solicitacao.dataHoraAbertura}"/>
+		    		<p:column headerText="Data de abertura" class="tabela-data-hora">
+		    			<h:outputText value="#{solicitacao.dataHoraAbertura}">
+		    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+		    			</h:outputText>
 		    		</p:column>
 		    		<p:column headerText="Localização">
-		    			<h:outputText value="#{solicitacao.estabelecimentoSolcitante}"/>
+		    			<h:outputText value="#{solicitacao.estabelecimentoSolcitante.descricao}"/>
 		    		</p:column>
-		    		<p:column headerText="Status">
+		    		<p:column headerText="Status" class="tabela-status">
 		    			<h:outputText value="#{solicitacao.status.descricao}"/>
 		    		</p:column>
-		    		<p:column>
-		    			<p:button value="1" outcome="/atendimento/cadastro" rendered="#{solicitacao.requisicaoNaoSalvavel}">
+		    		<p:column headerText="Ações" class="tabela-acao-1">
+		    			<p:button icon="fa fa-ticket" outcome="/atendimento/cadastro" rendered="#{solicitacao.requisicaoNaoSalvavel}">
 		    				<f:param name="solicitacao" value="#{solicitacao.id}"/>
 		    			</p:button>
 		    		</p:column>

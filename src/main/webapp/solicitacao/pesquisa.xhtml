@@ -4,54 +4,61 @@
     	<f:metadata>
 			<f:viewAction action="#{pesquisaSolicitacoesBean.preRender}"/>
 		</f:metadata>
-		<h:form>
-			<p:messages>
-				<p:autoUpdate/>
-			</p:messages>
-			<p:panelGrid columns="3">
-				<h:panelGroup>
-					<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaDe}"/>
-					<h:outputText value=" a "/>
-					<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaAte}"/>
-				</h:panelGroup>
-				<p:selectOneMenu id="Estabelecimento" value="#{pesquisaSolicitacoesBean.filtro.estabelecimentoSolicitante}" disabled="#{!seguranca.administradores}">
-					<f:selectItem itemLabel="Selecione"/>
-		            <f:selectItems value="#{pesquisaSolicitacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
-		        </p:selectOneMenu>
-		        <p:selectOneMenu id="Status" value="#{pesquisaSolicitacoesBean.filtro.status}">
-					<f:selectItem itemLabel="Selecione"/>
-		            <f:selectItems value="#{pesquisaSolicitacoesBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
-		        </p:selectOneMenu>
-	        </p:panelGrid>
-    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaSolicitacoes')}"/>
-    		<p:dataTable id="tabelaSolicitacoes" value="#{pesquisaSolicitacoesBean.model}" var="solicitacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-	    		<p:column headerText="ID">
-	    			<h:outputText value="#{solicitacao.id}"/>
-	    		</p:column>
-	    		<p:column headerText="Data de abertura">
-	    			<h:outputText value="#{solicitacao.dataHoraAbertura}"/>
-	    		</p:column>
-	    		<p:column headerText="Localização">
-	    			<h:outputText value="#{solicitacao.estabelecimentoSolcitante}"/>
-	    		</p:column>
-	    		<p:column headerText="Status">
-	    			<h:outputText value="#{solicitacao.status.descricao}"/>
-	    		</p:column>
-	    		<p:column>
-	    			<p:button value="1" outcome="/solicitacao/cadastro">
-	    				<f:param name="solicitacao" value="#{solicitacao.id}"/>
-	    			</p:button>
-	    			<p:commandButton value="2" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}" rendered="#{solicitacao.status == 'NAO_ENVIADA'}">
-	    				<f:setPropertyActionListener target="#{pesquisaSolicitacoesBean.solicitacaoSelecionada}" value="#{solicitacao}"/>
-	    			</p:commandButton>
-	    		</p:column>
-	    	</p:dataTable>
-	    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de solicitação" message="Tem certeza que deseja excluir a solicitação #{pesquisaSolicitacoesBean.solicitacaoSelecionada.id}?" widgetVar="confirmacaoExclusao">
-	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;"/>
-	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaSolicitacoesBean.excluir}" process="@this" update="#{p:component('tabelaSolicitacoes')}"/>
-	    	</p:confirmDialog>
-	    	<p:button value="Voltar" outcome="/home"/>
-	    	<p:button value="Adicionar" outcome="/solicitacao/cadastro"/>
-		</h:form>
+		<p:panel header="Pesquisa solicitações de profissionais" class="form-pesquisa">
+			<h:form>
+				<p:messages>
+					<p:autoUpdate/>
+				</p:messages>
+				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+					<p:outputLabel value="Período:"/>
+					<h:panelGroup>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaDe}" size="10"/>
+						<h:outputText value=" a " class="separador"/>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaAte}" size="10"/>
+					</h:panelGroup>
+					<p:outputLabel value="Local:" for="estabelecimento"/>
+					<p:selectOneMenu id="estabelecimento" value="#{pesquisaSolicitacoesBean.filtro.estabelecimentoSolicitante}" disabled="#{!seguranca.administradores}">
+						<f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{pesquisaSolicitacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
+			        </p:selectOneMenu>
+			        <p:outputLabel value="Status:" for="status"/>
+			        <p:selectOneMenu id="status" value="#{pesquisaSolicitacoesBean.filtro.status}">
+						<f:selectItem itemLabel="Selecione"/>
+			            <f:selectItems value="#{pesquisaSolicitacoesBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
+			        </p:selectOneMenu>
+		        </p:panelGrid>
+	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaSolicitacoes')}"/>
+	    		<p:dataTable id="tabelaSolicitacoes" value="#{pesquisaSolicitacoesBean.model}" var="solicitacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+		    		<p:column headerText="ID" class="tabela-id">
+		    			<h:outputText value="#{solicitacao.id}"/>
+		    		</p:column>
+		    		<p:column headerText="Data de abertura" class="tabela-data-hora">
+		    			<h:outputText value="#{solicitacao.dataHoraAbertura}">
+		    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+		    			</h:outputText>
+		    		</p:column>
+		    		<p:column headerText="Localização">
+		    			<h:outputText value="#{solicitacao.estabelecimentoSolcitante.descricao}"/>
+		    		</p:column>
+		    		<p:column headerText="Status" class="tabela-status">
+		    			<h:outputText value="#{solicitacao.status.descricao}"/>
+		    		</p:column>
+		    		<p:column headerText="Ações" class="tabela-acao-2">
+		    			<p:button icon="fa fa-ticket" outcome="/solicitacao/cadastro">
+		    				<f:param name="solicitacao" value="#{solicitacao.id}"/>
+		    			</p:button>
+		    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}" rendered="#{solicitacao.status == 'NAO_ENVIADA'}">
+		    				<f:setPropertyActionListener target="#{pesquisaSolicitacoesBean.solicitacaoSelecionada}" value="#{solicitacao}"/>
+		    			</p:commandButton>
+		    		</p:column>
+		    	</p:dataTable>
+		    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de solicitação" message="Tem certeza que deseja excluir a solicitação #{pesquisaSolicitacoesBean.solicitacaoSelecionada.id}?" widgetVar="confirmacaoExclusao">
+		    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;"/>
+		    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaSolicitacoesBean.excluir}" process="@this" update="#{p:component('tabelaSolicitacoes')}"/>
+		    	</p:confirmDialog>
+		    	<p:button value="Voltar" outcome="/home"/>
+		    	<p:button value="Adicionar" outcome="/solicitacao/cadastro"/>
+			</h:form>
+		</p:panel>
 	</ui:define>
 </ui:composition>

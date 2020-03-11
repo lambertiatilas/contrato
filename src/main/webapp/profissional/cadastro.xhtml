@@ -6,16 +6,17 @@
 			<f:viewAction action="#{cadastroProfissionalBean.inicializar}"/>
 		</f:metadata>
 		<h:form>
-			<p:messages>
-				<p:autoUpdate />
-			</p:messages>
-			<p:panel header="Profissional">
-				<p:panelGrid id="profissional" columns="2">
-					<p:inputText id="nome" value="#{cadastroProfissionalBean.profissional.nome}"/>
-					<p:outputLabel value="CPF" for="cpf"/>
-					<p:inputMask id="cpf" value="#{cadastroProfissionalBean.profissional.cpf}" mask="999.999.999-99"/>
-					<p:outputLabel value="Telefone" for="telefone"/>
-					<p:inputMask id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}" mask="(99) 99999999?9"/>
+			<p:panel header="Cadastro profissional" class="form-pesquisa">
+				<p:messages>
+					<p:autoUpdate />
+				</p:messages>
+				<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
+					<p:outputLabel value="Nome:" for="nome"/>
+					<p:inputText id="nome" value="#{cadastroProfissionalBean.profissional.nome}" size="60"/>
+					<p:outputLabel value="CPF:" for="cpf"/>
+					<p:inputMask id="cpf" value="#{cadastroProfissionalBean.profissional.cpf}" mask="999.999.999-99" size="12"/>
+					<p:outputLabel value="Telefone:" for="telefone"/>
+					<p:inputMask id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}" mask="(99) 99999999?9" size="12"/>
 				</p:panelGrid>
 				<p:button value="Cancelar" outcome="/profissional/pesquisa"/>
 				<p:commandButton value="Salvar" action="#{cadastroProfissionalBean.salvar}" update="@form"/>
