@@ -131,4 +131,12 @@ public class CadastroSolicitacaoBean implements Serializable {
 	public void lotacaoAlterada(@Observes EventLotacaoAlterada event) {
 		solicitacao = event.getLotacao().getSolicitacao();
 	}
+	
+	public String getCadastro() {
+		if (solicitacao.isNovo()) {
+			return "Nova";
+		}
+		
+		return "";
+	}
 }

@@ -12,6 +12,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import pmvv.semsa.rh.contrato.model.Profissional;
+import pmvv.semsa.rh.contrato.model.Status;
 import pmvv.semsa.rh.contrato.repository.Profissionais;
 import pmvv.semsa.rh.contrato.repository.filter.ProfissionalFilter;
 import pmvv.semsa.rh.contrato.service.NegocioException;
@@ -28,11 +29,6 @@ public class PesquisaUsuariosBean implements Serializable {
 	private ProfissionalFilter filtro;
 	private LazyDataModel<Profissional> model;
 	private Profissional profissionalSelecionado;
-	
-	public PesquisaUsuariosBean() {
-		filtro = new ProfissionalFilter();
-		pesquisar();
-	}
 
 	public ProfissionalFilter getFiltro() {
 		return filtro;
@@ -48,6 +44,16 @@ public class PesquisaUsuariosBean implements Serializable {
 
 	public void setProfissionalSelecionado(Profissional profissionalSelecionado) {
 		this.profissionalSelecionado = profissionalSelecionado;
+	}
+	
+	public Status[] getStatuses() {
+		return Status.values();
+	}
+	
+	public void preRender() {
+		filtro = new ProfissionalFilter();
+		filtro.setStatus(Status.ATIVO);
+		pesquisar();
 	}
 
 	private void pesquisar() {

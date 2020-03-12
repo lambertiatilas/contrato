@@ -1,28 +1,14 @@
 <ui:composition template="/WEB-INF/template/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-    <ui:define name="titulo">Lotação</ui:define>
+    <ui:define name="titulo">Lotações - #{pesquisaLotacoesBean.vinculo.profissional.nome} (#{pesquisaLotacoesBean.vinculo.especialidade.descricao} de #{pesquisaLotacoesBean.vinculo.cargaHoraria.descricao})</ui:define>
     <ui:define name="corpo">
     	<f:metadata>
 			<o:viewParam name="vinculo" value="#{pesquisaLotacoesBean.vinculo}" />
 		</f:metadata>
 		<h:form>
-			<p:panel header="Lotações" class="form-pesquisa">
+			<p:panel header="Lotações - #{pesquisaLotacoesBean.vinculo.profissional.nome} (#{pesquisaLotacoesBean.vinculo.especialidade.descricao} de #{pesquisaLotacoesBean.vinculo.cargaHoraria.descricao})" class="form-pesquisa">
 				<p:messages>
 					<p:autoUpdate />
 				</p:messages>
-				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
-				    <h:outputText value="Nome:" />
-				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.profissional.nome}" />
-				    <h:outputText value="CPF:" />
-				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.profissional.cpf}" />
-				</p:panelGrid>
-				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
-				    <h:outputText value="Especialidade:" />
-				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.especialidade.descricao}" />
-				    <h:outputText value="Carga horária:" />
-				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.cargaHoraria}" />
-				    <h:outputText value="Tipo:" />
-				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.tipo.descricao}" />
-				</p:panelGrid>
 	    		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.vinculo.lotacoesIniciadas}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 		    		<p:column headerText="Estabelecimento">
 		    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
@@ -31,11 +17,11 @@
 		    			<h:outputText value="#{lotacao.status.descricao}" />
 		    		</p:column>
 		    		<p:column>
-		    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/lotacao/cadastro">
+		    			<p:button icon="fa fa-pencil-square-o" outcome="/profissional/vinculo/lotacao/cadastro" title="Editar">
 		    				<f:param name="vinculo" value="#{lotacao.vinculo.id}" />
 		    				<f:param name="lotacao" value="#{lotacao.id}" />
 		    			</p:button>
-		    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+		    			<p:commandButton icon="fa fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}" title="Remover">
 		    				<f:setPropertyActionListener target="#{pesquisaLotacoesBean.lotacao}" value="#{lotacao}" />
 		    			</p:commandButton>
 		    		</p:column>

@@ -38,7 +38,7 @@ public class CadastroSolicitacaoService implements Serializable {
 		if (solicitacao.isNovo()) {
 			solicitacao.setDataHoraAbertura(new Date());
 			solicitacao.setProfissionalSolicitante(seguranca.getUsuario());
-			solicitacao.setEstabelecimentoSolcitante(seguranca.getUsuario().getLocalAcesso());
+			solicitacao.setEstabelecimentoSolicitante(seguranca.getUsuario().getLocalAcesso());
 			solicitacao.setStatus(StatusSolicitacao.NAO_ENVIADA);
 		}
 		

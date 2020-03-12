@@ -80,4 +80,12 @@ public class CadastroUsuarioBean implements Serializable {
 	public void usuarioAlterado(@Observes EventUsuarioAlterado event) {
 		profissional = event.getProfissional();
 	}
+	
+	public String getCadastro() {
+		if (profissional.getId() == null) {
+			return "Novo usuário";
+		}
+		
+		return "Edição de usuário (" +  profissional.getStatus().getDescricao() + ")";
+	}
 }

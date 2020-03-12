@@ -25,6 +25,7 @@ import pmvv.semsa.rh.contrato.model.Solicitacao;
 import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
 import pmvv.semsa.rh.contrato.repository.filter.SolicitacaoFilter;
 import pmvv.semsa.rh.contrato.service.NegocioException;
+import pmvv.semsa.rh.contrato.util.date.DateUtil;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
 
 public class Solicitacoes implements Serializable {
@@ -53,13 +54,13 @@ public class Solicitacoes implements Serializable {
 		return manager.find(Solicitacao.class, id);
 	}
 	
-	public Solicitacao existe(Estabelecimento estabelecimentoSolcitante) {
+	public Solicitacao existe(Estabelecimento estabelecimentoSolicitante) {
 		try {
 			return manager.createQuery("from Solicitacao"
-					+ " where estabelecimentoSolcitante = :estabelecimentoSolcitante"
+					+ " where estabelecimentoSolicitante = :estabelecimentoSolicitante"
 					+ " and (status <> :finalizada and status <> :cancelada)"
 				, Solicitacao.class)
-				.setParameter("estabelecimentoSolcitante", estabelecimentoSolcitante)
+				.setParameter("estabelecimentoSolicitante", estabelecimentoSolicitante)
 				.setParameter("finalizada", StatusSolicitacao.FINALIZADA)
 				.setParameter("cancelada", StatusSolicitacao.CANCELADA)
 				.getSingleResult();
@@ -94,6 +95,22 @@ public class Solicitacoes implements Serializable {
 		}
 	}
 	
+	public Solicitacao solicitacaoPendete(Estabelecimento estabelecimento) {
+		try {
+			return manager.createQuery("from Solicitacao"
+				+ " where (status = :naoEnviada or status = :enviada or status = :atendida)"
+				+ " and estabelecimentoSolicitante = :estabelecimento"
+			, Solicitacao.class)
+			.setParameter("naoEnviada", StatusSolicitacao.NAO_ENVIADA)
+			.setParameter("enviada", StatusSolicitacao.ENVIADA)
+			.setParameter("atendida", StatusSolicitacao.ATENDIDA)
+			.setParameter("estabelecimento", estabelecimento)
+			.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
 	private List<Predicate> criarPredicatesParaFiltro(SolicitacaoFilter filtro, Root<Solicitacao> solicitacaoRoot, From<?, ?> profissionalSolicitanteJoin, From<?, ?> profissionalAtendenteJoin) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		List<Predicate> predicates = new ArrayList<>();
@@ -107,7 +124,7 @@ public class Solicitacoes implements Serializable {
 		}
 		
 		if (filtro.getDataHoraAberturaAte() != null) {
-			predicates.add(builder.lessThanOrEqualTo(solicitacaoRoot.get("dataHoraAbertura"), filtro.getDataHoraAberturaAte()));
+			predicates.add(builder.lessThanOrEqualTo(solicitacaoRoot.get("dataHoraAbertura"), DateUtil.maisUmDia(filtro.getDataHoraAberturaAte())));
 		}
 		
 		if (filtro.getDataHoraEncerramentoDe() != null) {
@@ -115,7 +132,7 @@ public class Solicitacoes implements Serializable {
 		}
 		
 		if (filtro.getDataHoraEncerramentoAte() != null) {
-			predicates.add(builder.lessThanOrEqualTo(solicitacaoRoot.get("dataHoraEncerramento"), filtro.getDataHoraEncerramentoAte()));
+			predicates.add(builder.lessThanOrEqualTo(solicitacaoRoot.get("dataHoraEncerramento"), DateUtil.maisUmDia(filtro.getDataHoraEncerramentoAte())));
 		}
 		
 		if (StringUtils.isNotBlank(filtro.getProfissionalSolicitante())) {
@@ -123,7 +140,7 @@ public class Solicitacoes implements Serializable {
 		}
 		
 		if (filtro.getEstabelecimentoSolicitante() != null) {
-			predicates.add(solicitacaoRoot.get("estabelecimentoSolcitante").in(filtro.getEstabelecimentoSolicitante()));
+			predicates.add(solicitacaoRoot.get("estabelecimentoSolicitante").in(filtro.getEstabelecimentoSolicitante()));
 		}
 		
 		if (StringUtils.isNotBlank(filtro.getProfissionalAtendente())) {

@@ -1,6 +1,7 @@
 package pmvv.semsa.rh.contrato.repository.filter;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import pmvv.semsa.rh.contrato.model.CargaHorariaSemanal;
 import pmvv.semsa.rh.contrato.model.Especialidade;
@@ -20,6 +21,8 @@ public class LotacaoFilter extends OrdenacaoFilter implements Serializable {
 	private CargaHorariaSemanal cargaHoraria;
 	private Estabelecimento estabelecimento;
 	private StatusLotacao status = StatusLotacao.ATIVO;
+	private Date dataFimDe;
+	private Date dataFimAte;
 
 	public String getCpf() {
 		return cpf;
@@ -83,5 +86,21 @@ public class LotacaoFilter extends OrdenacaoFilter implements Serializable {
 
 	public void setStatus(StatusLotacao status) {
 		this.status = status;
+	}
+
+	public Date getDataFimDe() {
+		return dataFimDe;
+	}
+
+	public void setDataFimDe(Date dataFimDe) {
+		this.dataFimDe = dataFimDe;
+	}
+
+	public Date getDataFimAte() {
+		return dataFimAte;
+	}
+
+	public void setDataFimAte(Date dataFimAte) {
+		this.dataFimAte = dataFimAte;
 	}
 }

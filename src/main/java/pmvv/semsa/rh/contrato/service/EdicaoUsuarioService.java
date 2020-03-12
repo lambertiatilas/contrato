@@ -41,7 +41,7 @@ public class EdicaoUsuarioService implements Serializable {
 			throw new NegocioException("A senha do usuário não pode ser resetada!");
 		}
 		
-		profissional.setSenha(profissional.gerarSenha());;
+		profissional.setSenha(profissional.gerarSenha());
 		return profissionais.guardar(profissional);
 	}
 }

@@ -25,6 +25,7 @@ import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.filter.LotacaoFilter;
 import pmvv.semsa.rh.contrato.service.NegocioException;
+import pmvv.semsa.rh.contrato.util.date.DateUtil;
 import pmvv.semsa.rh.contrato.util.jpa.Transactional;
 
 public class Lotacoes implements Serializable {
@@ -102,6 +103,14 @@ public class Lotacoes implements Serializable {
 		
 		if (filtro.getStatus() != null) {
 			predicates.add(lotacaoRoot.get("status").in(filtro.getStatus()));
+		}
+		
+		if (filtro.getDataFimDe() != null) {
+			predicates.add(builder.greaterThanOrEqualTo(vinculoJoin.get("dataFim"), filtro.getDataFimDe()));
+		}
+		
+		if (filtro.getDataFimAte() != null) {
+			predicates.add(builder.lessThanOrEqualTo(vinculoJoin.get("dataFim"), DateUtil.maisUmDia(filtro.getDataFimAte())));
 		}
 		
 		predicates.add(builder.isNotNull(lotacaoRoot.get("dataInicio")));

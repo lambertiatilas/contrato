@@ -1,11 +1,11 @@
 <ui:composition template="/WEB-INF/template/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-    <ui:define name="titulo">Vínculo</ui:define>
+    <ui:define name="titulo">Vínculos - #{pesquisaVinculosBean.profissional.nome}</ui:define>
     <ui:define name="corpo">
     	<f:metadata>
 			<o:viewParam name="profissional" value="#{pesquisaVinculosBean.profissional}" />
 		</f:metadata>
 		<h:form>
-			<p:panel header="Vínculo(s) de #{pesquisaVinculosBean.profissional.nome}" class="form-pesquisa">
+			<p:panel header="Vínculos - #{pesquisaVinculosBean.profissional.nome}" class="form-pesquisa">
 				<p:messages>
 					<p:autoUpdate />
 				</p:messages>
@@ -23,15 +23,15 @@
 		    			<h:outputText value="#{vinculo.status.descricao}" />
 		    		</p:column>
 		    		<p:column headerText="Ações" class="tabela-acao-3">
-		    			<p:button icon="fa fa-fw fa-home" outcome="/profissional/vinculo/lotacao/pesquisa">
+		    			<p:button icon="fa fa-hospital-o" outcome="/profissional/vinculo/lotacao/pesquisa" title="Adicionar lotação">
 		    				<f:param name="profissional" value="#{vinculo.profissional.id}" />
 		    				<f:param name="vinculo" value="#{vinculo.id}" />
 		    			</p:button>
-		    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/cadastro">
+		    			<p:button icon="fa fa-pencil-square-o" outcome="/profissional/vinculo/cadastro" title="Editar">
 		    				<f:param name="profissional" value="#{vinculo.profissional.id}" />
 		    				<f:param name="vinculo" value="#{vinculo.id}" />
 		    			</p:button>
-		    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+		    			<p:commandButton icon="fa fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}" title="Remover">
 		    				<f:setPropertyActionListener target="#{pesquisaVinculosBean.vinculo}" value="#{vinculo}" />
 		    			</p:commandButton>
 		    		</p:column>

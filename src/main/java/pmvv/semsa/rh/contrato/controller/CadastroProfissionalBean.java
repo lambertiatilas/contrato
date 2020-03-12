@@ -49,4 +49,12 @@ public class CadastroProfissionalBean implements Serializable {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}
 	}
+	
+	public String getCadastro() {
+		if (profissional.getId() == null) {
+			return "Novo profissional";
+		}
+		
+		return "Edição de profissional";
+	}
 }

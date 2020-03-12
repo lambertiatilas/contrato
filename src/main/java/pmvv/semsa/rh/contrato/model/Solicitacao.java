@@ -31,9 +31,10 @@ public class Solicitacao implements Serializable {
 	private Date dataHoraAbertura;
 	private Date dataHoraEncerramento;
 	private Profissional profissionalSolicitante;
-	private Estabelecimento estabelecimentoSolcitante;
+	private Estabelecimento estabelecimentoSolicitante;
 	private Profissional profissionalAtendente;
 	private Estabelecimento estabelecimentoAtendente;
+	private String justificativa;
 	private List<ItemSolicitacao> itens = new ArrayList<>();
 	private List<Lotacao> lotacoes = new ArrayList<>();
 	private StatusSolicitacao status;
@@ -80,12 +81,12 @@ public class Solicitacao implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "estabelecimento_solicitante_id", nullable = false)
-	public Estabelecimento getEstabelecimentoSolcitante() {
-		return estabelecimentoSolcitante;
+	public Estabelecimento getEstabelecimentoSolicitante() {
+		return estabelecimentoSolicitante;
 	}
 
-	public void setEstabelecimentoSolcitante(Estabelecimento estabelecimentoSolcitante) {
-		this.estabelecimentoSolcitante = estabelecimentoSolcitante;
+	public void setEstabelecimentoSolicitante(Estabelecimento estabelecimentoSolicitante) {
+		this.estabelecimentoSolicitante = estabelecimentoSolicitante;
 	}
 
 	@ManyToOne
@@ -106,6 +107,15 @@ public class Solicitacao implements Serializable {
 
 	public void setEstabelecimentoAtendente(Estabelecimento estabelecimentoAtendente) {
 		this.estabelecimentoAtendente = estabelecimentoAtendente;
+	}
+
+	@Column(columnDefinition = "text")
+	public String getJustificativa() {
+		return justificativa;
+	}
+
+	public void setJustificativa(String justificativa) {
+		this.justificativa = justificativa;
 	}
 
 	@OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -219,6 +229,11 @@ public class Solicitacao implements Serializable {
 	@Transient
 	public boolean isRequisicaoAlteravel() {
 		return (isNovo() || isNaoEnviada());
+	}
+	
+	@Transient
+	public boolean isRequisicaoNaoAlteravel() {
+		return !isRequisicaoAlteravel();
 	}
 	
 	@Transient

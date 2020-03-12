@@ -86,7 +86,7 @@ public class CadastroAtendimentoBean implements Serializable {
 		if (vinculo.isDisponivel()) {
 			if (vinculo != null) {
 				Lotacao lotacao = new Lotacao();
-				lotacao.setEstabelecimento(solicitacao.getEstabelecimentoSolcitante());
+				lotacao.setEstabelecimento(solicitacao.getEstabelecimentoSolicitante());
 				lotacao.setStatus(StatusLotacao.PENDENTE);
 				lotacao.setVinculo(vinculo);
 				lotacao.setSolicitacao(solicitacao);

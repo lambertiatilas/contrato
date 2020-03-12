@@ -1,15 +1,15 @@
 <ui:composition template="/WEB-INF/template/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-    <ui:define name="titulo">Home</ui:define>
+    <ui:define name="titulo">RH - Sistema de contratos</ui:define>
     <ui:define name="corpo">
 		<f:metadata>
 			<f:viewParam name="dummy" />
 			<f:event listener="#{homeBean.preRender}" type="preRenderView" />
 		</f:metadata>
-		<p:panel header="Solicitações pendentes" class="form-home">
-			<h:form>
+		<h:form>
+			<p:panel header="Solicitações pendentes (Todos os estabelecimentos)" class="form-home" rendered="#{homeBean.existeSolicitacaoPendete}">
 				<p:tabView>
-			        <p:tab title="Enviadas">
-			            <p:dataTable value="#{homeBean.solicitacoesEnviadas}" var="solicitacaoEnviada" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+			        <p:tab title="Enviadas (#{fn:length(homeBean.solicitacoesEnviadas)})" rendered="#{not empty homeBean.solicitacoesEnviadas}">
+			            <p:dataTable value="#{homeBean.solicitacoesEnviadas}" var="solicitacaoEnviada" emptyMessage="Nenhum registro encontrado.">
 			            	<p:column headerText="ID" class="tabela-id">
 				    			<h:outputText value="#{solicitacaoEnviada.id}"/>
 				    		</p:column>
@@ -18,42 +18,67 @@
 				    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
 				    			</h:outputText>
 				    		</p:column>
-				    		<p:column headerText="Localização">
-				    			<h:outputText value="#{solicitacaoEnviada.estabelecimentoSolcitante.descricao}"/>
+				    		<p:column headerText="Origem">
+				    			<h:outputText value="#{solicitacaoEnviada.estabelecimentoSolicitante.descricao}"/>
+				    		</p:column>
+				    		<p:column headerText="Criado por">
+				    			<h:outputText value="#{solicitacaoEnviada.profissionalSolicitante.nome}"/>
 				    		</p:column>
 				    		<p:column headerText="Status" class="tabela-status">
 				    			<h:outputText value="#{solicitacaoEnviada.status.descricao}"/>
 				    		</p:column>
 				    		<p:column headerText="Ações" class="tabela-acao-1">
-				    			<p:button icon="fa fa-ticket" outcome="/atendimento/cadastro">
+				    			<p:button icon="fa fa-arrow-right" outcome="/atendimento/cadastro" title="Atender / Verificar">
 				    				<f:param name="solicitacao" value="#{solicitacaoEnviada.id}"/>
 				    			</p:button>
 				    		</p:column>
 			            </p:dataTable>
 			        </p:tab>
-			        <p:tab title="Atendidas">
-			            <p:dataTable value="#{homeBean.solicitacoesAtendidas}" var="solicitacaoAtendida" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+			        <p:tab title="Atendidas (#{fn:length(homeBean.solicitacoesAtendidas)})" rendered="#{not empty homeBean.solicitacoesAtendidas}">
+			            <p:dataTable value="#{homeBean.solicitacoesAtendidas}" var="solicitacaoAtendida" emptyMessage="Nenhum registro encontrado.">
 			            	<p:column headerText="ID" class="tabela-id">
 				    			<h:outputText value="#{solicitacaoAtendida.id}"/>
 				    		</p:column>
 				    		<p:column headerText="Data de abertura" class="tabela-data-hora">
-				    			<h:outputText value="#{solicitacaoAtendida.dataHoraAbertura}"/>
+				    			<h:outputText value="#{solicitacaoAtendida.dataHoraAbertura}">
+				    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+				    			</h:outputText>
 				    		</p:column>
-				    		<p:column headerText="Localização">
-				    			<h:outputText value="#{solicitacaoAtendida.estabelecimentoSolcitante}"/>
+				    		<p:column headerText="Origem">
+				    			<h:outputText value="#{solicitacaoAtendida.estabelecimentoSolicitante.descricao}"/>
+				    		</p:column>
+				    		<p:column headerText="Criado por">
+				    			<h:outputText value="#{solicitacaoAtendida.profissionalSolicitante.nome}"/>
 				    		</p:column>
 				    		<p:column headerText="Status" class="tabela-status">
 				    			<h:outputText value="#{solicitacaoAtendida.status.descricao}"/>
 				    		</p:column>
 				    		<p:column headerText="Ações" class="tabela-acao-1">
-				    			<p:button icon="fa fa-ticket" outcome="/atendimento/cadastro">
+				    			<p:button icon="fa fa-arrow-right" outcome="/atendimento/cadastro" title="Atender / Verificar">
 				    				<f:param name="solicitacao" value="#{solicitacaoAtendida.id}"/>
 				    			</p:button>
 				    		</p:column>
 			            </p:dataTable>
 			        </p:tab>
 			    </p:tabView>
-			</h:form>
-		</p:panel>
+			</p:panel>
+			<p:panel header="Solicitação pendente (#{homeBean.solicitacaoPendende.estabelecimentoSolicitante.descricao})" class="form-pesquisa" rendered="#{homeBean.solicitacaoPendende != null}">
+	        	<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
+					<p:outputLabel value="ID:"/>
+					<h:outputText value="#{homeBean.solicitacaoPendende.id}"/>
+					<p:outputLabel value="Data de abertura:"/>
+					<h:outputText value="#{homeBean.solicitacaoPendende.dataHoraAbertura}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+					</h:outputText>
+					<p:outputLabel value="Criado por:"/>
+					<h:outputText value="#{homeBean.solicitacaoPendende.profissionalSolicitante.nome}"/>
+					<p:outputLabel value="Status:"/>
+					<h:outputText value="#{homeBean.solicitacaoPendende.status.descricao}"/>
+				</p:panelGrid>
+				<p:button value="Verificar" icon="fa fa-arrow-right" outcome="/solicitacao/cadastro" title="Verificar">
+					<f:param name="solicitacao" value="#{homeBean.solicitacaoPendende.id}"/>
+				</p:button>
+			</p:panel>
+		</h:form>
 	</ui:define>
 </ui:composition>

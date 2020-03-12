@@ -90,4 +90,12 @@ public class CadastroLotacaoBean implements Serializable {
 			}
 		}
 	}
+	
+	public String getCadastro() {
+		if (lotacao.getId() == null) {
+			return "Nova lotação";
+		}
+		
+		return "Edição de lotação";
+	}
 }

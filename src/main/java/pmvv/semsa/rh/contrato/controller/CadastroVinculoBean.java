@@ -88,4 +88,12 @@ public class CadastroVinculoBean implements Serializable {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}
 	}
+	
+	public String getCadastro() {
+		if (vinculo.getId() == null) {
+			return "Novo vínculo";
+		}
+		
+		return "Edição de vínculo";
+	}
 }

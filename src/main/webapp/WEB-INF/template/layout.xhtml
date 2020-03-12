@@ -2,29 +2,29 @@
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
    	<h:head>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title><ui:insert name="titulo">##</ui:insert></title>
+        <title><ui:insert name="titulo">Home</ui:insert></title>
         <h:outputStylesheet library="css" name="index.css" />
     </h:head>
     <h:body>
     	<header>
-    		<h:link outcome="/home">
+    		<h:link outcome="/home" title="Página inicial">
     			<h:graphicImage library="images" name="rh.png"/>
     		</h:link>
     		<p:menubar>
-    			<p:submenu icon="fa fa-ticket" label="Atendimento">
-	    			<p:menuitem icon="fa fa-briefcase" value="Solicitação de profissionais" outcome="/atendimento/pesquisa"/>
+    			<p:submenu icon="fa fa-arrow-right" label="Atendimento">
+	    			<p:menuitem icon="fa fa-user-md" value="Atender solicitação" outcome="/atendimento/pesquisa"/>
 	    		</p:submenu>
-	    		<p:submenu icon="fa fa-comment" label="Solicitação">
-	    			<p:menuitem icon="fa fa-briefcase" value="Solicitar profissionais" outcome="/solicitacao/pesquisa"/>
+	    		<p:submenu icon="fa fa-wechat" label="Solicitação">
+	    			<p:menuitem icon="fa fa-medkit" value="Cadastro de solicitação" outcome="/solicitacao/pesquisa"/>
 	    		</p:submenu>
-	    		<p:menuitem icon="fa fa-briefcase" value="Profissional" outcome="/profissional/pesquisa"/>
+	    		<p:menuitem icon="fa fa-user-md" value="Profissional" outcome="/profissional/pesquisa"/>
 	    		<p:submenu icon="fa fa-user-plus" label="Administração">
 	    			<p:menuitem icon="fa fa-user" value="Usuário" outcome="/usuario/pesquisa"/>
-		            <p:menuitem icon="fa fa-graduation-cap" value="Cargo" outcome="/especialidade/pesquisa"/>
-		            <p:menuitem icon="fa fa-institution" value="Estabelecimento" outcome="/estabelecimento/pesquisa"/>
+		            <p:menuitem icon="fa fa-medkit" value="Cargo" outcome="/especialidade/pesquisa"/>
+		            <p:menuitem icon="fa fa-hospital-o" value="Estabelecimento" outcome="/estabelecimento/pesquisa"/>
 		        </p:submenu>
 		        <p:submenu icon="fa fa-bar-chart" label="Relatorios">
-	    			<p:menuitem icon="fa fa-briefcase" value="Profissionais" outcome="/relatorio/lotacao"/>
+	    			<p:menuitem icon="fa fa-users" value="Profissionais" outcome="/relatorio/lotacao"/>
 		        </p:submenu>
 		        <p:submenu icon="fa fa-user" label="#{seguranca.usuario.primeiroNome}(#{seguranca.usuario.localAcesso.descricao})">
 	    			<p:menuitem icon="fa fa-key" value="Redefinir senha" outcome="/perfil/cadastro-senha"/>

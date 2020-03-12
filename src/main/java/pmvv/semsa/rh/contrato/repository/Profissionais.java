@@ -84,6 +84,10 @@ public class Profissionais implements Serializable {
 			predicates.add(builder.equal(profissionalRoot.get("cpf"), filtro.getCpf()));
 		}
 		
+		if (filtro.getStatus() != null) {
+			predicates.add(profissionalRoot.get("status").in(filtro.getStatus()));
+		}
+		
 		return predicates;
 	}
 	

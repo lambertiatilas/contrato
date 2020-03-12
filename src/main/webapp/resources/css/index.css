@@ -52,6 +52,22 @@ section .form-home, section .form-pesquisa {
 	background-color: #fff;
 }
 
+section .form-erro {
+	margin: 100px;
+}
+
+section .form-erro .ui-panel-content {
+	min-width: 700px;
+	min-height: 300px;
+	background-color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+	font-weight: 600;
+	color: #007ad9;
+}
+
 .tabela-id {
 	width: 70px;
 	text-align: center;
@@ -87,8 +103,12 @@ section .form-home, section .form-pesquisa {
 	min-width: 250px !important;
 }
 
-.form-pesquisa .ui-panelgrid, .form-pesquisa .ui-button, .form-pesquisa .ui-datatable {
+.form-pesquisa .ui-panelgrid, .form-pesquisa .ui-button, .form-pesquisa .ui-datatable, .form-pesquisa .ui-fieldset {
 	margin-bottom: 10px;
+}
+
+.form-pesquisa .ui-inputtextarea {
+	width: 100%;
 }
 
 .form-pesquisa .ui-button {

@@ -1,22 +1,22 @@
 <ui:composition template="/WEB-INF/template/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-    <ui:define name="titulo">Solicitações</ui:define>
+    <ui:define name="titulo">Pesquisa de solicitações</ui:define>
     <ui:define name="corpo">
     	<f:metadata>
 			<f:viewAction action="#{pesquisaSolicitacoesBean.preRender}"/>
 		</f:metadata>
-		<p:panel header="Pesquisa solicitações de profissionais" class="form-pesquisa">
-			<h:form>
+		<h:form>
+			<p:panel header="Pesquisa de solicitações" class="form-pesquisa">
 				<p:messages>
 					<p:autoUpdate/>
 				</p:messages>
 				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
 					<p:outputLabel value="Período:"/>
 					<h:panelGroup>
-						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaDe}" size="10"/>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaDe}" maxdate="#{now}" size="10"/>
 						<h:outputText value=" a " class="separador"/>
-						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaAte}" size="10"/>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraAberturaAte}" maxdate="#{now}" size="10"/>
 					</h:panelGroup>
-					<p:outputLabel value="Local:" for="estabelecimento"/>
+					<p:outputLabel value="Origem:" for="estabelecimento"/>
 					<p:selectOneMenu id="estabelecimento" value="#{pesquisaSolicitacoesBean.filtro.estabelecimentoSolicitante}" disabled="#{!seguranca.administradores}">
 						<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaSolicitacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
@@ -37,17 +37,20 @@
 		    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
 		    			</h:outputText>
 		    		</p:column>
-		    		<p:column headerText="Localização">
-		    			<h:outputText value="#{solicitacao.estabelecimentoSolcitante.descricao}"/>
+		    		<p:column headerText="Origem">
+		    			<h:outputText value="#{solicitacao.estabelecimentoSolicitante.descricao}"/>
+		    		</p:column>
+		    		<p:column headerText="Criado por">
+		    			<h:outputText value="#{solicitacao.profissionalSolicitante.nome}"/>
 		    		</p:column>
 		    		<p:column headerText="Status" class="tabela-status">
 		    			<h:outputText value="#{solicitacao.status.descricao}"/>
 		    		</p:column>
 		    		<p:column headerText="Ações" class="tabela-acao-2">
-		    			<p:button icon="fa fa-ticket" outcome="/solicitacao/cadastro">
+		    			<p:button icon="fa fa-arrow-right" outcome="/solicitacao/cadastro" title="Verificar">
 		    				<f:param name="solicitacao" value="#{solicitacao.id}"/>
 		    			</p:button>
-		    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}" rendered="#{solicitacao.status == 'NAO_ENVIADA'}">
+		    			<p:commandButton icon="fa fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}" rendered="#{solicitacao.status == 'NAO_ENVIADA'}" title="Remover">
 		    				<f:setPropertyActionListener target="#{pesquisaSolicitacoesBean.solicitacaoSelecionada}" value="#{solicitacao}"/>
 		    			</p:commandButton>
 		    		</p:column>
@@ -58,7 +61,7 @@
 		    	</p:confirmDialog>
 		    	<p:button value="Voltar" outcome="/home"/>
 		    	<p:button value="Adicionar" outcome="/solicitacao/cadastro"/>
-			</h:form>
-		</p:panel>
+	    	</p:panel>
+		</h:form>
 	</ui:define>
 </ui:composition>

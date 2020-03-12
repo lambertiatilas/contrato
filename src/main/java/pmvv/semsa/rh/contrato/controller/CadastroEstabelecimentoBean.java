@@ -49,4 +49,12 @@ public class CadastroEstabelecimentoBean implements Serializable {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}
 	}
+	
+	public String getCadastro() {
+		if (estabelecimento.getId() == null) {
+			return "Novo estabelecimento";
+		}
+		
+		return "Edição de estabelecimento";
+	}
 }
