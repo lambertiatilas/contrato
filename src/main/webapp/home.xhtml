@@ -5,10 +5,10 @@
 			<f:viewParam name="dummy" />
 			<f:event listener="#{homeBean.preRender}" type="preRenderView" />
 		</f:metadata>
-		<p:panel header="Home" class="form-home">
+		<p:panel header="Solicitações pendentes" class="form-home">
 			<h:form>
-				<p:tabView orientation="left">
-			        <p:tab title="Solicitações enviadas">
+				<p:tabView>
+			        <p:tab title="Enviadas">
 			            <p:dataTable value="#{homeBean.solicitacoesEnviadas}" var="solicitacaoEnviada" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 			            	<p:column headerText="ID" class="tabela-id">
 				    			<h:outputText value="#{solicitacaoEnviada.id}"/>
@@ -31,7 +31,7 @@
 				    		</p:column>
 			            </p:dataTable>
 			        </p:tab>
-			        <p:tab title="Solicitações atendidas">
+			        <p:tab title="Atendidas">
 			            <p:dataTable value="#{homeBean.solicitacoesAtendidas}" var="solicitacaoAtendida" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 			            	<p:column headerText="ID" class="tabela-id">
 				    			<h:outputText value="#{solicitacaoAtendida.id}"/>

@@ -5,18 +5,21 @@
 			<f:viewAction action="#{cadastroSenhaBean.inicializar}" />
 		</f:metadata>
     	<h:form>
-	    	<p:messages closable="true">
-	    		<p:autoUpdate />
-	    	</p:messages>
-	    	<h:panelGrid>
-	    		<p:outputLabel value="Senha atual" for="senhaAtual" />
-   				<p:password id="senhaAtual" value="#{cadastroSenhaBean.senhaAtual}" />
-	    		<p:outputLabel value="Nova senha" for="senhaNova" />
-   				<p:password id="senhaNova" value="#{cadastroSenhaBean.senhaNova}" feedback="true" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte" promptLabel="Informe uma senha" inline="true" match="confirmarSenhaNova" validatorMessage="A nova senha não se corresponde com a confirmação." />
-	    		<p:outputLabel value="Confirme a nova senha" for="confirmarSenhaNova" />
-	    		<p:password id="confirmarSenhaNova" value="#{cadastroSenhaBean.senhaNova}" />    
-    		</h:panelGrid>
-    		<p:commandButton value="Salvar" action="#{cadastroSenhaBean.salvar}" update="@form" />
+    		<p:panel header="Redefinir senha" class="form-pesquisa">
+		    	<p:messages closable="true">
+		    		<p:autoUpdate />
+		    	</p:messages>
+		    	<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
+		    		<p:outputLabel value="Senha atual:" for="senhaAtual" />
+	   				<p:password id="senhaAtual" value="#{cadastroSenhaBean.senhaAtual}" size="30"/>
+		    		<p:outputLabel value="Nova senha:" for="senhaNova" />
+	   				<p:password id="senhaNova" value="#{cadastroSenhaBean.senhaNova}" feedback="true" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte" promptLabel="Informe uma senha" inline="true" match="confirmarSenhaNova" validatorMessage="A nova senha não se corresponde com a confirmação." size="30"/>
+		    		<p:outputLabel value="Confirme a nova senha:" for="confirmarSenhaNova" />
+		    		<p:password id="confirmarSenhaNova" value="#{cadastroSenhaBean.senhaNova}" size="30"/>    
+	    		</p:panelGrid>
+	    		<p:button value="Voltar" outcome="/home"/>
+	    		<p:commandButton value="Salvar" action="#{cadastroSenhaBean.salvar}" update="@form"/>
+    		</p:panel>
     	</h:form>
 	</ui:define>
 </ui:composition>

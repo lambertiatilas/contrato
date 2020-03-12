@@ -22,6 +22,8 @@
 					<p:inputMask id="matricula" value="#{cadastroVinculoBean.vinculo.matricula}" mask="9999?9999" size="7"/>
 					<p:outputLabel value="Data de início:" for="dataInicio"/>
 					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroVinculoBean.vinculo.dataInicio}" size="10"/>
+					<p:outputLabel value="Data fim:" for="dataFim"/>
+					<p:calendar id="dataFim" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroVinculoBean.vinculo.dataFim}" size="10"/>
 					<p:outputLabel value="Especialidade:" for="especialidade"/>
 		    		<p:selectOneMenu id="especialidade" value="#{cadastroVinculoBean.vinculo.especialidade}" required="true" requiredMessage="Especialidade deve ser informada">
 			            <f:selectItem itemLabel="Selecione"/>

@@ -37,10 +37,6 @@ public class CadastroVinculoService implements Serializable {
 			vinculo.setProfissional(profissional);
 		}
 		
-		if (vinculo.isExistente() && vinculo.isAtivo()) {
-			vinculo.setDataFim(null);
-		}
-		
 		if (vinculo.isExistente() && vinculo.isInativo()) {
 			vinculo = vinculos.porId(vinculo.getId());
 			vinculo.setStatus(Status.INATIVO);

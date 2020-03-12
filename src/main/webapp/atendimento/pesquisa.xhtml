@@ -27,6 +27,7 @@
 			            <f:selectItems value="#{pesquisaAtendimentosBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
 			        </p:selectOneMenu>
 		        </p:panelGrid>
+		        <p:button value="Voltar" outcome="/home"/>
 	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaSolicitacoes')}"/>
 	    		<p:dataTable id="tabelaSolicitacoes" value="#{pesquisaAtendimentosBean.model}" var="solicitacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 		    		<p:column headerText="ID" class="tabela-id">

@@ -5,50 +5,52 @@
 			<o:viewParam name="vinculo" value="#{pesquisaLotacoesBean.vinculo}" />
 		</f:metadata>
 		<h:form>
-			<p:messages>
-				<p:autoUpdate />
-			</p:messages>
-			<p:panelGrid columns="2">
-			    <h:outputText value="Nome:" />
-			    <h:outputText value="#{pesquisaLotacoesBean.vinculo.profissional.nome}" />
-			    <h:outputText value="CPF:" />
-			    <h:outputText value="#{pesquisaLotacoesBean.vinculo.profissional.cpf}" />
-			</p:panelGrid>
-			<p:panelGrid columns="2">
-			    <h:outputText value="Especialidade:" />
-			    <h:outputText value="#{pesquisaLotacoesBean.vinculo.especialidade.descricao}" />
-			    <h:outputText value="Carga horária:" />
-			    <h:outputText value="#{pesquisaLotacoesBean.vinculo.cargaHoraria}" />
-			    <h:outputText value="Tipo:" />
-			    <h:outputText value="#{pesquisaLotacoesBean.vinculo.tipo.descricao}" />
-			</p:panelGrid>
-    		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.vinculo.lotacoesIniciadas}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-	    		<p:column headerText="Estabelecimento">
-	    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
-	    		</p:column>
-	    		<p:column headerText="Status">
-	    			<h:outputText value="#{lotacao.status.descricao}" />
-	    		</p:column>
-	    		<p:column>
-	    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/lotacao/cadastro">
-	    				<f:param name="vinculo" value="#{lotacao.vinculo.id}" />
-	    				<f:param name="lotacao" value="#{lotacao.id}" />
-	    			</p:button>
-	    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
-	    				<f:setPropertyActionListener target="#{pesquisaLotacoesBean.lotacao}" value="#{lotacao}" />
-	    			</p:commandButton>
-	    		</p:column>
-	    	</p:dataTable>
-	    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de lotacões" message="Tem certeza que deseja excluir a lotação #{pesquisaLotacoesBean.lotacao.estabelecimento.descricao}?" widgetVar="confirmacaoExclusao">
-	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
-	    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaLotacoesBean.excluir}" process="@this" update="#{p:component('tabelaLotacoes')}" />
-	    	</p:confirmDialog>
-	    	<p:button value="Voltar" outcome="/profissional/vinculo/pesquisa">
-	    		<f:param name="profissional" value="#{pesquisaLotacoesBean.vinculo.profissional.id}" />
-	    	</p:button>
-	    	<p:button value="Adicionar" outcome="/profissional/vinculo/lotacao/cadastro">
-	    		<f:param name="vinculo" value="#{pesquisaLotacoesBean.vinculo.id}" />
-	    	</p:button>
+			<p:panel header="Lotações" class="form-pesquisa">
+				<p:messages>
+					<p:autoUpdate />
+				</p:messages>
+				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+				    <h:outputText value="Nome:" />
+				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.profissional.nome}" />
+				    <h:outputText value="CPF:" />
+				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.profissional.cpf}" />
+				</p:panelGrid>
+				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+				    <h:outputText value="Especialidade:" />
+				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.especialidade.descricao}" />
+				    <h:outputText value="Carga horária:" />
+				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.cargaHoraria}" />
+				    <h:outputText value="Tipo:" />
+				    <h:outputText value="#{pesquisaLotacoesBean.vinculo.tipo.descricao}" />
+				</p:panelGrid>
+	    		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.vinculo.lotacoesIniciadas}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+		    		<p:column headerText="Estabelecimento">
+		    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Status">
+		    			<h:outputText value="#{lotacao.status.descricao}" />
+		    		</p:column>
+		    		<p:column>
+		    			<p:button icon="fa fa-fw fa-file" outcome="/profissional/vinculo/lotacao/cadastro">
+		    				<f:param name="vinculo" value="#{lotacao.vinculo.id}" />
+		    				<f:param name="lotacao" value="#{lotacao.id}" />
+		    			</p:button>
+		    			<p:commandButton icon="fa fa-fw fa-trash" oncomplete="PF('confirmacaoExclusao').show()" process="@this" update="#{p:component('confirmacaoExclusaoDialog')}">
+		    				<f:setPropertyActionListener target="#{pesquisaLotacoesBean.lotacao}" value="#{lotacao}" />
+		    			</p:commandButton>
+		    		</p:column>
+		    	</p:dataTable>
+		    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de lotacões" message="Tem certeza que deseja excluir a lotação #{pesquisaLotacoesBean.lotacao.estabelecimento.descricao}?" widgetVar="confirmacaoExclusao">
+		    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
+		    		<p:commandButton id="yesButton" value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" action="#{pesquisaLotacoesBean.excluir}" process="@this" update="#{p:component('tabelaLotacoes')}" />
+		    	</p:confirmDialog>
+		    	<p:button value="Voltar" outcome="/profissional/vinculo/pesquisa">
+		    		<f:param name="profissional" value="#{pesquisaLotacoesBean.vinculo.profissional.id}" />
+		    	</p:button>
+		    	<p:button value="Adicionar" outcome="/profissional/vinculo/lotacao/cadastro" rendered="#{seguranca.administradores}">
+		    		<f:param name="vinculo" value="#{pesquisaLotacoesBean.vinculo.id}" />
+		    	</p:button>
+	    	</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

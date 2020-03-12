@@ -7,25 +7,25 @@
 			<f:viewAction action="#{cadastroLotacaoBean.inicializar}" />
 		</f:metadata>
 		<h:form>
-			<p:messages>
-				<p:autoUpdate />
-			</p:messages>
-			<p:panelGrid columns="2">
-			    <h:outputText value="Nome:" />
-			    <h:outputText value="#{cadastroLotacaoBean.vinculo.profissional.nome}" />
-			    <h:outputText value="CPF:" />
-			    <h:outputText value="#{cadastroLotacaoBean.vinculo.profissional.cpf}" />
-			</p:panelGrid>
-			<p:panelGrid columns="2">
-			    <h:outputText value="Especialidade:" />
-			    <h:outputText value="#{cadastroLotacaoBean.vinculo.especialidade.descricao}" />
-			    <h:outputText value="Carga horária:" />
-			    <h:outputText value="#{cadastroLotacaoBean.vinculo.cargaHoraria}" />
-			    <h:outputText value="Carga horária:" />
-			    <h:outputText value="#{cadastroLotacaoBean.vinculo.tipo.descricao}" />
-			</p:panelGrid>
-			<p:panel header="Lotação">
-				<p:panelGrid columns="2">
+			<p:panel header="Cadastro lotação" class="form-pesquisa">
+				<p:messages>
+					<p:autoUpdate />
+				</p:messages>
+				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+				    <h:outputText value="Nome:" />
+				    <h:outputText value="#{cadastroLotacaoBean.vinculo.profissional.nome}" />
+				    <h:outputText value="CPF:" />
+				    <h:outputText value="#{cadastroLotacaoBean.vinculo.profissional.cpf}" />
+				</p:panelGrid>
+				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+				    <h:outputText value="Especialidade:" />
+				    <h:outputText value="#{cadastroLotacaoBean.vinculo.especialidade.descricao}" />
+				    <h:outputText value="Carga horária:" />
+				    <h:outputText value="#{cadastroLotacaoBean.vinculo.cargaHoraria}" />
+				    <h:outputText value="Carga horária:" />
+				    <h:outputText value="#{cadastroLotacaoBean.vinculo.tipo.descricao}" />
+				</p:panelGrid>
+				<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 					<p:outputLabel value="Data de início" for="dataInicio"/>
 					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroLotacaoBean.lotacao.dataInicio}" required="true" requiredMessage="Data de início deve ser informada" />
 					<p:outputLabel value="Estabelecimento" for="estabelecimento"/>
