@@ -36,7 +36,7 @@ public class CadastroProfissionalService implements Serializable {
 		if (profissional.isNovo()) {
 			profissional.setSenha(profissional.gerarSenha());
 			profissional.setStatus(Status.ATIVO);
-			profissional.setGrupo(listaGrupos.get(0));
+			profissional.setGrupo(listaGrupos.get(3));
 		}
 		
 		return profissionais.guardar(profissional);

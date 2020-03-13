@@ -245,7 +245,7 @@ public class Vinculo implements Serializable {
 	
 	@Transient
 	public String getVinculoFimProximo() {
-		if (dataFim.before(DateUtil.maisDias(31))) {
+		if (dataFim != null && dataFim.before(DateUtil.maisDias(31))) {
 			return "vinculo-fim-proximo";
 		}
 		
