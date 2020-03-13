@@ -14,7 +14,7 @@
 					<p:outputLabel value="CPF:" for="cpf"/>
 					<p:inputMask id="cpf" value="#{cadastroProfissionalBean.profissional.cpf}" mask="999.999.999-99" size="12"/>
 					<p:outputLabel value="Telefone:" for="telefone"/>
-					<p:inputMask id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}" mask="(99) 99999999?9" size="12"/>
+					<p:inputMask id="telefone" value="#{cadastroProfissionalBean.profissional.telefone}" mask="(99) 99999999?9" size="12" required="true" requiredMessage="Telefone deve ser informado"/>
 				</p:panelGrid>
 				<p:button value="Cancelar" outcome="/profissional/pesquisa"/>
 				<p:commandButton value="Salvar" action="#{cadastroProfissionalBean.salvar}" update="@form"/>

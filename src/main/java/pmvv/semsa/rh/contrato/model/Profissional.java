@@ -76,7 +76,6 @@ public class Profissional implements Serializable {
 		this.cpf = cpf;
 	}
 
-	@NotBlank
 	@Size(max = 15)
 	@Column(length = 15)
 	public String getTelefone() {
