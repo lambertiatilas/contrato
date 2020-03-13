@@ -7,9 +7,7 @@
 		</f:metadata>
 		<p:panel header="Cadastro de solicitação (#{cadastroSolicitacaoBean.solicitacao.status.descricao}#{cadastroSolicitacaoBean.cadastro})" class="form-pesquisa">
 			<h:form>
-				<p:messages>
-					<p:autoUpdate/>
-				</p:messages>
+				<p:growl sticky="true"/>
 				<p:fieldset legend="Solicitação">
 					<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 						<p:outputLabel value="Jutificativa:" for="justificativa"/>
@@ -17,12 +15,12 @@
 					</p:panelGrid>
 					<p:panelGrid id="camposItens" columns="2" layout="grid" columnClasses="rotulo, campo" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoAlteravel}">
 						<p:outputLabel value="Especialidade:" for="especialidade"/>
-						<p:selectOneMenu id="especialidade" value="#{cadastroSolicitacaoBean.itemSolicitacao.especialidade}">
+						<p:selectOneMenu id="especialidade" value="#{cadastroSolicitacaoBean.itemSolicitacao.especialidade}" filter="true" filterMatchMode="contains">
 							<f:selectItem itemLabel="Selecione"/>
 				            <f:selectItems value="#{cadastroSolicitacaoBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}"/>
 				        </p:selectOneMenu>
 				        <p:outputLabel value="Carga horária:" for="cargaHoraria"/>
-			    		<p:selectOneMenu id="cargaHoraria" value="#{cadastroSolicitacaoBean.itemSolicitacao.cargaHoraria}">
+			    		<p:selectOneMenu id="cargaHoraria" value="#{cadastroSolicitacaoBean.itemSolicitacao.cargaHoraria}" filter="true" filterMatchMode="contains">
 				            <f:selectItem itemLabel="Selecione"/>
 				            <f:selectItems value="#{cadastroSolicitacaoBean.horarios}" var="cargaHoraria" itemValue="#{cargaHoraria}" itemLabel="#{cargaHoraria.descricao}"/>
 				        </p:selectOneMenu>
@@ -61,7 +59,7 @@
 			    		<p:column headerText="Carga horária semanal" class="tabela-carga-horaria">
 			    			<h:outputText value="#{lotacao.vinculo.cargaHoraria.descricao}"/>
 			    		</p:column>
-			    		<p:column headerText="Status" class="tabela-status">
+			    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(lotacao.status)}">
 			    			<h:outputText value="#{lotacao.status.descricao}"/>
 			    		</p:column>
 			    		<p:column headerText="Ações" class="tabela-acao-2">

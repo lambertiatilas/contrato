@@ -1,6 +1,7 @@
 package pmvv.semsa.rh.contrato.repository;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -67,10 +68,12 @@ public class Vinculos implements Serializable {
 		try {
 			return manager.createQuery("from Vinculo"
 				+ " where status = :status"
+				+ " and (dataFim is null or dataFim > :hoje)"
 				+ " and especialidade = :especialidade"
 				+ " and cargaHoraria = :cargaHoraria"
 			, Vinculo.class)
 			.setParameter("status", Status.ATIVO)
+			.setParameter("hoje", new Date())
 			.setParameter("especialidade", item.getEspecialidade())
 			.setParameter("cargaHoraria", item.getCargaHoraria())
 			.getResultList();

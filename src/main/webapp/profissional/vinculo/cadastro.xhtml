@@ -8,9 +8,7 @@
 		</f:metadata>
 		<h:form>
 			<p:panel header="#{cadastroVinculoBean.cadastro} - #{cadastroVinculoBean.profissional.nome}" class="form-pesquisa">
-				<p:messages>
-					<p:autoUpdate/>
-				</p:messages>
+				<p:growl sticky="true"/>
 				<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 					<p:outputLabel value="Matrícula:" for="matricula"/>
 					<p:inputMask id="matricula" value="#{cadastroVinculoBean.vinculo.matricula}" mask="9999?9999" size="7"/>
@@ -19,17 +17,17 @@
 					<p:outputLabel value="Data fim:" for="dataFim"/>
 					<p:calendar id="dataFim" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroVinculoBean.vinculo.dataFim}" mindate="#{cadastroVinculoBean.vinculo.dataInicio}" size="10"/>
 					<p:outputLabel value="Cargo:" for="especialidade"/>
-		    		<p:selectOneMenu id="especialidade" value="#{cadastroVinculoBean.vinculo.especialidade}" required="true" requiredMessage="Especialidade deve ser informada">
+		    		<p:selectOneMenu id="especialidade" value="#{cadastroVinculoBean.vinculo.especialidade}" required="true" requiredMessage="Especialidade deve ser informada" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroVinculoBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}"/>
 			        </p:selectOneMenu>
 					<p:outputLabel value="Carga horária:" for="cargaHoraria"/>
-		    		<p:selectOneMenu id="cargaHoraria" value="#{cadastroVinculoBean.vinculo.cargaHoraria}" required="true" requiredMessage="Carga horária deve ser informada">
+		    		<p:selectOneMenu id="cargaHoraria" value="#{cadastroVinculoBean.vinculo.cargaHoraria}" required="true" requiredMessage="Carga horária deve ser informada" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroVinculoBean.horarios}" var="cargaHoraria" itemValue="#{cargaHoraria}" itemLabel="#{cargaHoraria.descricao}"/>
 			        </p:selectOneMenu>
 					<p:outputLabel value="Tipo:" for="tipo"/>
-					<p:selectOneMenu id="tipo" value="#{cadastroVinculoBean.vinculo.tipo}" required="true" requiredMessage="Tipo deve ser informado">
+					<p:selectOneMenu id="tipo" value="#{cadastroVinculoBean.vinculo.tipo}" required="true" requiredMessage="Tipo deve ser informado" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroVinculoBean.tipos}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
 			        </p:selectOneMenu>

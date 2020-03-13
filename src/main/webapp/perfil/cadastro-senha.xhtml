@@ -6,9 +6,7 @@
 		</f:metadata>
     	<h:form>
     		<p:panel header="Redefinir senha" class="form-pesquisa">
-		    	<p:messages closable="true">
-		    		<p:autoUpdate />
-		    	</p:messages>
+		    	<p:growl sticky="true"/>
 		    	<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 		    		<p:outputLabel value="Senha atual:" for="senhaAtual" />
 	   				<p:password id="senhaAtual" value="#{cadastroSenhaBean.senhaAtual}" size="30"/>

@@ -20,6 +20,14 @@ public class CadastroVinculoService implements Serializable {
 	
 	@Transactional
 	public Vinculo salvar(Profissional profissional, Vinculo vinculo) throws NegocioException {
+		if (vinculo.isNaoSalvarEfetivoAtivo()) {
+			throw new NegocioException("Não é possível salvar um vínculo [Efetivo] de status ativo com uma data fim.");
+		}
+		
+		if (vinculo.isNaoSalvarNaoEfetivoAtivo()) {
+			throw new NegocioException("Não é possível salvar um vínculo [" + vinculo.getTipo().getDescricao() + "] de status ativo sem data fim.");
+		}
+		
 		Vinculo vinculoExiste = vinculos.porMatricula(vinculo.getMatricula());
 		
 		if (vinculoExiste != null && !vinculoExiste.equals(vinculo)) {

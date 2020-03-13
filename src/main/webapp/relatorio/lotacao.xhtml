@@ -6,9 +6,7 @@
 	   	</f:metadata>
 		<h:form>
 			<p:panel header="Relatório - Pesquisa de profissionais por estabelecimento" class="form-pesquisa">
-				<p:messages>
-					<p:autoUpdate />
-				</p:messages>
+				<p:growl sticky="true"/>
 				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
 					<p:outputLabel value="Matrícula:" for="matricula"/>
 		    		<p:inputMask id="matricula" value="#{pesquisaLotacoesBean.filtro.matricula}" mask="9999?9999" size="7"/>
@@ -32,25 +30,28 @@
 			            <f:selectItems value="#{pesquisaLotacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Carga horária:" for="cargaHoraria"/>
-		    		<p:selectOneMenu id="cargaHoraria" value="#{pesquisaLotacoesBean.filtro.cargaHoraria}">
+		    		<p:selectOneMenu id="cargaHoraria" value="#{pesquisaLotacoesBean.filtro.cargaHoraria}" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaLotacoesBean.horarios}" var="cargaHoraria" itemValue="#{cargaHoraria}" itemLabel="#{cargaHoraria.descricao}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Situação:" for="situacao"/>
-		    		<p:selectOneMenu id="situacao" value="#{pesquisaLotacoesBean.filtro.status}">
+		    		<p:selectOneMenu id="situacao" value="#{pesquisaLotacoesBean.filtro.status}" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaLotacoesBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Período fim do contrato:"/>
 					<h:panelGroup>
-						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaLotacoesBean.filtro.dataFimDe}" size="10"/>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaLotacoesBean.filtro.dataFimDe}" size="10" locale="pt"/>
 						<h:outputText value=" a " class="separador"/>
-						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaLotacoesBean.filtro.dataFimAte}" mindate="#{pesquisaLotacoesBean.filtro.dataFimDe}" size="10"/>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaLotacoesBean.filtro.dataFimAte}" mindate="#{pesquisaLotacoesBean.filtro.dataFimDe}" size="10" locale="pt"/>
 					</h:panelGroup>
 		        </p:panelGrid>
 		        <p:button value="Voltar" outcome="/home"/>
 	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaLotacoes')}"/>
 	    		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.model}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+	    			<p:column headerText="Matrícula" class="tabela-matricula">
+		    			<h:outputText value="#{lotacao.vinculo.matricula}" />
+		    		</p:column>
 	    			<p:column headerText="Nome">
 		    			<h:outputText value="#{lotacao.vinculo.profissional.nome}" />
 		    		</p:column>
@@ -60,7 +61,7 @@
 		    		<p:column headerText="Cargo">
 		    			<h:outputText value="#{lotacao.vinculo.especialidade.descricao} - #{lotacao.vinculo.cargaHoraria.descricao}" />
 		    		</p:column>
-		    		<p:column headerText="Período de contrado">
+		    		<p:column headerText="Período de contrado" class="${fn:toLowerCase(lotacao.vinculo.vinculoFimProximo)}">
 		    			<h:outputText value="De " />
 		    			<h:outputText value="#{lotacao.vinculo.dataInicio}">
 		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -70,7 +71,7 @@
 		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
 		    			</h:outputText>
 		    		</p:column>
-		    		<p:column headerText="Status" class="tabela-status">
+		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(lotacao.status)}">
 		    			<h:outputText value="#{lotacao.status.descricao}" />
 		    		</p:column>
 		    	</p:dataTable>

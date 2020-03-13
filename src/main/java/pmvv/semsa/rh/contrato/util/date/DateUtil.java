@@ -32,4 +32,12 @@ public class DateUtil {
 		Date data = diminuirDias(dataAte, dias + 1);
 		return dataDe.after(data);
 	}
+	
+	public static Date maisDias(int dias) {
+		Date hoje = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(hoje);
+        cal.add(Calendar.DATE, dias);
+        return cal.getTime();
+	}
 }

@@ -7,9 +7,7 @@
 		</f:metadata>
 		<h:form>
 			<p:panel header="#{cadastroEstabelecimentoBean.cadastro}" class="form-pesquisa">
-				<p:messages>
-					<p:autoUpdate/>
-				</p:messages>
+				<p:growl sticky="true"/>
 				<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 					<p:outputLabel value="Descrição" for="descricao"/>
 					<p:inputText id="descricao" value="#{cadastroEstabelecimentoBean.estabelecimento.descricao}" size="60"/>

@@ -3,7 +3,8 @@
    	<h:head>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title><ui:insert name="titulo">Home</ui:insert></title>
-        <h:outputStylesheet library="css" name="index.css" />
+        <h:outputStylesheet library="css" name="index.css"/>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
     </h:head>
     <h:body>
     	<header>
@@ -11,14 +12,14 @@
     			<h:graphicImage library="images" name="rh.png"/>
     		</h:link>
     		<p:menubar>
-    			<p:submenu icon="fa fa-arrow-right" label="Atendimento">
+    			<p:submenu icon="fa fa-arrow-right" label="Atendimento" rendered="#{seguranca.atendentes}">
 	    			<p:menuitem icon="fa fa-user-md" value="Atender solicitação" outcome="/atendimento/pesquisa"/>
 	    		</p:submenu>
-	    		<p:submenu icon="fa fa-wechat" label="Solicitação">
+	    		<p:submenu icon="fa fa-wechat" label="Solicitação" rendered="#{seguranca.atendentes or seguranca.solicitantes}">
 	    			<p:menuitem icon="fa fa-medkit" value="Cadastro de solicitação" outcome="/solicitacao/pesquisa"/>
 	    		</p:submenu>
-	    		<p:menuitem icon="fa fa-user-md" value="Profissional" outcome="/profissional/pesquisa"/>
-	    		<p:submenu icon="fa fa-user-plus" label="Administração">
+	    		<p:menuitem icon="fa fa-user-md" value="Profissional" outcome="/profissional/pesquisa" rendered="#{seguranca.atendentes}"/>
+	    		<p:submenu icon="fa fa-user-plus" label="Administração" rendered="#{seguranca.administradores}">
 	    			<p:menuitem icon="fa fa-user" value="Usuário" outcome="/usuario/pesquisa"/>
 		            <p:menuitem icon="fa fa-medkit" value="Cargo" outcome="/especialidade/pesquisa"/>
 		            <p:menuitem icon="fa fa-hospital-o" value="Estabelecimento" outcome="/estabelecimento/pesquisa"/>
@@ -26,7 +27,7 @@
 		        <p:submenu icon="fa fa-bar-chart" label="Relatorios">
 	    			<p:menuitem icon="fa fa-users" value="Profissionais" outcome="/relatorio/lotacao"/>
 		        </p:submenu>
-		        <p:submenu icon="fa fa-user" label="#{seguranca.usuario.primeiroNome}(#{seguranca.usuario.localAcesso.descricao})">
+		        <p:submenu icon="fa fa-user" label="#{seguranca.usuario.primeiroNome} (#{seguranca.usuario.localAcesso.descricao})">
 	    			<p:menuitem icon="fa fa-key" value="Redefinir senha" outcome="/perfil/cadastro-senha"/>
 	    			<p:menuitem icon="fa fa-sign-out" value="Sair" url="/contrato/logout"/>
 		        </p:submenu>

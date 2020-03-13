@@ -58,4 +58,8 @@ public class Seguranca {
 	public boolean isFuncionarios() {
 		return externalContext.isUserInRole("ADMINISTRADORES") || externalContext.isUserInRole("FUNCIONARIOS");
 	}
+	
+	public boolean isSomenteSolicitantes() {
+		return externalContext.isUserInRole("SOLICITANTES");
+	}
 }

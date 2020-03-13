@@ -7,9 +7,7 @@
 		</f:metadata>
 		<h:form>
 			<p:panel header="#{cadastroUsuarioBean.cadastro}" class="form-pesquisa">
-				<p:messages>
-					<p:autoUpdate />
-				</p:messages>
+				<p:growl sticky="true"/>
 				<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 					<p:outputLabel value="Nome:" for="nome"/>
 					<p:inputText id="nome" value="#{cadastroUsuarioBean.profissional.nome}" size="60"/>
@@ -18,12 +16,12 @@
 					<p:outputLabel value="Telefone:" for="telefone"/>
 					<p:inputMask id="telefone" value="#{cadastroUsuarioBean.profissional.telefone}" mask="(99) 99999999?9" size="12"/>
 					<p:outputLabel value="Estabelecimento:" for="estabelecimento"/>
-		    		<p:selectOneMenu id="estabelecimento" value="#{cadastroUsuarioBean.profissional.localAcesso}" required="true" requiredMessage="Estabelecimento deve ser informado">
+		    		<p:selectOneMenu id="estabelecimento" value="#{cadastroUsuarioBean.profissional.localAcesso}" required="true" requiredMessage="Estabelecimento deve ser informado" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroUsuarioBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Grupo:" for="grupo"/>
-			        <p:selectOneMenu id="grupo" value="#{cadastroUsuarioBean.profissional.grupo}" required="true" requiredMessage="Grupo deve ser informado">
+			        <p:selectOneMenu id="grupo" value="#{cadastroUsuarioBean.profissional.grupo}" required="true" requiredMessage="Grupo deve ser informado" filter="true" filterMatchMode="contains">
 			        	<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroUsuarioBean.listaGrupos}" var="grupo" itemValue="#{grupo}" itemLabel="#{grupo.descricao}"/>
 			        </p:selectOneMenu>

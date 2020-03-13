@@ -21,11 +21,14 @@ body {
 }
 
 header {
-	min-width: 1300px;
+	width: 100%;
 	display: flex;
 	background-color: #fff;
 	justify-content: space-between;
 	padding: 0 10px;
+	position: fixed;
+  	top: 0;
+  	z-index: 101;
 }
 
 header img {
@@ -41,6 +44,7 @@ header .ui-menu .ui-menuitem-text {
 }
 
 section {
+	margin-top: 37px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -83,7 +87,7 @@ section .form-erro .ui-panel-content {
 	text-align: center;
 }
 
-.tabela-acao-2, .tabela-quantidade {
+.tabela-matricula, .tabela-acao-2, .tabela-quantidade {
 	width: 100px;
 	text-align: center;
 }
@@ -113,4 +117,28 @@ section .form-erro .ui-panel-content {
 
 .form-pesquisa .ui-button {
 	margin-right: 10px;
+}
+
+.ativo, .pendente, .inativo, .nao_enviada, .enviada, .atendida, .cancelada, .finalizada, .vinculo-fim-proximo {
+	font-weight: 900;
+}
+
+.pendente, .enviada {
+	color: #FB7804;
+}
+
+.atendida {
+	color: #197324;
+}
+
+.cancelada {
+	color: #787878;
+}
+
+.ativo, .finalizada {
+	color: #155CEC;
+}
+
+.inativo, .vinculo-fim-proximo {
+	color: #FB0408;
 }

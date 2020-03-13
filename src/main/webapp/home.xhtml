@@ -24,7 +24,7 @@
 				    		<p:column headerText="Criado por">
 				    			<h:outputText value="#{solicitacaoEnviada.profissionalSolicitante.nome}"/>
 				    		</p:column>
-				    		<p:column headerText="Status" class="tabela-status">
+				    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(solicitacaoEnviada.status)}">
 				    			<h:outputText value="#{solicitacaoEnviada.status.descricao}"/>
 				    		</p:column>
 				    		<p:column headerText="Ações" class="tabela-acao-1">
@@ -50,7 +50,7 @@
 				    		<p:column headerText="Criado por">
 				    			<h:outputText value="#{solicitacaoAtendida.profissionalSolicitante.nome}"/>
 				    		</p:column>
-				    		<p:column headerText="Status" class="tabela-status">
+				    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(solicitacaoAtendida.status)}">
 				    			<h:outputText value="#{solicitacaoAtendida.status.descricao}"/>
 				    		</p:column>
 				    		<p:column headerText="Ações" class="tabela-acao-1">
@@ -62,7 +62,7 @@
 			        </p:tab>
 			    </p:tabView>
 			</p:panel>
-			<p:panel header="Solicitação pendente (#{homeBean.solicitacaoPendende.estabelecimentoSolicitante.descricao})" class="form-pesquisa" rendered="#{homeBean.solicitacaoPendende != null}">
+			<p:panel header="Solicitação pendente (#{seguranca.usuario.localAcesso.descricao})" class="form-pesquisa" rendered="#{homeBean.solicitacaoPendende != null}">
 	        	<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 					<p:outputLabel value="ID:"/>
 					<h:outputText value="#{homeBean.solicitacaoPendende.id}"/>
@@ -73,11 +73,53 @@
 					<p:outputLabel value="Criado por:"/>
 					<h:outputText value="#{homeBean.solicitacaoPendende.profissionalSolicitante.nome}"/>
 					<p:outputLabel value="Status:"/>
-					<h:outputText value="#{homeBean.solicitacaoPendende.status.descricao}"/>
+					<h:outputText value="#{homeBean.solicitacaoPendende.status.descricao}" class="${fn:toLowerCase(homeBean.solicitacaoPendende.status)}"/>
 				</p:panelGrid>
 				<p:button value="Verificar" icon="fa fa-arrow-right" outcome="/solicitacao/cadastro" title="Verificar">
 					<f:param name="solicitacao" value="#{homeBean.solicitacaoPendende.id}"/>
 				</p:button>
+			</p:panel>
+			<p:panel header="Contratos que serão finalizados nos próximos 30 dias (Todos os estabelecimentos)" class="form-pesquisa" rendered="#{not empty homeBean.vinculosProximoFim}">
+	        	<p:dataTable value="#{homeBean.vinculosProximoFim}" var="lotacao" emptyMessage="Nenhum registro encontrado.">
+	    			<p:column headerText="Matrícula" class="tabela-matricula">
+		    			<h:outputText value="#{lotacao.vinculo.matricula}" />
+		    		</p:column>
+	    			<p:column headerText="Nome">
+		    			<h:outputText value="#{lotacao.vinculo.profissional.nome}" />
+		    		</p:column>
+		    		<p:column headerText="Estabelecimento">
+		    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Cargo">
+		    			<h:outputText value="#{lotacao.vinculo.especialidade.descricao} - #{lotacao.vinculo.cargaHoraria.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Data fim do contrato" class="tabela-data-hora ${fn:toLowerCase(lotacao.vinculo.vinculoFimProximo)}">
+		    			<h:outputText value="#{lotacao.vinculo.dataFim}">
+		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
+		    			</h:outputText>
+		    		</p:column>
+		    	</p:dataTable>
+			</p:panel>
+			<p:panel header="Contratos que serão finalizados nos próximos 30 dias (#{seguranca.usuario.localAcesso.descricao})" class="form-pesquisa" rendered="#{not empty homeBean.vinculosProximoFimPorEstabelecimento}">
+	        	<p:dataTable value="#{homeBean.vinculosProximoFimPorEstabelecimento}" var="lotacao" emptyMessage="Nenhum registro encontrado.">
+	    			<p:column headerText="Matrícula" class="tabela-matricula">
+		    			<h:outputText value="#{lotacao.vinculo.matricula}" />
+		    		</p:column>
+	    			<p:column headerText="Nome">
+		    			<h:outputText value="#{lotacao.vinculo.profissional.nome}" />
+		    		</p:column>
+		    		<p:column headerText="Estabelecimento">
+		    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Cargo">
+		    			<h:outputText value="#{lotacao.vinculo.especialidade.descricao} - #{lotacao.vinculo.cargaHoraria.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Data fim do contrato" class="tabela-data-hora ${fn:toLowerCase(lotacao.vinculo.vinculoFimProximo)}">
+		    			<h:outputText value="#{lotacao.vinculo.dataFim}">
+		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
+		    			</h:outputText>
+		    		</p:column>
+		    	</p:dataTable>
 			</p:panel>
 		</h:form>
 	</ui:define>

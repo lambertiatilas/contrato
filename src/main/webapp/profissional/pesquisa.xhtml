@@ -3,9 +3,7 @@
     <ui:define name="corpo">
 		<h:form>
 			<p:panel header="Pesquisa de profissionais" class="form-pesquisa">
-				<p:messages>
-					<p:autoUpdate/>
-				</p:messages>
+				<p:growl sticky="true"/>
 				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
 					<p:outputLabel value="Nome:" for="nome"/>
 		    		<p:inputText id="nome" value="#{pesquisaProfissionaisBean.filtro.nome}" size="28"/>

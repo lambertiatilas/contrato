@@ -6,23 +6,21 @@
 		</f:metadata>
 		<h:form>
 			<p:panel header="Pesquisa de solicitações - Atendimento" class="form-pesquisa">
-				<p:messages>
-					<p:autoUpdate/>
-				</p:messages>
+				<p:growl sticky="true"/>
 				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
 					<p:outputLabel value="Período:"/>
 					<h:panelGroup>
-						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaDe}" maxdate="#{now}" size="10"/>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaDe}" maxdate="#{now}" size="10" locale="pt"/>
 						<h:outputText value=" a " class="separador"/>
-						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaAte}" maxdate="#{now}" size="10"/>
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraAberturaAte}" maxdate="#{now}" size="10" locale="pt"/>
 					</h:panelGroup>
 					<p:outputLabel value="Origem:" for="estabelecimento"/>
-					<p:selectOneMenu id="estabelecimento" value="#{pesquisaAtendimentosBean.filtro.estabelecimentoSolicitante}">
+					<p:selectOneMenu id="estabelecimento" value="#{pesquisaAtendimentosBean.filtro.estabelecimentoSolicitante}" filter="true" filterMatchMode="contains">
 						<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaAtendimentosBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 			        </p:selectOneMenu>
 		        	<p:outputLabel value="Status:" for="status"/>
-			        <p:selectOneMenu id="status" value="#{pesquisaAtendimentosBean.filtro.status}">
+			        <p:selectOneMenu id="status" value="#{pesquisaAtendimentosBean.filtro.status}" filter="true" filterMatchMode="contains">
 						<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaAtendimentosBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
 			        </p:selectOneMenu>
@@ -44,7 +42,7 @@
 		    		<p:column headerText="Criado por">
 		    			<h:outputText value="#{solicitacao.profissionalSolicitante.nome}"/>
 		    		</p:column>
-		    		<p:column headerText="Status" class="tabela-status">
+		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(solicitacao.status)}">
 		    			<h:outputText value="#{solicitacao.status.descricao}"/>
 		    		</p:column>
 		    		<p:column headerText="Ações" class="tabela-acao-1">

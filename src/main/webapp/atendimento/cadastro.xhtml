@@ -7,9 +7,7 @@
 		</f:metadata>
 		<h:form>
 			<p:panel header="Atender solicitação (#{cadastroAtendimentoBean.solicitacao.status.descricao}) - #{cadastroAtendimentoBean.solicitacao.estabelecimentoSolicitante.descricao}" class="form-pesquisa">
-				<p:messages>
-					<p:autoUpdate/>
-				</p:messages>
+				<p:growl sticky="true"/>
 				<p:fieldset legend="Solicitação">
 					<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 						<p:outputLabel value="Jutificativa:" for="justificativa"/>
@@ -30,9 +28,9 @@
 		    	<p:fieldset legend="Atendimento">
 			    	<p:panelGrid id="consultarVinculos" columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}">
 						<p:outputLabel value="Vínculo:" for="vinculo"/>
-			    		<p:selectOneMenu id="vinculo" value="#{cadastroAtendimentoBean.vinculo}">
+			    		<p:selectOneMenu id="vinculo" value="#{cadastroAtendimentoBean.vinculo}" filter="true" filterMatchMode="contains">
 				            <f:selectItem itemLabel="Selecione" />
-				            <f:selectItems value="#{cadastroAtendimentoBean.listaVinculos}" var="vinculo" itemValue="#{vinculo}" itemLabel="#{vinculo.profissional.nome} (#{vinculo.especialidade.descricao} de #{vinculo.cargaHoraria.descricao})" />
+				            <f:selectItems value="#{cadastroAtendimentoBean.listaVinculos}" var="vinculo" itemValue="#{vinculo}" itemLabel="#{vinculo.matricula} - #{vinculo.profissional.nome} (#{vinculo.especialidade.descricao} de #{vinculo.cargaHoraria.descricao})" />
 				        </p:selectOneMenu>
 					</p:panelGrid>
 					<p:commandButton icon="fa fa-chevron-down" action="#{cadastroAtendimentoBean.adicionarLotacao}" update="@form" title="Adicionar" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}"/>
@@ -49,7 +47,7 @@
 			    		<p:column headerText="Carga horária" class="tabela-carga-horaria">
 			    			<h:outputText value="#{lotacao.vinculo.cargaHoraria}"/>
 			    		</p:column>
-			    		<p:column headerText="Status" class="tabela-status">
+			    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(solicitacao.status)}">
 			    			<h:outputText value="#{lotacao.status}"/>
 			    		</p:column>
 			    		<p:column headerText="Ações" class="tabela-acao-1" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}">

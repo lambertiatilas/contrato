@@ -19,8 +19,10 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 
+import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Profissional;
+import pmvv.semsa.rh.contrato.model.Status;
 import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.filter.LotacaoFilter;
@@ -64,6 +66,40 @@ public class Lotacoes implements Serializable {
 			.setParameter("pendente", StatusLotacao.PENDENTE)
 			.setParameter("vinculo", vinculo)
 			.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public List<Lotacao> vinculosProximoFim() {
+		try {
+			return manager.createQuery("select lotacao from Lotacao lotacao inner join lotacao.vinculo vinculo"
+				+ " where vinculo.status = :statusVinculo"
+				+ " and lotacao.status = :statusLotacao"
+				+ " and vinculo.dataFim <= :data"
+			, Lotacao.class)
+			.setParameter("statusVinculo", Status.ATIVO)
+			.setParameter("statusLotacao", StatusLotacao.ATIVO)
+			.setParameter("data", DateUtil.maisDias(30))
+			.getResultList();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public List<Lotacao> vinculosProximoFimPorEstabelecimento(Estabelecimento estabelecimento) {
+		try {
+			return manager.createQuery("select lotacao from Lotacao lotacao inner join lotacao.vinculo vinculo"
+				+ " where vinculo.status = :statusVinculo"
+				+ " and lotacao.status = :statusLotacao"
+				+ " and vinculo.dataFim <= :data"
+				+ " and lotacao.estabelecimento = :estabelecimento"
+			, Lotacao.class)
+			.setParameter("statusVinculo", Status.ATIVO)
+			.setParameter("statusLotacao", StatusLotacao.ATIVO)
+			.setParameter("data", DateUtil.maisDias(30))
+			.setParameter("estabelecimento", estabelecimento)
+			.getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}

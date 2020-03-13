@@ -59,6 +59,11 @@ public class PesquisaEstabelecimentosBean implements Serializable {
 				filtro.setPrimeiroRegistro(first);
 				filtro.setQuantidadeRegistros(pageSize);
 				filtro.setPropriedadeOrdenacao(sortField);
+				
+				if (sortField == null) {
+					filtro.setPropriedadeOrdenacao("descricao");
+				}
+				
 				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
 				setRowCount(estabelecimentos.quantidadeFiltrados(filtro));
 				return estabelecimentos.filtrados(filtro);

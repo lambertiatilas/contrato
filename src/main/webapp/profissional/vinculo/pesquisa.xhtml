@@ -6,9 +6,7 @@
 		</f:metadata>
 		<h:form>
 			<p:panel header="Vínculos - #{pesquisaVinculosBean.profissional.nome}" class="form-pesquisa">
-				<p:messages>
-					<p:autoUpdate />
-				</p:messages>
+				<p:growl sticky="true"/>
 	    		<p:dataTable id="tabelaVinculos" value="#{pesquisaVinculosBean.profissional.vinculos}" var="vinculo" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 		    		<p:column headerText="Cargo">
 		    			<h:outputText value="#{vinculo.especialidade.descricao}" />
@@ -19,7 +17,7 @@
 		    		<p:column headerText="Tipo" class="tabela-tipo-vinculo">
 		    			<h:outputText value="#{vinculo.tipo.descricao}" />
 		    		</p:column>
-		    		<p:column headerText="Status" class="tabela-status">
+		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(vinculo.status)}">
 		    			<h:outputText value="#{vinculo.status.descricao}" />
 		    		</p:column>
 		    		<p:column headerText="Ações" class="tabela-acao-3">

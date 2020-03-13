@@ -6,14 +6,12 @@
 		</f:metadata>
 		<h:form>
 			<p:panel header="Pesquisa de usuários" class="form-pesquisa">
-				<p:messages>
-					<p:autoUpdate/>
-				</p:messages>
+				<p:growl sticky="true"/>
 				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
 					<p:outputLabel value="Nome:" for="nome"/>
 		    		<p:inputText id="nome" value="#{pesquisaUsuariosBean.filtro.nome}" size="28"/>
 		    		<p:outputLabel value="Situação:" for="situacao"/>
-		    		<p:selectOneMenu id="situacao" value="#{pesquisaUsuariosBean.filtro.status}">
+		    		<p:selectOneMenu id="situacao" value="#{pesquisaUsuariosBean.filtro.status}" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaUsuariosBean.statuses}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
 			        </p:selectOneMenu>
@@ -29,7 +27,7 @@
 		    		<p:column headerText="Telefone" class="tabela-telefone">
 		    			<h:outputText value="#{profissional.telefone}"/>
 		    		</p:column>
-		    		<p:column headerText="Status" class="tabela-status">
+		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(profissional.status)}">
 		    			<h:outputText value="#{profissional.status.descricao}"/>
 		    		</p:column>
 		    		<p:column headerText="Ações" class="tabela-acao-2">

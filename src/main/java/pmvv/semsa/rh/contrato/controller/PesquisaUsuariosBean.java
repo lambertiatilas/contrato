@@ -65,6 +65,11 @@ public class PesquisaUsuariosBean implements Serializable {
 				filtro.setPrimeiroRegistro(first);
 				filtro.setQuantidadeRegistros(pageSize);
 				filtro.setPropriedadeOrdenacao(sortField);
+				
+				if (sortField == null) {
+					filtro.setPropriedadeOrdenacao("nome");
+				}
+				
 				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
 				setRowCount(profissionais.quantidadeFiltrados(filtro));
 				return profissionais.filtrados(filtro);

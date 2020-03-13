@@ -24,6 +24,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import pmvv.semsa.rh.contrato.util.date.DateUtil;
+
 @Entity
 @Table(name = "vinculo")
 public class Vinculo implements Serializable {
@@ -191,6 +193,16 @@ public class Vinculo implements Serializable {
 	}
 	
 	@Transient
+	public boolean isEfetivo() {
+		return TipoVinculo.EFETIVO.equals(tipo);
+	}
+	
+	@Transient
+	public boolean isNaoEfetivo() {
+		return !isEfetivo();
+	}
+	
+	@Transient
 	public List<Lotacao> getLotacoesIniciadas() {
 		List<Lotacao> lotacoes = new ArrayList<>();
 		
@@ -219,5 +231,24 @@ public class Vinculo implements Serializable {
 		}
 		
 		return true;
+	}
+	
+	@Transient
+	public boolean isNaoSalvarEfetivoAtivo() {
+		return isEfetivo() && isAtivo() &&  dataFim != null;
+	}
+	
+	@Transient
+	public boolean isNaoSalvarNaoEfetivoAtivo() {
+		return isNaoEfetivo() && isAtivo() &&  dataFim == null;
+	}
+	
+	@Transient
+	public String getVinculoFimProximo() {
+		if (dataFim.before(DateUtil.maisDias(31))) {
+			return "vinculo-fim-proximo";
+		}
+		
+		return "";
 	}
 }
