@@ -28,7 +28,7 @@
 		    	<p:fieldset legend="Atendimento">
 			    	<p:panelGrid id="consultarVinculos" columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}">
 						<p:outputLabel value="Vínculo:" for="vinculo"/>
-			    		<p:selectOneMenu id="vinculo" value="#{cadastroAtendimentoBean.vinculo}" filter="true" filterMatchMode="contains">
+			    		<p:selectOneMenu id="vinculo" value="#{cadastroAtendimentoBean.vinculo}" dynamic="true" filter="true" filterMatchMode="contains">
 				            <f:selectItem itemLabel="Selecione" />
 				            <f:selectItems value="#{cadastroAtendimentoBean.listaVinculos}" var="vinculo" itemValue="#{vinculo}" itemLabel="#{vinculo.matricula} - #{vinculo.profissional.nome} (#{vinculo.especialidade.descricao} de #{vinculo.cargaHoraria.descricao})" />
 				        </p:selectOneMenu>

@@ -8,13 +8,21 @@
 			<p:panel header="Vínculos - #{pesquisaVinculosBean.profissional.nome}" class="form-pesquisa">
 				<p:growl sticky="true"/>
 	    		<p:dataTable id="tabelaVinculos" value="#{pesquisaVinculosBean.profissional.vinculos}" var="vinculo" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+		    		<p:column headerText="Matrícula" class="tabela-matricula">
+		    			<h:outputText value="#{vinculo.matricula}" />
+		    		</p:column>
 		    		<p:column headerText="Cargo">
 		    			<h:outputText value="#{vinculo.especialidade.descricao}" />
+		    		</p:column>
+		    		<p:column headerText="Data início" class="tabela-data-hora">
+		    			<h:outputText value="#{vinculo.dataInicio}">
+		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
+		    			</h:outputText>
 		    		</p:column>
 		    		<p:column headerText="Carga horária" class="tabela-carga-horaria">
 		    			<h:outputText value="#{vinculo.cargaHoraria.descricao}" />
 		    		</p:column>
-		    		<p:column headerText="Tipo" class="tabela-tipo-vinculo">
+		    		<p:column headerText="Regime" class="tabela-tipo-vinculo">
 		    			<h:outputText value="#{vinculo.tipo.descricao}" />
 		    		</p:column>
 		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(vinculo.status)}">

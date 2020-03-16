@@ -102,6 +102,9 @@
 		    				<f:param name="solicitacao" value="#{solicitacao.id}"/>
 		    			</p:button>
 		    		</p:column>
+		    		<f:facet name="footer">
+			    		#{pesquisaAtendimentosBean.model.rowCount} solicitações encontradas.
+				    </f:facet>
 		    	</p:dataTable>
 	    	</p:panel>
 		</h:form>

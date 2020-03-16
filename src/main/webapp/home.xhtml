@@ -98,6 +98,9 @@
 		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
 		    			</h:outputText>
 		    		</p:column>
+		    		<f:facet name="footer">
+			    		#{fn:length(homeBean.vinculosProximoFim)} vínculo(s).
+				    </f:facet>
 		    	</p:dataTable>
 			</p:panel>
 			<p:panel header="Contratos que serão finalizados nos próximos 30 dias (#{seguranca.usuario.localAcesso.descricao})" class="form-pesquisa" rendered="#{not empty homeBean.vinculosProximoFimPorEstabelecimento}">
@@ -119,6 +122,9 @@
 		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
 		    			</h:outputText>
 		    		</p:column>
+		    		<f:facet name="footer">
+			    		#{fn:length(homeBean.vinculosProximoFimPorEstabelecimento)} vínculo(s).
+				    </f:facet>
 		    	</p:dataTable>
 			</p:panel>
 		</h:form>

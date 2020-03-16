@@ -14,7 +14,6 @@ import pmvv.semsa.rh.contrato.model.StatusLotacao;
 import pmvv.semsa.rh.contrato.model.TipoVinculo;
 import pmvv.semsa.rh.contrato.model.Vinculo;
 import pmvv.semsa.rh.contrato.repository.Estabelecimentos;
-import pmvv.semsa.rh.contrato.security.Seguranca;
 import pmvv.semsa.rh.contrato.service.CadastroLotacaoService;
 import pmvv.semsa.rh.contrato.service.NegocioException;
 import pmvv.semsa.rh.contrato.util.jsf.FacesUtil;
@@ -25,8 +24,6 @@ public class CadastroLotacaoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Inject
-	private Seguranca seguranca;
 	@Inject
 	private CadastroLotacaoService cadastroLotacaoService;
 	private Vinculo vinculo;
@@ -77,17 +74,13 @@ public class CadastroLotacaoBean implements Serializable {
 	}
 
 	public void salvar() {
-		if (seguranca != null && lotacao.isNovo() && !seguranca.isAdministradores()) {
-			FacesUtil.addErrorMessage("Você não tem permissão para cadastrar uma nova lotação!");
-		} else {
-			try {
-				lotacao = cadastroLotacaoService.salvar(vinculo, lotacao);
-				limpar();	
-				FacesUtil.addInfoMessage("Lotação salva com sucesso!");
-				FacesUtil.redirecionarPagina("pesquisa.xhtml?vinculo=" + vinculo.getId());
-			} catch (NegocioException ne) {
-				FacesUtil.addErrorMessage(ne.getMessage());
-			}
+		try {
+			lotacao = cadastroLotacaoService.salvar(vinculo, lotacao);
+			limpar();	
+			FacesUtil.addInfoMessage("Lotação salva com sucesso!");
+			FacesUtil.redirecionarPagina("pesquisa.xhtml?vinculo=" + vinculo.getId());
+		} catch (NegocioException ne) {
+			FacesUtil.addErrorMessage(ne.getMessage());
 		}
 	}
 	

@@ -85,6 +85,9 @@
 		    				<f:setPropertyActionListener target="#{pesquisaSolicitacoesBean.solicitacaoSelecionada}" value="#{solicitacao}"/>
 		    			</p:commandButton>
 		    		</p:column>
+		    		<f:facet name="footer">
+			    		#{pesquisaSolicitacoesBean.model.rowCount} solicitações encontradas.
+				    </f:facet>
 		    	</p:dataTable>
 		    	<p:confirmDialog id="confirmacaoExclusaoDialog" header="Exclusão de solicitação" message="Tem certeza que deseja excluir a solicitação #{pesquisaSolicitacoesBean.solicitacaoSelecionada.id}?" widgetVar="confirmacaoExclusao">
 		    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;"/>

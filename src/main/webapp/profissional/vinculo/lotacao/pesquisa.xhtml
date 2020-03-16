@@ -11,6 +11,11 @@
 		    		<p:column headerText="Estabelecimento">
 		    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
 		    		</p:column>
+		    		<p:column headerText="Data início" class="tabela-data-hora">
+		    			<h:outputText value="#{lotacao.dataInicio}">
+		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
+		    			</h:outputText>
+		    		</p:column>
 		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(lotacao.status)}">
 		    			<h:outputText value="#{lotacao.status.descricao}" />
 		    		</p:column>
@@ -31,7 +36,7 @@
 		    	<p:button value="Voltar" outcome="/profissional/vinculo/pesquisa">
 		    		<f:param name="profissional" value="#{pesquisaLotacoesBean.vinculo.profissional.id}" />
 		    	</p:button>
-		    	<p:button value="Adicionar" outcome="/profissional/vinculo/lotacao/cadastro" rendered="#{seguranca.administradores}">
+		    	<p:button value="Adicionar" outcome="/profissional/vinculo/lotacao/cadastro">
 		    		<f:param name="vinculo" value="#{pesquisaLotacoesBean.vinculo.id}" />
 		    	</p:button>
 	    	</p:panel>

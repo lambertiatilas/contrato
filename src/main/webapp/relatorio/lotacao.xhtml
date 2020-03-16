@@ -77,6 +77,9 @@
 		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(lotacao.status)}" sortBy="#{lotacao.status}">
 		    			<h:outputText value="#{lotacao.status.descricao}" />
 		    		</p:column>
+		    		<f:facet name="footer">
+			    		#{pesquisaLotacoesBean.model.rowCount} lotações encontradas.
+				    </f:facet>
 		    	</p:dataTable>
 	    	</p:panel>
 		</h:form>
