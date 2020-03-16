@@ -57,7 +57,7 @@ public class Especialidades implements Serializable {
 	}
 	
 	public List<Especialidade> especialidades() {
-		return this.manager.createQuery("from Especialidade", Especialidade.class).getResultList();
+		return this.manager.createQuery("from Especialidade order by descricao", Especialidade.class).getResultList();
 	}
 	
 	private List<Predicate> criarPredicatesParaFiltro(EspecialidadeFilter filtro, Root<Especialidade> especialidadeRoot) {
@@ -80,6 +80,7 @@ public class Especialidades implements Serializable {
 		
 		criteriaQuery.select(especialidadeRoot);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.orderBy(builder.asc(especialidadeRoot.get("descricao")));
 		
 		if (filtro.getPropriedadeOrdenacao() != null) {
 			String nomePropriedadeOrdenacao = filtro.getPropriedadeOrdenacao();
@@ -110,6 +111,7 @@ public class Especialidades implements Serializable {
 		
 		criteriaQuery.select(builder.count(especialidadeRoot));
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.orderBy(builder.asc(especialidadeRoot.get("descricao")));
 		TypedQuery<Long> query = manager.createQuery(criteriaQuery);
 		return query.getSingleResult().intValue();
 	}

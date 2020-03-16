@@ -72,6 +72,18 @@ public class Profissionais implements Serializable {
 		}
 	}
 	
+	public List<Profissional> profissionaisSolicitantes() {
+		return manager.createQuery("select profissional from Solicitacao solicitacao inner join solicitacao.profissionalSolicitante profissional"
+				+ " order by profissional.nome"
+			, Profissional.class).getResultList();
+	}
+	
+	public List<Profissional> profissionaisAtendentes() {
+		return manager.createQuery("select profissional from Solicitacao solicitacao inner join solicitacao.profissionalAtendente profissional"
+				+ " order by profissional.nome"
+			, Profissional.class).getResultList();
+	}
+	
 	private List<Predicate> criarPredicatesParaFiltro(ProfissionalFilter filtro, Root<Profissional> profissionalRoot) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		List<Predicate> predicates = new ArrayList<>();
@@ -100,6 +112,7 @@ public class Profissionais implements Serializable {
 		
 		criteriaQuery.select(profissionalRoot);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.orderBy(builder.asc(profissionalRoot.get("nome")));
 		
 		if (filtro.getPropriedadeOrdenacao() != null) {
 			String nomePropriedadeOrdenacao = filtro.getPropriedadeOrdenacao();
@@ -130,6 +143,7 @@ public class Profissionais implements Serializable {
 		
 		criteriaQuery.select(builder.count(profissionalRoot));
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.orderBy(builder.asc(profissionalRoot.get("nome")));
 		TypedQuery<Long> query = manager.createQuery(criteriaQuery);
 		return query.getSingleResult().intValue();
 	}

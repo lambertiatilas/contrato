@@ -49,19 +49,22 @@
 		        <p:button value="Voltar" outcome="/home"/>
 	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaLotacoes')}"/>
 	    		<p:dataTable id="tabelaLotacoes" value="#{pesquisaLotacoesBean.model}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-	    			<p:column headerText="Matrícula" class="tabela-matricula">
+	    			<p:column headerText="Matrícula" class="tabela-matricula" sortBy="#{lotacao.vinculo.matricula}">
 		    			<h:outputText value="#{lotacao.vinculo.matricula}" />
 		    		</p:column>
-	    			<p:column headerText="Nome">
+		    		<p:column headerText="CPF" class="tabela-cpf" sortBy="#{vinculo.profissional.cpf}">
+		    			<h:outputText value="#{lotacao.vinculo.profissional.cpf}"/>
+		    		</p:column>
+	    			<p:column headerText="Nome" sortBy="#{vinculo.profissional.nome}">
 		    			<h:outputText value="#{lotacao.vinculo.profissional.nome}" />
 		    		</p:column>
-		    		<p:column headerText="Estabelecimento">
+		    		<p:column headerText="Estabelecimento" sortBy="#{lotacao.estabelecimento.descricao}">
 		    			<h:outputText value="#{lotacao.estabelecimento.descricao}" />
 		    		</p:column>
-		    		<p:column headerText="Cargo">
-		    			<h:outputText value="#{lotacao.vinculo.especialidade.descricao} - #{lotacao.vinculo.cargaHoraria.descricao}" />
+		    		<p:column headerText="Cargo" sortBy="#{vinculo.especialidade.descricao}">
+		    			<h:outputText value="#{lotacao.vinculo.especialidade.descricao} - #{lotacao.vinculo.cargaHoraria.descricao}"/>
 		    		</p:column>
-		    		<p:column headerText="Período de contrado" class="${fn:toLowerCase(lotacao.vinculo.vinculoFimProximo)}">
+		    		<p:column headerText="Período de contrado" class="${fn:toLowerCase(lotacao.vinculo.vinculoFimProximo)}" sortBy="#{lotacao.vinculo.dataFim}">
 		    			<h:outputText value="De " />
 		    			<h:outputText value="#{lotacao.vinculo.dataInicio}">
 		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -71,7 +74,7 @@
 		    				<f:convertDateTime pattern="dd/MM/yyyy"/>
 		    			</h:outputText>
 		    		</p:column>
-		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(lotacao.status)}">
+		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(lotacao.status)}" sortBy="#{lotacao.status}">
 		    			<h:outputText value="#{lotacao.status.descricao}" />
 		    		</p:column>
 		    	</p:dataTable>

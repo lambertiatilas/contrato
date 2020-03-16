@@ -29,6 +29,8 @@ public class EdicaoSolicitacaoService implements Serializable {
 			throw new NegocioException("Solicitação não pode ser enviada!");
 		}
 		
+		solicitacao.setProfissionalSolicitante(seguranca.getUsuario());
+		solicitacao.setEstabelecimentoSolicitante(seguranca.getUsuario().getLocalAcesso());
 		solicitacao.setStatus(StatusSolicitacao.ENVIADA);
 		return solicitacoes.guardar(solicitacao);
 	}

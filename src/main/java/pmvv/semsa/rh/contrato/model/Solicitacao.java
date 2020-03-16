@@ -285,4 +285,22 @@ public class Solicitacao implements Serializable {
 	public boolean isLotacoesNaoPendentes() {
 		return isLotacaoExistente() && !isLotacoesPendentes();
 	}
+	
+	public boolean naoPermiteMaisLotacao(Vinculo vinculo) {
+		Integer contador = 0;
+		
+		for (Lotacao lotacao : lotacoes) {
+			if (lotacao.getVinculo().getEspecialidade().equals(vinculo.getEspecialidade()) && lotacao.getVinculo().getCargaHoraria().equals(vinculo.getCargaHoraria())) {
+				contador++;
+			}
+		}
+		
+		for (ItemSolicitacao item : itens) {
+			if (contador >= item.getQuantidade()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

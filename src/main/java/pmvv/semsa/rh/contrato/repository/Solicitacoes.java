@@ -54,6 +54,20 @@ public class Solicitacoes implements Serializable {
 		return manager.find(Solicitacao.class, id);
 	}
 	
+	public Solicitacao porEstabelecimentoSolicitante(Estabelecimento estabelecimentoSolicitante, Long id) {
+		try {
+			return manager.createQuery("from Solicitacao"
+				+ " where estabelecimentoSolicitante = :estabelecimentoSolicitante"
+				+ " and id = :id"
+			, Solicitacao.class)
+			.setParameter("estabelecimentoSolicitante", estabelecimentoSolicitante)
+			.setParameter("id", id)
+			.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
 	public Solicitacao existe(Estabelecimento estabelecimentoSolicitante) {
 		try {
 			return manager.createQuery("from Solicitacao"
@@ -70,29 +84,21 @@ public class Solicitacoes implements Serializable {
 	}
 	
 	public List<Solicitacao> solicitacoesEnviadas() {
-		try {
-			return manager.createQuery("from Solicitacao where"
-					+ " status = :status"
-					+ " order by dataHoraAbertura"
-				, Solicitacao.class)
-				.setParameter("status", StatusSolicitacao.ENVIADA)
-				.getResultList();
-		} catch (NoResultException e) {
-			return null;
-		}
+		return manager.createQuery("from Solicitacao where"
+				+ " status = :status"
+				+ " order by dataHoraAbertura"
+			, Solicitacao.class)
+			.setParameter("status", StatusSolicitacao.ENVIADA)
+			.getResultList();
 	}
 	
 	public List<Solicitacao> solicitacoesAtendidas() {
-		try {
-			return manager.createQuery("from Solicitacao where"
-					+ " status = :status"
-					+ " order by dataHoraAbertura"
-				, Solicitacao.class)
-				.setParameter("status", StatusSolicitacao.ATENDIDA)
-				.getResultList();
-		} catch (NoResultException e) {
-			return null;
-		}
+		return manager.createQuery("from Solicitacao where"
+				+ " status = :status"
+				+ " order by dataHoraAbertura"
+			, Solicitacao.class)
+			.setParameter("status", StatusSolicitacao.ATENDIDA)
+			.getResultList();
 	}
 	
 	public Solicitacao solicitacaoPendete(Estabelecimento estabelecimento) {
@@ -111,7 +117,7 @@ public class Solicitacoes implements Serializable {
 		}
 	}
 	
-	private List<Predicate> criarPredicatesParaFiltro(SolicitacaoFilter filtro, Root<Solicitacao> solicitacaoRoot, From<?, ?> profissionalSolicitanteJoin, From<?, ?> profissionalAtendenteJoin) {
+	private List<Predicate> criarPredicatesParaFiltro(SolicitacaoFilter filtro, Root<Solicitacao> solicitacaoRoot, From<?, ?> profissionalSolicitanteJoin, From<?, ?> estabelecimentoSolicitanteJoin, From<?, ?> profissionalAtendenteJoin, From<?, ?> estabelecimentoAtendenteJoin) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		List<Predicate> predicates = new ArrayList<>();
 		
@@ -164,11 +170,14 @@ public class Solicitacoes implements Serializable {
 		CriteriaQuery<Solicitacao> criteriaQuery = builder.createQuery(Solicitacao.class);
 		Root<Solicitacao> solicitacaoRoot = criteriaQuery.from(Solicitacao.class);
 		From<?, ?> profissionalSolicitanteJoin = (From<?, ?>) solicitacaoRoot.fetch("profissionalSolicitante", JoinType.INNER);
+		From<?, ?> estabelecimentoSolicitanteJoin = (From<?, ?>) solicitacaoRoot.fetch("estabelecimentoSolicitante", JoinType.INNER);
 		From<?, ?> profissionalAtendenteJoin = (From<?, ?>) solicitacaoRoot.fetch("profissionalAtendente", JoinType.LEFT);
-		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, solicitacaoRoot, profissionalSolicitanteJoin, profissionalAtendenteJoin);
+		From<?, ?> estabelecimentoAtendenteJoin = (From<?, ?>) solicitacaoRoot.fetch("estabelecimentoAtendente", JoinType.LEFT);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, solicitacaoRoot, profissionalSolicitanteJoin, estabelecimentoSolicitanteJoin, profissionalAtendenteJoin, estabelecimentoAtendenteJoin);
 		
 		criteriaQuery.select(solicitacaoRoot);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.orderBy(builder.desc(solicitacaoRoot.get("dataHoraAbertura")));
 		
 		if (filtro.getPropriedadeOrdenacao() != null) {
 			String nomePropriedadeOrdenacao = filtro.getPropriedadeOrdenacao();
@@ -182,8 +191,16 @@ public class Solicitacoes implements Serializable {
 				orderByFromEntity = profissionalSolicitanteJoin;
 			}
 			
+			if (filtro.getPropriedadeOrdenacao().startsWith("estabelecimentoSolicitante.")) {
+				orderByFromEntity = estabelecimentoSolicitanteJoin;
+			}
+			
 			if (filtro.getPropriedadeOrdenacao().startsWith("profissionalAtendente.")) {
 				orderByFromEntity = profissionalAtendenteJoin;
+			}
+			
+			if (filtro.getPropriedadeOrdenacao().startsWith("estabelecimentoAtendente.")) {
+				orderByFromEntity = estabelecimentoAtendenteJoin;
 			}
 			
 			if (filtro.isAscendente() && filtro.getPropriedadeOrdenacao() != null) {
@@ -204,11 +221,14 @@ public class Solicitacoes implements Serializable {
 		CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
 		Root<Solicitacao> solicitacaoRoot = criteriaQuery.from(Solicitacao.class);
 		Join<Solicitacao, Profissional> profissionalSolicitanteJoin = solicitacaoRoot.join("profissionalSolicitante", JoinType.INNER);
+		Join<Solicitacao, Estabelecimento> estabelecimentoSolicitanteJoin = solicitacaoRoot.join("estabelecimentoSolicitante", JoinType.INNER);
 		Join<Solicitacao, Profissional> profissionalAtendenteJoin = solicitacaoRoot.join("profissionalAtendente", JoinType.LEFT);
-		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, solicitacaoRoot, profissionalSolicitanteJoin, profissionalAtendenteJoin);
+		Join<Solicitacao, Estabelecimento> estabelecimentoAtendenteJoin = solicitacaoRoot.join("estabelecimentoAtendente", JoinType.LEFT);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, solicitacaoRoot, profissionalSolicitanteJoin, estabelecimentoSolicitanteJoin, profissionalAtendenteJoin, estabelecimentoAtendenteJoin);
 		
 		criteriaQuery.select(builder.count(solicitacaoRoot));
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.orderBy(builder.desc(solicitacaoRoot.get("dataHoraAbertura")));
 		TypedQuery<Long> query = manager.createQuery(criteriaQuery);
 		return query.getSingleResult().intValue();
 	}

@@ -10,11 +10,15 @@
 				<p:growl sticky="true"/>
 				<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 					<p:outputLabel value="Nome:" for="nome"/>
-					<p:inputText id="nome" value="#{cadastroUsuarioBean.profissional.nome}" size="60"/>
+					<p:inputText id="nome" value="#{cadastroUsuarioBean.profissional.nome}" size="60" validatorMessage="Nome informado é inválido">
+						<f:validateRegex pattern="^((\b[A-zÀ-ú']{1,40}\b)\s*){2,}$"/>
+					</p:inputText>
 					<p:outputLabel value="CPF:" for="cpf"/>
 					<p:inputMask id="cpf" value="#{cadastroUsuarioBean.profissional.cpf}" mask="999.999.999-99" size="12"/>
 					<p:outputLabel value="Telefone:" for="telefone"/>
-					<p:inputMask id="telefone" value="#{cadastroUsuarioBean.profissional.telefone}" mask="(99) 99999999?9" size="12"/>
+					<p:inputText id="telefone" value="#{cadastroUsuarioBean.profissional.telefone}" size="13" class="telefone"/>
+					<p:outputLabel value="Email:" for="email"/>
+					<p:inputText id="email" value="#{cadastroUsuarioBean.profissional.email}" size="60" class="email"/>
 					<p:outputLabel value="Estabelecimento:" for="estabelecimento"/>
 		    		<p:selectOneMenu id="estabelecimento" value="#{cadastroUsuarioBean.profissional.localAcesso}" required="true" requiredMessage="Estabelecimento deve ser informado" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>

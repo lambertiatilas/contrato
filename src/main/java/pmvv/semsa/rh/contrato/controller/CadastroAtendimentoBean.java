@@ -85,6 +85,11 @@ public class CadastroAtendimentoBean implements Serializable {
 	public void adicionarLotacao() {
 		if (vinculo.isDisponivel()) {
 			if (vinculo != null) {
+				if (solicitacao.naoPermiteMaisLotacao(vinculo)) {
+					FacesUtil.addErrorMessage("Não é possível adicionar mais vínculos do que foi solicitado!");
+					return;
+				}
+				
 				Lotacao lotacao = new Lotacao();
 				lotacao.setEstabelecimento(solicitacao.getEstabelecimentoSolicitante());
 				lotacao.setStatus(StatusLotacao.PENDENTE);

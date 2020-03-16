@@ -2,7 +2,7 @@
     <ui:define name="titulo">Cadastro de solicitação (#{cadastroSolicitacaoBean.solicitacao.status.descricao})</ui:define>
     <ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="solicitacao" value="#{cadastroSolicitacaoBean.solicitacao}"/>
+			<o:viewParam name="solicitacao" value="#{cadastroSolicitacaoBean.solicitacao}" converter="solicitacaoPorEstabelecimentoConverter"/>
 			<f:viewAction action="#{cadastroSolicitacaoBean.inicializar}"/>
 		</f:metadata>
 		<p:panel header="Cadastro de solicitação (#{cadastroSolicitacaoBean.solicitacao.status.descricao}#{cadastroSolicitacaoBean.cadastro})" class="form-pesquisa">
@@ -11,7 +11,7 @@
 				<p:fieldset legend="Solicitação">
 					<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
 						<p:outputLabel value="Jutificativa:" for="justificativa"/>
-						<p:inputTextarea id="justificativa" value="#{cadastroSolicitacaoBean.solicitacao.justificativa}" maxlength="800" disabled="#{cadastroSolicitacaoBean.solicitacao.requisicaoNaoAlteravel}"/>
+						<p:inputTextarea id="justificativa" value="#{cadastroSolicitacaoBean.solicitacao.justificativa}" maxlength="800" disabled="#{cadastroSolicitacaoBean.solicitacao.requisicaoNaoAlteravel}" required="true" requiredMessage="Justificativa deve ser informada"/>
 					</p:panelGrid>
 					<p:panelGrid id="camposItens" columns="2" layout="grid" columnClasses="rotulo, campo" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoAlteravel}">
 						<p:outputLabel value="Especialidade:" for="especialidade"/>
@@ -45,7 +45,7 @@
 			    		</p:column>
 			    	</p:dataTable>
 		    	</p:fieldset>
-		    	<p:fieldset legend="Atendimento" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoLotacaoVisivel}">
+		    	<p:fieldset legend="Atendimento de #{cadastroSolicitacaoBean.solicitacao.profissionalAtendente.nome} (#{cadastroSolicitacaoBean.solicitacao.estabelecimentoAtendente.descricao})" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoLotacaoVisivel}">
 					<p:dataTable id="tabelaLotacoes" value="#{cadastroSolicitacaoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
 			    		<p:column headerText="Matrícula" class="tabela-matricula">
 			    			<h:outputText value="#{lotacao.vinculo.matricula}"/>

@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 
+import pmvv.semsa.rh.contrato.model.Especialidade;
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
 import pmvv.semsa.rh.contrato.model.Lotacao;
 import pmvv.semsa.rh.contrato.model.Profissional;
@@ -72,40 +73,34 @@ public class Lotacoes implements Serializable {
 	}
 	
 	public List<Lotacao> vinculosProximoFim() {
-		try {
-			return manager.createQuery("select lotacao from Lotacao lotacao inner join lotacao.vinculo vinculo"
+		return manager.createQuery("select lotacao from Lotacao lotacao inner join lotacao.vinculo vinculo inner join vinculo.profissional profissional"
 				+ " where vinculo.status = :statusVinculo"
 				+ " and lotacao.status = :statusLotacao"
 				+ " and vinculo.dataFim <= :data"
+				+ " order by vinculo.dataFim, profissional.nome"
 			, Lotacao.class)
 			.setParameter("statusVinculo", Status.ATIVO)
 			.setParameter("statusLotacao", StatusLotacao.ATIVO)
 			.setParameter("data", DateUtil.maisDias(30))
 			.getResultList();
-		} catch (NoResultException e) {
-			return null;
-		}
 	}
 	
 	public List<Lotacao> vinculosProximoFimPorEstabelecimento(Estabelecimento estabelecimento) {
-		try {
-			return manager.createQuery("select lotacao from Lotacao lotacao inner join lotacao.vinculo vinculo"
+		return manager.createQuery("select lotacao from Lotacao lotacao inner join lotacao.vinculo vinculo inner join vinculo.profissional profissional"
 				+ " where vinculo.status = :statusVinculo"
 				+ " and lotacao.status = :statusLotacao"
 				+ " and vinculo.dataFim <= :data"
 				+ " and lotacao.estabelecimento = :estabelecimento"
+				+ " order by vinculo.dataFim, profissional.nome"
 			, Lotacao.class)
 			.setParameter("statusVinculo", Status.ATIVO)
 			.setParameter("statusLotacao", StatusLotacao.ATIVO)
 			.setParameter("data", DateUtil.maisDias(30))
 			.setParameter("estabelecimento", estabelecimento)
 			.getResultList();
-		} catch (NoResultException e) {
-			return null;
-		}
 	}
 	
-	private List<Predicate> criarPredicatesParaFiltro(LotacaoFilter filtro, Root<Lotacao> lotacaoRoot, From<?, ?> vinculoJoin, From<?, ?> profissionalJoin) {
+	private List<Predicate> criarPredicatesParaFiltro(LotacaoFilter filtro, Root<Lotacao> lotacaoRoot, From<?, ?> vinculoJoin,  From<?, ?> profissionalJoin, From<?, ?> estabelecimentoJoin, From<?, ?> especialidadeJoin) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		List<Predicate> predicates = new ArrayList<>();
 		
@@ -161,10 +156,13 @@ public class Lotacoes implements Serializable {
 		Root<Lotacao> lotacaoRoot = criteriaQuery.from(Lotacao.class);
 		From<?, ?> vinculoJoin = (From<?, ?>) lotacaoRoot.fetch("vinculo", JoinType.INNER);
 		From<?, ?> profissionalJoin = (From<?, ?>) vinculoJoin.fetch("profissional", JoinType.INNER);
-		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, vinculoJoin, profissionalJoin);
+		From<?, ?> estabelecimentoJoin = (From<?, ?>) lotacaoRoot.fetch("estabelecimento", JoinType.INNER);
+		From<?, ?> especialidadeJoin = (From<?, ?>) vinculoJoin.fetch("especialidade", JoinType.INNER);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, vinculoJoin, profissionalJoin, estabelecimentoJoin, especialidadeJoin);
 		
 		criteriaQuery.select(lotacaoRoot);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.orderBy(builder.asc(profissionalJoin.get("nome")));
 		
 		if (filtro.getPropriedadeOrdenacao() != null) {
 			String nomePropriedadeOrdenacao = filtro.getPropriedadeOrdenacao();
@@ -172,6 +170,22 @@ public class Lotacoes implements Serializable {
 			
 			if (filtro.getPropriedadeOrdenacao().contains(".")) {
 				nomePropriedadeOrdenacao = nomePropriedadeOrdenacao.substring(filtro.getPropriedadeOrdenacao().indexOf(".") + 1);
+			}
+			
+			if (filtro.getPropriedadeOrdenacao().startsWith("vinculo.")) {
+				orderByFromEntity = vinculoJoin;
+			}
+			
+			if (filtro.getPropriedadeOrdenacao().startsWith("profissional.")) {
+				orderByFromEntity = profissionalJoin;
+			}
+			
+			if (filtro.getPropriedadeOrdenacao().startsWith("estabelecimento.")) {
+				orderByFromEntity = estabelecimentoJoin;
+			}
+			
+			if (filtro.getPropriedadeOrdenacao().startsWith("especialidade.")) {
+				orderByFromEntity = especialidadeJoin;
 			}
 			
 			if (filtro.isAscendente() && filtro.getPropriedadeOrdenacao() != null) {
@@ -193,10 +207,13 @@ public class Lotacoes implements Serializable {
 		Root<Lotacao> lotacaoRoot = criteriaQuery.from(Lotacao.class);
 		Join<Lotacao, Vinculo> vinculoJoin = lotacaoRoot.join("vinculo", JoinType.INNER);
 		Join<Vinculo, Profissional> profissionalJoin = vinculoJoin.join("profissional", JoinType.INNER);
-		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, vinculoJoin, profissionalJoin);
+		Join<Lotacao, Estabelecimento> estabelecimentoJoin = lotacaoRoot.join("estabelecimento", JoinType.INNER);
+		Join<Vinculo, Especialidade> especialidadeJoin = vinculoJoin.join("especialidade", JoinType.INNER);
+		List<Predicate> predicates = criarPredicatesParaFiltro(filtro, lotacaoRoot, vinculoJoin, profissionalJoin, estabelecimentoJoin, especialidadeJoin);
 		
 		criteriaQuery.select(builder.count(lotacaoRoot));
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.orderBy(builder.asc(profissionalJoin.get("nome")));
 		TypedQuery<Long> query = manager.createQuery(criteriaQuery);
 		return query.getSingleResult().intValue();
 	}

@@ -56,7 +56,7 @@ public class PesquisaLotacoesBean implements Serializable {
 		listaEspecialidades = especialidades.especialidades();
 		listaEstabelecimentos = estabelecimentos.estabelecimentos();
 		
-		if (seguranca.getUsuario() != null) {
+		if (seguranca.getUsuario() != null && !seguranca.isAtendentes()) {
 			filtro.setEstabelecimento(seguranca.getUsuario().getLocalAcesso());
 		}
 	}

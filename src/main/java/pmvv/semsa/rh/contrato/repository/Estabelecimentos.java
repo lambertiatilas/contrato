@@ -58,7 +58,19 @@ public class Estabelecimentos extends OrdenacaoFilter implements Serializable {
 	}
 	
 	public List<Estabelecimento> estabelecimentos() {
-		return this.manager.createQuery("from Estabelecimento", Estabelecimento.class).getResultList();
+		return manager.createQuery("from Estabelecimento order by descricao", Estabelecimento.class).getResultList();
+	}
+	
+	public List<Estabelecimento> estabelecimentosSolicitantes() {
+		return manager.createQuery("select estabelecimento from Solicitacao solicitacao inner join solicitacao.estabelecimentoSolicitante estabelecimento"
+				+ " order by estabelecimento.descricao"
+			, Estabelecimento.class).getResultList();
+	}
+	
+	public List<Estabelecimento> estabelecimentosAtendentes() {
+		return manager.createQuery("select estabelecimento from Solicitacao solicitacao inner join solicitacao.estabelecimentoAtendente estabelecimento"
+				+ " order by estabelecimento.descricao"
+			, Estabelecimento.class).getResultList();
 	}
 	
 	private List<Predicate> criarPredicatesParaFiltro(EstabelecimentoFilter filtro, Root<Estabelecimento> estabelecimentoRoot) {
@@ -81,6 +93,7 @@ public class Estabelecimentos extends OrdenacaoFilter implements Serializable {
 		
 		criteriaQuery.select(estabelecimentoRoot);
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.orderBy(builder.asc(estabelecimentoRoot.get("descricao")));
 		
 		if (filtro.getPropriedadeOrdenacao() != null) {
 			String nomePropriedadeOrdenacao = filtro.getPropriedadeOrdenacao();

@@ -65,20 +65,17 @@ public class Vinculos implements Serializable {
 	}
 	
 	public List<Vinculo> vinculosEncontrados(ItemSolicitacao item) {
-		try {
-			return manager.createQuery("from Vinculo"
-				+ " where status = :status"
-				+ " and (dataFim is null or dataFim > :hoje)"
-				+ " and especialidade = :especialidade"
-				+ " and cargaHoraria = :cargaHoraria"
+		return manager.createQuery("select vinculo from Vinculo vinculo inner join vinculo.profissional profissional"
+				+ " where vinculo.status = :status"
+				+ " and (vinculo.dataFim is null or vinculo.dataFim > :hoje)"
+				+ " and vinculo.especialidade = :especialidade"
+				+ " and vinculo.cargaHoraria = :cargaHoraria"
+				+ " order by profissional.nome"
 			, Vinculo.class)
 			.setParameter("status", Status.ATIVO)
 			.setParameter("hoje", new Date())
 			.setParameter("especialidade", item.getEspecialidade())
 			.setParameter("cargaHoraria", item.getCargaHoraria())
 			.getResultList();
-		} catch (NoResultException e) {
-			return null;
-		}
 	}
 }

@@ -10,7 +10,7 @@
 	    		</p:panelGrid>
 	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaEstabelecimentos')}"/>
 	    		<p:dataTable id="tabelaEstabelecimentos" value="#{pesquisaEstabelecimentosBean.model}" var="estabelecimento" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-		    		<p:column headerText="Descrição">
+		    		<p:column headerText="Descrição"  sortBy="#{estabelecimento.descricao}">
 		    			<h:outputText value="#{estabelecimento.descricao}"/>
 		    		</p:column>
 		    		<p:column headerText="Ações" class="tabela-acao-2">

@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -38,6 +39,7 @@ public class Profissional implements Serializable {
 	private String nome;
 	private String cpf;
 	private String telefone;
+	private String email;
 	private String senha;
 	private Estabelecimento localAcesso;
 	private Grupo grupo;
@@ -84,6 +86,17 @@ public class Profissional implements Serializable {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+	
+	@Email(message = "inválido!")
+	@Size(max = 80)
+	@Column(length = 80)
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Size(max = 60)

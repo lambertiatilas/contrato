@@ -59,11 +59,6 @@ public class PesquisaEspecialidadesBean implements Serializable {
 				filtro.setPrimeiroRegistro(first);
 				filtro.setQuantidadeRegistros(pageSize);
 				filtro.setPropriedadeOrdenacao(sortField);
-				
-				if (sortField == null) {
-					filtro.setPropriedadeOrdenacao("descricao");
-				}
-				
 				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));	
 				setRowCount(especialidades.quantidadeFiltradas(filtro));
 				return especialidades.filtradas(filtro);

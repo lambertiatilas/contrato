@@ -119,26 +119,26 @@ section .form-erro .ui-panel-content {
 	margin-right: 10px;
 }
 
-.ativo, .pendente, .inativo, .nao_enviada, .enviada, .atendida, .cancelada, .finalizada, .vinculo-fim-proximo {
+.enviada, .pendente, .atendida, .finalizada, .cancelada, .ativo,.inativo, .vinculo-fim-proximo {
 	font-weight: 900;
 }
 
-.pendente, .enviada {
-	color: #FB7804;
+.enviada, .pendente {
+	color: #ff8000;
 }
 
 .atendida {
-	color: #197324;
+	color: #006600;
+}
+
+.finalizada {
+	color: #0000ff;
 }
 
 .cancelada {
-	color: #787878;
-}
-
-.ativo, .finalizada {
-	color: #155CEC;
+	color: #808080;
 }
 
 .inativo, .vinculo-fim-proximo {
-	color: #FB0408;
+	color: #ff0000;
 }

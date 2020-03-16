@@ -8,6 +8,8 @@
 			<p:panel header="Pesquisa de usuários" class="form-pesquisa">
 				<p:growl sticky="true"/>
 				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+					<p:outputLabel value="CPF:" for="cpf"/>
+					<p:inputMask id="cpf" value="#{pesquisaUsuariosBean.filtro.cpf}" mask="999.999.999-99" size="12"/>
 					<p:outputLabel value="Nome:" for="nome"/>
 		    		<p:inputText id="nome" value="#{pesquisaUsuariosBean.filtro.nome}" size="28"/>
 		    		<p:outputLabel value="Situação:" for="situacao"/>
@@ -18,16 +20,19 @@
 	    		</p:panelGrid>
 	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaUsuarios')}"/>
 	    		<p:dataTable id="tabelaUsuarios" value="#{pesquisaUsuariosBean.model}" var="profissional" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-		    		<p:column headerText="CPF" class="tabela-cpf">
+		    		<p:column headerText="CPF" class="tabela-cpf" sortBy="#{profissional.cpf}">
 		    			<h:outputText value="#{profissional.cpf}"/>
 		    		</p:column>
-		    		<p:column headerText="Nome">
+		    		<p:column headerText="Nome" sortBy="#{profissional.nome}">
 		    			<h:outputText value="#{profissional.nome}"/>
 		    		</p:column>
-		    		<p:column headerText="Telefone" class="tabela-telefone">
+		    		<p:column headerText="Telefone" class="tabela-telefone" sortBy="#{profissional.telefone}">
 		    			<h:outputText value="#{profissional.telefone}"/>
 		    		</p:column>
-		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(profissional.status)}">
+		    		<p:column headerText="Email" sortBy="#{profissional.email}">
+		    			<h:outputText value="#{profissional.email}"/>
+		    		</p:column>
+		    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(profissional.status)}" sortBy="#{profissional.status}">
 		    			<h:outputText value="#{profissional.status.descricao}"/>
 		    		</p:column>
 		    		<p:column headerText="Ações" class="tabela-acao-2">

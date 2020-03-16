@@ -14,15 +14,13 @@
 	    <exception-handler-factory>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory</exception-handler-factory>
 	</factory>
 	<converter>
-        <description>grupoConverter</description>
-        <converter-id>grupoConverter</converter-id>
-        <converter-class>pmvv.semsa.rh.contrato.converter.GrupoConverter</converter-class>
+        <description>solicitacaoConverter</description>
+        <converter-id>solicitacaoConverter</converter-id>
+        <converter-class>pmvv.semsa.rh.contrato.converter.SolicitacaoConverter</converter-class>
    	</converter>
-   	
-   	
    	<converter>
-        <description>profissionalConverter</description>
-        <converter-id>profissionalConverter</converter-id>
-        <converter-class>pmvv.semsa.rh.contrato.converter.ProfissionalConverter</converter-class>
+        <description>solicitacaoPorEstabelecimentoConverter</description>
+        <converter-id>solicitacaoPorEstabelecimentoConverter</converter-id>
+        <converter-class>pmvv.semsa.rh.contrato.converter.SolicitacaoPorEstabelecimentoConverter</converter-class>
    	</converter>
 </faces-config>

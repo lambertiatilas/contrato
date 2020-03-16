@@ -20,6 +20,6 @@ public class Grupos implements Serializable {
 	}
 	
 	public List<Grupo> grupos() {
-		return this.manager.createQuery("from Grupo", Grupo.class).getResultList();
+		return manager.createQuery("from Grupo", Grupo.class).getResultList();
 	}
 }

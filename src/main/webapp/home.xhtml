@@ -18,7 +18,7 @@
 				    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
 				    			</h:outputText>
 				    		</p:column>
-				    		<p:column headerText="Origem">
+				    		<p:column headerText="Estabelecimento solicitante">
 				    			<h:outputText value="#{solicitacaoEnviada.estabelecimentoSolicitante.descricao}"/>
 				    		</p:column>
 				    		<p:column headerText="Criado por">
@@ -28,7 +28,7 @@
 				    			<h:outputText value="#{solicitacaoEnviada.status.descricao}"/>
 				    		</p:column>
 				    		<p:column headerText="Ações" class="tabela-acao-1">
-				    			<p:button icon="fa fa-arrow-right" outcome="/atendimento/cadastro" title="Atender / Verificar">
+				    			<p:button icon="fa fa-search" outcome="/atendimento/cadastro" title="Atender / Verificar">
 				    				<f:param name="solicitacao" value="#{solicitacaoEnviada.id}"/>
 				    			</p:button>
 				    		</p:column>
@@ -44,7 +44,7 @@
 				    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
 				    			</h:outputText>
 				    		</p:column>
-				    		<p:column headerText="Origem">
+				    		<p:column headerText="Estabelecimento solicitante">
 				    			<h:outputText value="#{solicitacaoAtendida.estabelecimentoSolicitante.descricao}"/>
 				    		</p:column>
 				    		<p:column headerText="Criado por">
@@ -54,7 +54,7 @@
 				    			<h:outputText value="#{solicitacaoAtendida.status.descricao}"/>
 				    		</p:column>
 				    		<p:column headerText="Ações" class="tabela-acao-1">
-				    			<p:button icon="fa fa-arrow-right" outcome="/atendimento/cadastro" title="Atender / Verificar">
+				    			<p:button icon="fa fa-search" outcome="/atendimento/cadastro" title="Atender / Verificar">
 				    				<f:param name="solicitacao" value="#{solicitacaoAtendida.id}"/>
 				    			</p:button>
 				    		</p:column>
@@ -75,7 +75,7 @@
 					<p:outputLabel value="Status:"/>
 					<h:outputText value="#{homeBean.solicitacaoPendende.status.descricao}" class="${fn:toLowerCase(homeBean.solicitacaoPendende.status)}"/>
 				</p:panelGrid>
-				<p:button value="Verificar" icon="fa fa-arrow-right" outcome="/solicitacao/cadastro" title="Verificar">
+				<p:button icon="fa fa-search" value="Verificar" outcome="/solicitacao/cadastro" title="Verificar">
 					<f:param name="solicitacao" value="#{homeBean.solicitacaoPendende.id}"/>
 				</p:button>
 			</p:panel>

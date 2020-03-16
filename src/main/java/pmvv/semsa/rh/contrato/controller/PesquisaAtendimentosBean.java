@@ -13,9 +13,11 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import pmvv.semsa.rh.contrato.model.Estabelecimento;
+import pmvv.semsa.rh.contrato.model.Profissional;
 import pmvv.semsa.rh.contrato.model.Solicitacao;
 import pmvv.semsa.rh.contrato.model.StatusSolicitacao;
 import pmvv.semsa.rh.contrato.repository.Estabelecimentos;
+import pmvv.semsa.rh.contrato.repository.Profissionais;
 import pmvv.semsa.rh.contrato.repository.Solicitacoes;
 import pmvv.semsa.rh.contrato.repository.filter.SolicitacaoFilter;
 
@@ -30,10 +32,14 @@ public class PesquisaAtendimentosBean implements Serializable {
 	private SolicitacaoFilter filtro;
 	private LazyDataModel<Solicitacao> model;
 	private Solicitacao solicitacaoSelecionada;
-	
 	@Inject
 	private Estabelecimentos estabelecimentos;
-	private List<Estabelecimento> listaEstabelecimentos = new ArrayList<>();
+	@Inject
+	private Profissionais profissionais;
+	private List<Estabelecimento> listaEstabelecimentosSolicitantes = new ArrayList<>();
+	private List<Profissional> listaProfissionaisSolicitantes = new ArrayList<>();
+	private List<Estabelecimento> listaEstabelecimentosAtendentes = new ArrayList<>();
+	private List<Profissional> listaProfissionaisAtendentes = new ArrayList<>();
 
 	public SolicitacaoFilter getFiltro() {
 		return filtro;
@@ -51,18 +57,32 @@ public class PesquisaAtendimentosBean implements Serializable {
 		this.solicitacaoSelecionada = solicitacaoSelecionada;
 	}
 	
-	public List<Estabelecimento> getListaEstabelecimentos() {
-		return listaEstabelecimentos;
+	public List<Estabelecimento> getListaEstabelecimentosSolicitantes() {
+		return listaEstabelecimentosSolicitantes;
 	}
-	
+
+	public List<Profissional> getListaProfissionaisSolicitantes() {
+		return listaProfissionaisSolicitantes;
+	}
+
+	public List<Estabelecimento> getListaEstabelecimentosAtendentes() {
+		return listaEstabelecimentosAtendentes;
+	}
+
+	public List<Profissional> getListaProfissionaisAtendentes() {
+		return listaProfissionaisAtendentes;
+	}
+
 	public StatusSolicitacao[] getStatuses() {
 		return StatusSolicitacao.values();
 	}
 
 	public void preRender() {
-		listaEstabelecimentos = estabelecimentos.estabelecimentos();
 		filtro = new SolicitacaoFilter();
-		filtro.setStatus(StatusSolicitacao.ENVIADA);
+		listaEstabelecimentosSolicitantes = estabelecimentos.estabelecimentosSolicitantes();
+		listaProfissionaisSolicitantes = profissionais.profissionaisSolicitantes();
+		listaEstabelecimentosAtendentes = estabelecimentos.estabelecimentosAtendentes();
+		listaProfissionaisAtendentes = profissionais.profissionaisAtendentes();
 		pesquisar();
 	}
 
@@ -74,15 +94,8 @@ public class PesquisaAtendimentosBean implements Serializable {
 			public List<Solicitacao> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
 				filtro.setPrimeiroRegistro(first);
 				filtro.setQuantidadeRegistros(pageSize);
-				
-				if (sortField == null) {
-					filtro.setAscendente(SortOrder.DESCENDING.equals(sortOrder));
-					filtro.setPropriedadeOrdenacao("id");
-				} else {
-					filtro.setPropriedadeOrdenacao(sortField);
-					filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
-				}
-			
+				filtro.setPropriedadeOrdenacao(sortField);
+				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
 				setRowCount(solicitacoes.quantidadeFiltradas(filtro));
 				return solicitacoes.filtradas(filtro);
 			}

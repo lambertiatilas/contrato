@@ -5,19 +5,24 @@
 			<p:panel header="Pesquisa de profissionais" class="form-pesquisa">
 				<p:growl sticky="true"/>
 				<p:panelGrid columns="6" layout="grid" columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+					<p:outputLabel value="CPF:" for="cpf"/>
+					<p:inputMask id="cpf" value="#{pesquisaProfissionaisBean.filtro.cpf}" mask="999.999.999-99" size="12"/>
 					<p:outputLabel value="Nome:" for="nome"/>
 		    		<p:inputText id="nome" value="#{pesquisaProfissionaisBean.filtro.nome}" size="28"/>
 	    		</p:panelGrid>
 	    		<p:commandButton value="Pesquisar" update="#{p:component('tabelaProfissionais')}"/>
 	    		<p:dataTable id="tabelaProfissionais" value="#{pesquisaProfissionaisBean.model}" var="profissional" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
-		    		<p:column headerText="CPF" class="tabela-cpf">
+		    		<p:column headerText="CPF" class="tabela-cpf"  sortBy="#{profissional.cpf}">
 		    			<h:outputText value="#{profissional.cpf}"/>
 		    		</p:column>
-		    		<p:column headerText="Nome">
+		    		<p:column headerText="Nome"  sortBy="#{profissional.nome}">
 		    			<h:outputText value="#{profissional.nome}"/>
 		    		</p:column>
-		    		<p:column headerText="Telefone" class="tabela-telefone">
+		    		<p:column headerText="Telefone" class="tabela-telefone" sortBy="#{profissional.telefone}">
 		    			<h:outputText value="#{profissional.telefone}"/>
+		    		</p:column>
+		    		<p:column headerText="Email" sortBy="#{profissional.email}">
+		    			<h:outputText value="#{profissional.email}"/>
 		    		</p:column>
 		    		<p:column headerText="Ações" class="tabela-acao-3">
 		    			<p:button icon="fa fa-medkit" outcome="/profissional/vinculo/pesquisa" title="Adicionar Vínculo">
