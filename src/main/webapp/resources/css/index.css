@@ -3,6 +3,18 @@ body {
 	background-color: #f0f0f0;
 }
 
+.ajax-status {
+	font-size: 70px;
+	z-index: 999999;
+}
+
+.ajax-status {
+	position: fixed !important;
+    left: 50% !important;
+	top: 40% !important;
+	transform: translate(-50%, -50%) !important;
+}
+
 .form-login {
 	width: 100vw;
 	height: 100vh;
