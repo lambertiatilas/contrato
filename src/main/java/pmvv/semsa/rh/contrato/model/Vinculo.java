@@ -194,7 +194,7 @@ public class Vinculo implements Serializable {
 	
 	@Transient
 	public boolean isEfetivo() {
-		return TipoVinculo.EFETIVO.equals(tipo);
+		return TipoVinculo.CEDIDOS.equals(tipo) || TipoVinculo.ESTATUARIO_RGPS.equals(tipo) || TipoVinculo.ESTATUARIO_RPPS.equals(tipo);
 	}
 	
 	@Transient

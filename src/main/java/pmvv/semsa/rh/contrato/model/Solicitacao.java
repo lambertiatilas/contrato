@@ -270,6 +270,11 @@ public class Solicitacao implements Serializable {
 	public boolean isNaoAtendivel() {
 		return !isAtendivel();
 	}
+	
+	@Transient
+	public boolean isNaoFinalizada() {
+		return !isFinalizada();
+	}
 		
 	@Transient
 	public boolean isLotacoesPendentes() {
@@ -295,8 +300,10 @@ public class Solicitacao implements Serializable {
 			}
 		}
 		
+		System.out.println(contador);
+		
 		for (ItemSolicitacao item : itens) {
-			if (contador >= item.getQuantidade()) {
+			if (item.getEspecialidade().equals(vinculo.getEspecialidade()) && item.getCargaHoraria().equals(vinculo.getCargaHoraria()) && contador >= item.getQuantidade()) {
 				return true;
 			}
 		}

@@ -17,7 +17,7 @@
 	    			<p:menuitem icon="fa fa-user-md" value="Atender solicitação" outcome="/atendimento/pesquisa"/>
 	    		</p:submenu>
 	    		<p:submenu icon="fa fa-wechat" label="Solicitação" rendered="#{seguranca.atendentes or seguranca.solicitantes}">
-	    			<p:menuitem icon="fa fa-medkit" value="Cadastro de solicitação" outcome="/solicitacao/pesquisa"/>
+	    			<p:menuitem icon="fa fa-users" value="Solicitar profissional" outcome="/solicitacao/pesquisa"/>
 	    		</p:submenu>
 	    		<p:menuitem icon="fa fa-user-md" value="Profissional" outcome="/profissional/pesquisa" rendered="#{seguranca.atendentes}"/>
 	    		<p:submenu icon="fa fa-user-plus" label="Administração" rendered="#{seguranca.administradores}">

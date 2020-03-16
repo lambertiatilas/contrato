@@ -34,20 +34,20 @@
 				        </p:selectOneMenu>
 					</p:panelGrid>
 					<p:commandButton icon="fa fa-chevron-down" action="#{cadastroAtendimentoBean.adicionarLotacao}" update="@form" title="Adicionar" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}"/>
-					<p:dataTable id="tabelaLotacoes" value="#{cadastroAtendimentoBean.solicitacao.lotacoes}" var="lotacao" rowStatePreserved="true" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+					<p:dataTable id="tabelaLotacoes" value="#{cadastroAtendimentoBean.solicitacao.lotacoes}" var="lotacao" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado." sortBy="#{lotacao.vinculo.especialidade.descricao}">
 			    		<p:column headerText="Matrícula" class="tabela-matricula">
 			    			<h:outputText value="#{lotacao.vinculo.matricula}"/>
 			    		</p:column>
 			    		<p:column headerText="Profissional">
 			    			<h:outputText value="#{lotacao.vinculo.profissional.nome}"/>
 			    		</p:column>
-			    		<p:column headerText="Cargo">
+			    		<p:column headerText="Cargo" groupRow="true">
 			    			<h:outputText value="#{lotacao.vinculo.especialidade.descricao}"/>
 			    		</p:column>
-			    		<p:column headerText="Carga horária" class="tabela-carga-horaria">
-			    			<h:outputText value="#{lotacao.vinculo.cargaHoraria}"/>
+			    		<p:column headerText="Carga horária" class="tabela-carga-horaria" groupRow="true">
+			    			<h:outputText value="#{lotacao.vinculo.cargaHoraria.descricao}"/>
 			    		</p:column>
-			    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(solicitacao.status)}">
+			    		<p:column headerText="Status" class="tabela-status ${fn:toLowerCase(lotacao.status)}" groupRow="true">
 			    			<h:outputText value="#{lotacao.status}"/>
 			    		</p:column>
 			    		<p:column headerText="Ações" class="tabela-acao-1" rendered="#{cadastroAtendimentoBean.solicitacao.atendimentoAlteravel}">
