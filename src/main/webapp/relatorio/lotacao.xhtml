@@ -15,7 +15,7 @@
 		    		<p:outputLabel value="Nome:" for="nome"/>
 		    		<p:inputText id="nome" value="#{pesquisaLotacoesBean.filtro.nome}" size="28"/>
 		    		<p:outputLabel value="Especialidade:" for="especialidade"/>
-			        <p:selectOneMenu id="especialidade" value="#{pesquisaLotacoesBean.filtro.especialidade}" filter="true" filterMatchMode="contains">
+			        <p:selectOneMenu id="especialidade" value="#{pesquisaLotacoesBean.filtro.especialidade}" dynamic="true" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaLotacoesBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}"/>
 			        </p:selectOneMenu>
@@ -25,7 +25,7 @@
 			            <f:selectItems value="#{pesquisaLotacoesBean.tiposVinculo}" var="tipoVinculo" itemValue="#{tipoVinculo}" itemLabel="#{tipoVinculo.descricao}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Estabelecimento:" for="estabelecimento"/>
-			         <p:selectOneMenu id="estabelecimento" value="#{pesquisaLotacoesBean.filtro.estabelecimento}" filter="true" filterMatchMode="contains" disabled="#{!seguranca.atendentes}">
+			         <p:selectOneMenu id="estabelecimento" value="#{pesquisaLotacoesBean.filtro.estabelecimento}" dynamic="true" filter="true" filterMatchMode="contains" disabled="#{!seguranca.atendentes}">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaLotacoesBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 			        </p:selectOneMenu>

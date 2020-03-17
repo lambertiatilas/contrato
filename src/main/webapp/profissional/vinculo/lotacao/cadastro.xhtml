@@ -13,7 +13,7 @@
 					<p:outputLabel value="Data de início:" for="dataInicio"/>
 					<p:calendar id="dataInicio" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroLotacaoBean.lotacao.dataInicio}" maxdate="#{now}" required="true" requiredMessage="Data de início deve ser informada" size="10"/>
 					<p:outputLabel value="Estabelecimento:" for="estabelecimento"/>
-		    		<p:selectOneMenu id="estabelecimento" value="#{cadastroLotacaoBean.lotacao.estabelecimento}" required="true" requiredMessage="Estabelecimento deve ser informado" filter="true" filterMatchMode="contains">
+		    		<p:selectOneMenu id="estabelecimento" value="#{cadastroLotacaoBean.lotacao.estabelecimento}" required="true" requiredMessage="Estabelecimento deve ser informado" dynamic="true" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione" />
 			            <f:selectItems value="#{cadastroLotacaoBean.listaEstabelecimentos}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}" />
 			        </p:selectOneMenu>

@@ -23,12 +23,12 @@
 						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaSolicitacoesBean.filtro.dataHoraEncerramentoAte}" maxdate="#{now}" size="10" locale="pt"/>
 					</h:panelGroup>
 			        <p:outputLabel value="Estabelecimento atendente:" for="estabelecimentoAtendente"/>
-					<p:selectOneMenu id="estabelecimentoAtendente" value="#{pesquisaSolicitacoesBean.filtro.estabelecimentoAtendente}" filter="true" filterMatchMode="contains">
+					<p:selectOneMenu id="estabelecimentoAtendente" value="#{pesquisaSolicitacoesBean.filtro.estabelecimentoAtendente}" dynamic="true" filter="true" filterMatchMode="contains">
 						<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaSolicitacoesBean.listaEstabelecimentosAtendentes}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Profissional atendente:" for="profissionalAtendente"/>
-					<p:selectOneMenu id="profissionalAtendente" value="#{pesquisaSolicitacoesBean.filtro.profissionalAtendente}" filter="true" filterMatchMode="contains">
+					<p:selectOneMenu id="profissionalAtendente" value="#{pesquisaSolicitacoesBean.filtro.profissionalAtendente}" dynamic="true" filter="true" filterMatchMode="contains">
 						<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaSolicitacoesBean.listaProfissionaisAtendentes}" var="profissional" itemValue="#{profissional}" itemLabel="#{profissional.nome}"/>
 			        </p:selectOneMenu>

@@ -17,7 +17,7 @@
 					<p:outputLabel value="Data fim:" for="dataFim"/>
 					<p:calendar id="dataFim" pattern="dd/MM/yyyy" locale="pt" mask="true" value="#{cadastroVinculoBean.vinculo.dataFim}" mindate="#{cadastroVinculoBean.vinculo.dataInicio}" size="10"/>
 					<p:outputLabel value="Cargo:" for="especialidade"/>
-		    		<p:selectOneMenu id="especialidade" value="#{cadastroVinculoBean.vinculo.especialidade}" required="true" requiredMessage="Especialidade deve ser informada" filter="true" filterMatchMode="contains">
+		    		<p:selectOneMenu id="especialidade" value="#{cadastroVinculoBean.vinculo.especialidade}" required="true" requiredMessage="Especialidade deve ser informada" dynamic="true" filter="true" filterMatchMode="contains">
 			            <f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{cadastroVinculoBean.listaEspecialidades}" var="especialidade" itemValue="#{especialidade}" itemLabel="#{especialidade.descricao}"/>
 			        </p:selectOneMenu>

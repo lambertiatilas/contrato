@@ -23,22 +23,22 @@
 						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{pesquisaAtendimentosBean.filtro.dataHoraEncerramentoAte}" maxdate="#{now}" size="10" locale="pt"/>
 					</h:panelGroup>
 					<p:outputLabel value="Estabelecimento solicitante:" for="estabelecimentoSolicitante"/>
-					<p:selectOneMenu id="estabelecimentoSolicitante" value="#{pesquisaAtendimentosBean.filtro.estabelecimentoSolicitante}" filter="true" filterMatchMode="contains">
+					<p:selectOneMenu id="estabelecimentoSolicitante" value="#{pesquisaAtendimentosBean.filtro.estabelecimentoSolicitante}" dynamic="true" filter="true" filterMatchMode="contains">
 						<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaAtendimentosBean.listaEstabelecimentosSolicitantes}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Profissional solicitante:" for="profissionalSolicitante"/>
-					<p:selectOneMenu id="profissionalSolicitante" value="#{pesquisaAtendimentosBean.filtro.profissionalSolicitante}" filter="true" filterMatchMode="contains">
+					<p:selectOneMenu id="profissionalSolicitante" value="#{pesquisaAtendimentosBean.filtro.profissionalSolicitante}" dynamic="true" filter="true" filterMatchMode="contains">
 						<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaAtendimentosBean.listaProfissionaisSolicitantes}" var="profissional" itemValue="#{profissional}" itemLabel="#{profissional.nome}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Estabelecimento Atendente:" for="estabelecimentoAtendente"/>
-					<p:selectOneMenu id="estabelecimentoAtendente" value="#{pesquisaAtendimentosBean.filtro.estabelecimentoAtendente}" filter="true" filterMatchMode="contains">
+					<p:selectOneMenu id="estabelecimentoAtendente" value="#{pesquisaAtendimentosBean.filtro.estabelecimentoAtendente}" dynamic="true" filter="true" filterMatchMode="contains">
 						<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaAtendimentosBean.listaEstabelecimentosAtendentes}" var="estabelecimento" itemValue="#{estabelecimento}" itemLabel="#{estabelecimento.descricao}"/>
 			        </p:selectOneMenu>
 			        <p:outputLabel value="Profissional atendente:" for="profissionalAtendente"/>
-					<p:selectOneMenu id="profissionalAtendente" value="#{pesquisaAtendimentosBean.filtro.profissionalAtendente}" filter="true" filterMatchMode="contains">
+					<p:selectOneMenu id="profissionalAtendente" value="#{pesquisaAtendimentosBean.filtro.profissionalAtendente}" dynamic="true" filter="true" filterMatchMode="contains">
 						<f:selectItem itemLabel="Selecione"/>
 			            <f:selectItems value="#{pesquisaAtendimentosBean.listaProfissionaisAtendentes}" var="profissional" itemValue="#{profissional}" itemLabel="#{profissional.nome}"/>
 			        </p:selectOneMenu>
