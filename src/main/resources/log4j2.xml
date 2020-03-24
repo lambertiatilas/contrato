@@ -5,7 +5,7 @@
 		<Console name="console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d %-5p [%c] %m%n" />
 		</Console>
-		<RollingFile name="arquivo" fileName="${sys:catalina.home}/logs/estagio.log" filePattern="${sys:catalina.home}/logs/estagio-%d{yyyy-MM-dd}-%i.log">
+		<RollingFile name="arquivo" fileName="${sys:catalina.home}/logs/rh.log" filePattern="${sys:catalina.home}/logs/rh-%d{yyyy-MM-dd}-%i.log">
 			<PatternLayout pattern="%d %-5p [%c] %m%n" />
 			<Policies>
 				<TimeBasedTriggeringPolicy />

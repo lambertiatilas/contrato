@@ -5,7 +5,7 @@
         <action-listener>org.primefaces.application.DialogActionListener</action-listener>
         <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
         <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
-		<message-bundle>pmvv.semsa.rh.contrato.Messages</message-bundle>
+		<message-bundle>pmvv.semsa.rh.Messages</message-bundle>
 		<locale-config>
 			<default-locale>pt_BR</default-locale>
 		</locale-config>
@@ -16,11 +16,11 @@
 	<converter>
         <description>solicitacaoConverter</description>
         <converter-id>solicitacaoConverter</converter-id>
-        <converter-class>pmvv.semsa.rh.contrato.converter.SolicitacaoConverter</converter-class>
+        <converter-class>pmvv.semsa.rh.converter.SolicitacaoConverter</converter-class>
    	</converter>
    	<converter>
         <description>solicitacaoPorEstabelecimentoConverter</description>
         <converter-id>solicitacaoPorEstabelecimentoConverter</converter-id>
-        <converter-class>pmvv.semsa.rh.contrato.converter.SolicitacaoPorEstabelecimentoConverter</converter-class>
+        <converter-class>pmvv.semsa.rh.converter.SolicitacaoPorEstabelecimentoConverter</converter-class>
    	</converter>
 </faces-config>
