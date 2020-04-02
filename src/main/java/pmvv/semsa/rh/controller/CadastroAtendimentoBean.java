@@ -29,7 +29,7 @@ public class CadastroAtendimentoBean implements Serializable {
 	@Inject
 	private CadastroSolicitacaoService cadastroSolicitacaoService;
 	@Produces
-	@EdicaoAtendimento
+	@EdicaoSolicitacao
 	private Solicitacao solicitacao;
 	private Vinculo vinculo;
 	@Inject

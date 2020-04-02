@@ -29,9 +29,12 @@ public class Solicitacao implements Serializable {
 
 	private Long id;
 	private Date dataHoraAbertura;
+	private Date dataHoraAtualizacao;
 	private Date dataHoraEncerramento;
 	private Profissional profissionalSolicitante;
 	private Estabelecimento estabelecimentoSolicitante;
+	private Profissional profissionalAutorizante;
+	private Estabelecimento estabelecimentoAutorizante;
 	private Profissional profissionalAtendente;
 	private Estabelecimento estabelecimentoAtendente;
 	private String justificativa;
@@ -57,6 +60,16 @@ public class Solicitacao implements Serializable {
 
 	public void setDataHoraAbertura(Date dataHoraAbertura) {
 		this.dataHoraAbertura = dataHoraAbertura;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_hora_atualizacao", nullable = false)
+	public Date getDataHoraAtualizacao() {
+		return dataHoraAtualizacao;
+	}
+
+	public void setDataHoraAtualizacao(Date dataHoraAtualizacao) {
+		this.dataHoraAtualizacao = dataHoraAtualizacao;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -87,6 +100,26 @@ public class Solicitacao implements Serializable {
 
 	public void setEstabelecimentoSolicitante(Estabelecimento estabelecimentoSolicitante) {
 		this.estabelecimentoSolicitante = estabelecimentoSolicitante;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "profissional_autorizante_id")
+	public Profissional getProfissionalAutorizante() {
+		return profissionalAutorizante;
+	}
+
+	public void setProfissionalAutorizante(Profissional profissionalAutorizante) {
+		this.profissionalAutorizante = profissionalAutorizante;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "estabelecimento_autorizante_id")
+	public Estabelecimento getEstabelecimentoAutorizante() {
+		return estabelecimentoAutorizante;
+	}
+
+	public void setEstabelecimentoAutorizante(Estabelecimento estabelecimentoAutorizante) {
+		this.estabelecimentoAutorizante = estabelecimentoAutorizante;
 	}
 
 	@ManyToOne
@@ -170,112 +203,117 @@ public class Solicitacao implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	@Transient
 	public boolean isNovo() {
 		return id == null;
 	}
-	
+
 	@Transient
 	public boolean isExistente() {
 		return !isNovo();
 	}
-	
+
 	@Transient
 	private boolean isNaoEnviada() {
 		return StatusSolicitacao.NAO_ENVIADA.equals(status);
 	}
-	
+
 	@Transient
 	private boolean isEnviada() {
 		return StatusSolicitacao.ENVIADA.equals(status);
 	}
 	
 	@Transient
+	private boolean isAutorizada() {
+		return StatusSolicitacao.AUTORIZADA.equals(status);
+	}
+
+	@Transient
 	public boolean isAtendida() {
 		return StatusSolicitacao.ATENDIDA.equals(status);
 	}
-	
+
 	@Transient
 	private boolean isCancelada() {
 		return StatusSolicitacao.CANCELADA.equals(status);
 	}
-	
+
 	@Transient
 	private boolean isFinalizada() {
 		return StatusSolicitacao.FINALIZADA.equals(status);
 	}
-	
+
 	@Transient
 	public boolean isItemExistente() {
 		return !itens.isEmpty();
 	}
-	
+
 	@Transient
 	public boolean isItemNaoExistente() {
 		return !isItemExistente();
 	}
-	
+
 	@Transient
 	public boolean isLotacaoExistente() {
 		return !lotacoes.isEmpty();
 	}
-	
+
 	@Transient
 	public boolean isLotacaoNaoExistente() {
 		return !isLotacaoExistente();
 	}
-	
+
 	@Transient
 	public boolean isRequisicaoAlteravel() {
 		return (isNovo() || isNaoEnviada());
 	}
-	
+
 	@Transient
 	public boolean isRequisicaoNaoAlteravel() {
 		return !isRequisicaoAlteravel();
 	}
-	
+
 	@Transient
 	public boolean isRequisicaoSalvavel() {
 		return (isNovo() || isNaoEnviada()) && isItemExistente();
 	}
-	
+
 	@Transient
 	public boolean isRequisicaoNaoSalvavel() {
 		return !isRequisicaoSalvavel();
 	}
-	
+
 	@Transient
 	public boolean isRequisicaoLotacaoVisivel() {
 		return isAtendida() || isFinalizada();
 	}
-	
+
 	@Transient
 	public boolean isAtendimentoAlteravel() {
 		return isEnviada();
 	}
-	
+
 	@Transient
 	public boolean isAtendimentoNaoAlteravel() {
 		return !isAtendimentoAlteravel();
 	}
-	
+
 	@Transient
 	public boolean isAtendivel() {
 		return isEnviada() && isLotacaoExistente();
 	}
-	
+
 	@Transient
 	public boolean isNaoAtendivel() {
 		return !isAtendivel();
 	}
-	
+
 	@Transient
 	public boolean isNaoFinalizada() {
 		return !isFinalizada();
 	}
-		
+
 	@Transient
 	public boolean isLotacoesPendentes() {
 		for (Lotacao lotacao : lotacoes) {
@@ -285,29 +323,31 @@ public class Solicitacao implements Serializable {
 		}
 		return false;
 	}
-	
+
 	@Transient
 	public boolean isLotacoesNaoPendentes() {
 		return isLotacaoExistente() && !isLotacoesPendentes();
 	}
-	
+
 	public boolean naoPermiteMaisLotacao(Vinculo vinculo) {
 		Integer contador = 0;
-		
+
 		for (Lotacao lotacao : lotacoes) {
-			if (lotacao.getVinculo().getEspecialidade().equals(vinculo.getEspecialidade()) && lotacao.getVinculo().getCargaHoraria().equals(vinculo.getCargaHoraria())) {
+			if (lotacao.getVinculo().getEspecialidade().equals(vinculo.getEspecialidade())
+					&& lotacao.getVinculo().getCargaHoraria().equals(vinculo.getCargaHoraria())) {
 				contador++;
 			}
 		}
-		
+
 		System.out.println(contador);
-		
+
 		for (ItemSolicitacao item : itens) {
-			if (item.getEspecialidade().equals(vinculo.getEspecialidade()) && item.getCargaHoraria().equals(vinculo.getCargaHoraria()) && contador >= item.getQuantidade()) {
+			if (item.getEspecialidade().equals(vinculo.getEspecialidade())
+					&& item.getCargaHoraria().equals(vinculo.getCargaHoraria()) && contador >= item.getQuantidade()) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }

@@ -26,9 +26,9 @@ public class EdicaoLotacaoBean implements Serializable {
 	@Inject
 	private Event<EventLotacaoAlterada> eventLotacaoAlterada;
 	
-	public void aceitarLotacao() {
+	public void aceitar() {
 		try {
-			lotacao = edicaoLotacaoService.aceitarLotacao(lotacao);
+			lotacao = edicaoLotacaoService.aceitar(lotacao);
 			eventLotacaoAlterada.fire(new EventLotacaoAlterada(lotacao));
 			FacesUtil.addInfoMessage("Lotação aceita com sucesso!");
 		} catch (NegocioException ne) {
@@ -36,9 +36,9 @@ public class EdicaoLotacaoBean implements Serializable {
 		}
 	}
 	
-	public void rejeitarLotacao() {
+	public void rejeitar() {
 		try {
-			lotacao = edicaoLotacaoService.rejeitarLotacao(lotacao);
+			lotacao = edicaoLotacaoService.rejeitar(lotacao);
 			eventLotacaoAlterada.fire(new EventLotacaoAlterada(lotacao));
 			FacesUtil.addInfoMessage("Lotação rejeitada com sucesso!");
 		} catch (NegocioException ne) {

@@ -73,18 +73,18 @@
 			    	</p:dataTable>
 			    	<p:confirmDialog id="aceitacaoLotacaoDialog" header="Aceitar lotação de profissional" message="Tem certeza que deseja aceitar a lotação do profissional #{cadastroSolicitacaoBean.lotacao.vinculo.profissional.nome}?" widgetVar="aceitacao">
 			    		<p:button value="Não" onclick="PF('aceitacao').hide(); return false;"/>
-			    		<p:commandButton id="yesButtonAceitacao" value="Sim" oncomplete="PF('aceitacao').hide();" action="#{edicaoLotacaoBean.aceitarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
+			    		<p:commandButton id="yesButtonAceitacao" value="Sim" oncomplete="PF('aceitacao').hide();" action="#{edicaoLotacaoBean.aceitar}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
 			    	</p:confirmDialog>
 			    	<p:confirmDialog id="rejeicaoLotacaoDialog" header="Rejeitar lotação de profissional" message="Tem certeza que deseja rejeitar a lotação do profissional #{cadastroSolicitacaoBean.lotacao.vinculo.profissional.nome}?" widgetVar="rejeicao">
 			    		<p:button value="Não" onclick="PF('rejeicao').hide(); return false;"/>
-			    		<p:commandButton id="yesButtonRejeicao" value="Sim" oncomplete="PF('rejeicao').hide();" action="#{edicaoLotacaoBean.rejeitarLotacao}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
+			    		<p:commandButton id="yesButtonRejeicao" value="Sim" oncomplete="PF('rejeicao').hide();" action="#{edicaoLotacaoBean.rejeitar}" process="@this" update="#{p:component('tabelaLotacoes')}"/>
 			    	</p:confirmDialog>
 		    	</p:fieldset>
 		    	<p:button value="Voltar" outcome="/solicitacao/pesquisa"/>
 				<p:commandButton value="Enviar solicitação" oncomplete="PF('envio').show()" process="@this" update="#{p:component('enviarSolicitacaoDialog')}" rendered="#{cadastroSolicitacaoBean.solicitacao.requisicaoSalvavel}"/>
 				<p:confirmDialog id="enviarSolicitacaoDialog" header="Enviar solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja enviar a solicitação?" widgetVar="envio">
 		    		<p:button value="Não" onclick="PF('envio').hide(); return false;"/>
-		    		<p:commandButton id="yesButtonEnvio" value="Sim" oncomplete="PF('envio').hide();" action="#{edicaoSolicitacaoBean.enviarSolicitacao}" process="@this" update="@form"/>
+		    		<p:commandButton id="yesButtonEnvio" value="Sim" oncomplete="PF('envio').hide();" action="#{edicaoSolicitacaoBean.enviar}" process="@this" update="@form"/>
 		    	</p:confirmDialog>
 			</h:form>
 		</p:panel>

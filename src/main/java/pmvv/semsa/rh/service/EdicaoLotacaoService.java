@@ -24,7 +24,7 @@ public class EdicaoLotacaoService implements Serializable {
 	private Profissionais profissionais;
 
 	@Transactional
-	public Lotacao aceitarLotacao(Lotacao lotacao) throws NegocioException {
+	public Lotacao aceitar(Lotacao lotacao) throws NegocioException {
 		lotacao = lotacoes.porId(lotacao.getId());
 		
 		if (lotacao.isNaoAceitavelOuNaoRejeitavel()) {
@@ -41,7 +41,7 @@ public class EdicaoLotacaoService implements Serializable {
 	}
 	
 	@Transactional
-	public Lotacao rejeitarLotacao(Lotacao lotacao) throws NegocioException {
+	public Lotacao rejeitar(Lotacao lotacao) throws NegocioException {
 		lotacao = lotacoes.porId(lotacao.getId());
 		
 		if (lotacao.isNaoAceitavelOuNaoRejeitavel()) {

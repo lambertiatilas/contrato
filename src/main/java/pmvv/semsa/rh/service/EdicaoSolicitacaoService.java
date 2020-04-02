@@ -22,7 +22,7 @@ public class EdicaoSolicitacaoService implements Serializable {
 	private Seguranca seguranca;
 
 	@Transactional
-	public Solicitacao enviarSolicitacao(Solicitacao solicitacao) throws NegocioException {
+	public Solicitacao enviar(Solicitacao solicitacao) throws NegocioException {
 		solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
 		
 		if (solicitacao.isRequisicaoNaoSalvavel()) {
@@ -36,7 +36,21 @@ public class EdicaoSolicitacaoService implements Serializable {
 	}
 	
 	@Transactional
-	public Solicitacao cancelarSolicitacao(Solicitacao solicitacao) throws NegocioException {
+	public Solicitacao autorizar(Solicitacao solicitacao) throws NegocioException {
+		solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
+		
+		if (solicitacao.isNaoAtendivel()) {
+			throw new NegocioException("Solicitação não pode ser atendida!");
+		}
+		
+		solicitacao.setProfissionalAtendente(seguranca.getUsuario());
+		solicitacao.setEstabelecimentoAtendente(seguranca.getUsuario().getLocalAcesso());
+		solicitacao.setStatus(StatusSolicitacao.ATENDIDA);
+		return solicitacoes.guardar(solicitacao);
+	}
+	
+	@Transactional
+	public Solicitacao devolver(Solicitacao solicitacao) throws NegocioException {
 		solicitacao = solicitacoes.porId(solicitacao.getId());
 		
 		if (solicitacao.isAtendimentoNaoAlteravel()) {
@@ -49,7 +63,7 @@ public class EdicaoSolicitacaoService implements Serializable {
 	}
 	
 	@Transactional
-	public Solicitacao atenderSolicitacao(Solicitacao solicitacao) throws NegocioException {
+	public Solicitacao atender(Solicitacao solicitacao) throws NegocioException {
 		solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
 		
 		if (solicitacao.isNaoAtendivel()) {

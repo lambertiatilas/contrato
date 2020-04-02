@@ -4,6 +4,7 @@ public enum StatusSolicitacao {
 	
 	NAO_ENVIADA("Não enviada"),
 	ENVIADA("Enviada"),
+	AUTORIZADA("Autorizada"),
 	ATENDIDA("Atendida"),
 	CANCELADA("Cancelada"),
 	FINALIZADA("Finalizada");

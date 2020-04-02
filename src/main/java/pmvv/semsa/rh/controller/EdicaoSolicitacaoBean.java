@@ -26,11 +26,41 @@ public class EdicaoSolicitacaoBean implements Serializable {
 	@Inject
 	private Event<EventSolicitacaoAlterada> eventSolicitacaoAlterada;
 	
-	public void enviarSolicitacao() {
+	public void enviar() {
 		try {
-			solicitacao = edicaoSolicitacaoService.enviarSolicitacao(solicitacao);
+			solicitacao = edicaoSolicitacaoService.enviar(solicitacao);
 			eventSolicitacaoAlterada.fire(new EventSolicitacaoAlterada(solicitacao));
 			FacesUtil.addInfoMessage("Solicitação enviada com sucesso!");
+		} catch (NegocioException ne) {
+			FacesUtil.addErrorMessage(ne.getMessage());
+		}
+	}
+	
+	public void autorizar() {
+		try {
+			solicitacao = edicaoSolicitacaoService.autorizar(solicitacao);
+			eventSolicitacaoAlterada.fire(new EventSolicitacaoAlterada(solicitacao));
+			FacesUtil.addInfoMessage("Solicitação enviada com sucesso!");
+		} catch (NegocioException ne) {
+			FacesUtil.addErrorMessage(ne.getMessage());
+		}
+	}
+	
+	public void devolver() {
+		try {
+			solicitacao = edicaoSolicitacaoService.devolver(solicitacao);
+			eventSolicitacaoAlterada.fire(new EventSolicitacaoAlterada(solicitacao));
+			FacesUtil.addInfoMessage("Solicitação enviada com sucesso!");
+		} catch (NegocioException ne) {
+			FacesUtil.addErrorMessage(ne.getMessage());
+		}
+	}
+	
+	public void atender() {
+		try {
+			solicitacao = edicaoSolicitacaoService.atender(solicitacao);
+			eventSolicitacaoAlterada.fire(new EventSolicitacaoAlterada(solicitacao));
+			FacesUtil.addInfoMessage("Solicitação atendida com sucesso!");
 		} catch (NegocioException ne) {
 			FacesUtil.addErrorMessage(ne.getMessage());
 		}

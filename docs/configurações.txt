@@ -18,6 +18,13 @@ insert into grupo (id, descricao, nome) values (1, 'Administradores', 'ADMINISTR
 insert into grupo (id, descricao, nome) values (2, 'Atendentes', 'ATENDENTES');
 insert into grupo (id, descricao, nome) values (3, 'Solicitantes', 'SOLICITANTES');
 insert into grupo (id, descricao, nome) values (4, 'Funcionários', 'FUNCIONARIOS');
+insert into grupo (id, descricao, nome) values (5, 'Autorizadores (Primária)', 'AUTORIZADORES_PRIMARIA');
+insert into grupo (id, descricao, nome) values (6, 'Autorizadores (Secundária)', 'AUTORIZADORES_SECUNDARIA');
+insert into grupo (id, descricao, nome) values (7, 'Autorizadores (Administrativo)', 'AUTORIZADORES_ADMINISTRATIVO');
+insert into grupo (id, descricao, nome) values (8, 'Autorizadores (Gabinete)', 'AUTORIZADORES_GABINETE');
+insert into grupo (id, descricao, nome) values (9, 'Autorizadores (Odontologia)', 'AUTORIZADORES_ODONTOLOGIA');
+insert into grupo (id, descricao, nome) values (10, 'Autorizadores (Farmácia)', 'AUTORIZADORES_FARMACIA');
+insert into grupo (id, descricao, nome) values (11, 'Autorizadores (Imunização)', 'AUTORIZADORES_IMUNIZACAO');
 insert into profissional (id, cpf, nome, senha, telefone, local_acesso_id, grupo_id, status) values (1, '110.169.877-22', 'ATILAS RODRIGUES LAMBERTI', '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', '(27) 997057718', 1, 1, 0);
 insert into profissional (id, cpf, nome, senha, telefone, local_acesso_id, grupo_id, status) values (2, '106.530.116-28', 'ALEX RODRIGUES LAMBERTI', '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', '(27) 997057718', 2, 2, 0);
 insert into profissional (id, cpf, nome, senha, telefone, local_acesso_id, grupo_id, status) values (3, '376.037.692-48', 'DAIANE RODRIGUES LAMBERTI', '$2a$10$yGkCZDothV8GIhpLfamFJOcGzfDg3Vsrv81JNJ1cZzJmTUIzSfjUi', '(27) 997057718', 3, 3, 0);
