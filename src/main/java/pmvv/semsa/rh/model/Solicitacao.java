@@ -37,6 +37,8 @@ public class Solicitacao implements Serializable {
 	private Estabelecimento estabelecimentoAutorizante;
 	private Profissional profissionalAtendente;
 	private Estabelecimento estabelecimentoAtendente;
+	private Profissional profissionalDevolvente;
+	private Estabelecimento estabelecimentoDevolvente;
 	private String justificativa;
 	private List<ItemSolicitacao> itens = new ArrayList<>();
 	private List<Lotacao> lotacoes = new ArrayList<>();
@@ -141,6 +143,26 @@ public class Solicitacao implements Serializable {
 	public void setEstabelecimentoAtendente(Estabelecimento estabelecimentoAtendente) {
 		this.estabelecimentoAtendente = estabelecimentoAtendente;
 	}
+	
+	@ManyToOne
+	@JoinColumn(name = "profissional_devolvente_id")
+	public Profissional getProfissionalDevolvente() {
+		return profissionalDevolvente;
+	}
+
+	public void setProfissionalDevolvente(Profissional profissionalDevolvente) {
+		this.profissionalDevolvente = profissionalDevolvente;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "estabelecimento_devolvente_id")
+	public Estabelecimento getEstabelecimentoDevolvente() {
+		return estabelecimentoDevolvente;
+	}
+
+	public void setEstabelecimentoDevolvente(Estabelecimento estabelecimentoDevolvente) {
+		this.estabelecimentoDevolvente = estabelecimentoDevolvente;
+	}
 
 	@Column(columnDefinition = "text")
 	public String getJustificativa() {
@@ -205,16 +227,6 @@ public class Solicitacao implements Serializable {
 	}
 
 	@Transient
-	public boolean isNovo() {
-		return id == null;
-	}
-
-	@Transient
-	public boolean isExistente() {
-		return !isNovo();
-	}
-
-	@Transient
 	private boolean isNaoEnviada() {
 		return StatusSolicitacao.NAO_ENVIADA.equals(status);
 	}
@@ -230,13 +242,8 @@ public class Solicitacao implements Serializable {
 	}
 
 	@Transient
-	public boolean isAtendida() {
+	private boolean isAtendida() {
 		return StatusSolicitacao.ATENDIDA.equals(status);
-	}
-
-	@Transient
-	private boolean isCancelada() {
-		return StatusSolicitacao.CANCELADA.equals(status);
 	}
 
 	@Transient
@@ -245,73 +252,55 @@ public class Solicitacao implements Serializable {
 	}
 
 	@Transient
-	public boolean isItemExistente() {
+	private boolean isItemExistente() {
 		return !itens.isEmpty();
 	}
 
 	@Transient
-	public boolean isItemNaoExistente() {
-		return !isItemExistente();
-	}
-
-	@Transient
-	public boolean isLotacaoExistente() {
+	private boolean isLotacaoExistente() {
 		return !lotacoes.isEmpty();
 	}
 
 	@Transient
-	public boolean isLotacaoNaoExistente() {
-		return !isLotacaoExistente();
+	public boolean isNovo() {
+		return id == null;
 	}
 
 	@Transient
-	public boolean isRequisicaoAlteravel() {
-		return (isNovo() || isNaoEnviada());
+	public boolean isExistente() {
+		return !isNovo();
 	}
 
-	@Transient
-	public boolean isRequisicaoNaoAlteravel() {
-		return !isRequisicaoAlteravel();
+	public boolean isEnviavel() {
+		return isExistente() && isNaoEnviada() && isItemExistente();
 	}
-
-	@Transient
-	public boolean isRequisicaoSalvavel() {
-		return (isNovo() || isNaoEnviada()) && isItemExistente();
+	
+	public boolean isNaoEnviavel() {
+		return !isEnviavel();
 	}
-
-	@Transient
-	public boolean isRequisicaoNaoSalvavel() {
-		return !isRequisicaoSalvavel();
-	}
-
-	@Transient
-	public boolean isRequisicaoLotacaoVisivel() {
-		return isAtendida() || isFinalizada();
-	}
-
-	@Transient
-	public boolean isAtendimentoAlteravel() {
+	
+	public boolean isAutorizavel() {
 		return isEnviada();
 	}
-
-	@Transient
-	public boolean isAtendimentoNaoAlteravel() {
-		return !isAtendimentoAlteravel();
+	
+	public boolean isNaoAutorizavel() {
+		return !isAutorizavel();
 	}
-
-	@Transient
+	
 	public boolean isAtendivel() {
-		return isEnviada() && isLotacaoExistente();
+		return isAutorizada() && isLotacaoExistente();
 	}
-
-	@Transient
+	
 	public boolean isNaoAtendivel() {
 		return !isAtendivel();
 	}
-
-	@Transient
-	public boolean isNaoFinalizada() {
-		return !isFinalizada();
+	
+	public boolean isDevolvivel() {
+		return isEnviada() || isAutorizada();
+	}
+	
+	public boolean isNaoDevolvivel() {
+		return !isDevolvivel();
 	}
 
 	@Transient
@@ -338,8 +327,6 @@ public class Solicitacao implements Serializable {
 				contador++;
 			}
 		}
-
-		System.out.println(contador);
 
 		for (ItemSolicitacao item : itens) {
 			if (item.getEspecialidade().equals(vinculo.getEspecialidade())

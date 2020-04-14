@@ -25,7 +25,7 @@ public class EdicaoSolicitacaoService implements Serializable {
 	public Solicitacao enviar(Solicitacao solicitacao) throws NegocioException {
 		solicitacao = cadastroSolicitacaoService.salvar(solicitacao);
 		
-		if (solicitacao.isRequisicaoNaoSalvavel()) {
+		if (solicitacao.isNaoEnviavel()) {
 			throw new NegocioException("Solicitação não pode ser enviada!");
 		}
 		
@@ -43,9 +43,9 @@ public class EdicaoSolicitacaoService implements Serializable {
 			throw new NegocioException("Solicitação não pode ser atendida!");
 		}
 		
-		solicitacao.setProfissionalAtendente(seguranca.getUsuario());
-		solicitacao.setEstabelecimentoAtendente(seguranca.getUsuario().getLocalAcesso());
-		solicitacao.setStatus(StatusSolicitacao.ATENDIDA);
+		solicitacao.setProfissionalAutorizante(seguranca.getUsuario());
+		solicitacao.setEstabelecimentoAutorizante(seguranca.getUsuario().getLocalAcesso());
+		solicitacao.setStatus(StatusSolicitacao.AUTORIZADA);
 		return solicitacoes.guardar(solicitacao);
 	}
 	
@@ -53,12 +53,12 @@ public class EdicaoSolicitacaoService implements Serializable {
 	public Solicitacao devolver(Solicitacao solicitacao) throws NegocioException {
 		solicitacao = solicitacoes.porId(solicitacao.getId());
 		
-		if (solicitacao.isAtendimentoNaoAlteravel()) {
-			throw new NegocioException("Solicitação não pode ser cancelada!");
+		if (solicitacao.isNaoDevolvivel()) {
+			throw new NegocioException("Solicitação não pode ser devolvida!");
 		}
 		
 		solicitacao.getLotacoes().clear();
-		solicitacao.setStatus(StatusSolicitacao.CANCELADA);
+		solicitacao.setStatus(StatusSolicitacao.NAO_ENVIADA);
 		return solicitacoes.guardar(solicitacao);
 	}
 	

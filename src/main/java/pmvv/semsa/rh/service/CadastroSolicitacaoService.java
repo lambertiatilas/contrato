@@ -27,7 +27,7 @@ public class CadastroSolicitacaoService implements Serializable {
 		}
 		
 		
-		if (solicitacao.isRequisicaoSalvavel()) {
+		if (solicitacao.isEnviavel()) {
 			Solicitacao solicitacaoExiste = solicitacoes.existe(seguranca.getUsuario().getLocalAcesso());
 			
 			if (solicitacaoExiste != null && !solicitacaoExiste.equals(solicitacao)) {

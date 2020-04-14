@@ -48,18 +48,18 @@ public class Seguranca {
 	}
 	
 	public boolean isAtendentes() {
-		return externalContext.isUserInRole("ADMINISTRADORES") || externalContext.isUserInRole("ATENDENTES");
+		return externalContext.isUserInRole("ATENDENTES");
 	}
 	
 	public boolean isSolicitantes() {
-		return externalContext.isUserInRole("ADMINISTRADORES") || externalContext.isUserInRole("SOLICITANTES");
+		return externalContext.isUserInRole("SOLICITANTES");
 	}
 	
 	public boolean isFuncionarios() {
-		return externalContext.isUserInRole("ADMINISTRADORES") || externalContext.isUserInRole("FUNCIONARIOS");
+		return externalContext.isUserInRole("FUNCIONARIOS");
 	}
 	
-	public boolean isSomenteSolicitantes() {
-		return externalContext.isUserInRole("SOLICITANTES");
+	public boolean isAutorizantes() {
+		return externalContext.isUserInRole("AUTORIZANTES");
 	}
 }

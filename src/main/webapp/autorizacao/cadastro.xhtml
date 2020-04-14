@@ -1,0 +1,42 @@
+<ui:composition template="/WEB-INF/template/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:define name="titulo">Atender solicitação (#{cadastroAtendimentoBean.solicitacao.status.descricao})</ui:define>
+    <ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="solicitacao" value="#{cadastroAtendimentoBean.solicitacao}" converter="solicitacaoConverter"/>
+			<f:viewAction action="#{cadastroAtendimentoBean.inicializar}"/>
+		</f:metadata>
+		<h:form>
+			<p:panel header="Atender solicitação (#{cadastroAtendimentoBean.solicitacao.status.descricao})" class="form-pesquisa">
+				<p:growl sticky="true"/>
+				<p:fieldset legend="Solicitação de #{cadastroAtendimentoBean.solicitacao.profissionalSolicitante.nome} (#{cadastroAtendimentoBean.solicitacao.estabelecimentoSolicitante.descricao})">
+					<p:panelGrid columns="2" layout="grid" columnClasses="rotulo, campo">
+						<p:outputLabel value="Jutificativa:" for="justificativa"/>
+						<p:inputTextarea id="justificativa" value="#{cadastroAtendimentoBean.solicitacao.justificativa}" disabled="#{cadastroAtendimentoBean.solicitacao.requisicaoNaoAlteravel}"/>
+					</p:panelGrid>
+					<p:dataTable id="tabelaItens" value="#{cadastroAtendimentoBean.solicitacao.itens}" var="item" lazy="true" rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="10, 25, 50" emptyMessage="Nenhum registro encontrado.">
+			    		<p:column headerText="Cargo">
+			    			<h:outputText value="#{item.especialidade.descricao}"/>
+			    		</p:column>
+			    		<p:column headerText="Carga horária semanal" class="tabela-carga-horaria">
+			    			<h:outputText value="#{item.cargaHoraria.descricao}"/>
+			    		</p:column>
+			    		<p:column headerText="Quantidade" class="tabela-quantidade">
+			    			<h:outputText value="#{item.quantidade}"/>
+			    		</p:column>
+			    	</p:dataTable>
+		    	</p:fieldset>
+		    	<p:button value="Voltar" outcome="/autorizacao/pesquisa"/>
+				<p:commandButton value="Devolver" oncomplete="PF('devolucao').show()" process="@this" update="#{p:component('devolverSolicitacaoDialog')}" rendered="#{cadastroAutorizacaoBean.solicitacao.devolvivel}"/>
+				<p:confirmDialog id="devolverSolicitacaoDialog" header="Devolver solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja devolver a solicitação?" widgetVar="devolucao">
+		    		<p:button value="Não" onclick="PF('devolucao').hide(); return false;"/>
+		    		<p:commandButton id="yesButtonDevolucao" value="Sim" oncomplete="PF('devolucao').hide();" action="#{edicaoSolicitacaoBean.devolver}" process="@this" update="@form"/>
+		    	</p:confirmDialog>
+				<p:commandButton value="Autorizar" oncomplete="PF('autorizacao').show()" process="@this" update="#{p:component('autorizarSolicitacaoDialog')}" rendered="#{cadastroAutorizacaoBean.solicitacao.autorizavel}"/>
+				<p:confirmDialog id="autorizarSolicitacaoDialog" header="Autorizar solicitação" message="Esta é uma operação sem estorno. Tem certeza que deseja autorizar a solicitação?" widgetVar="autorizacao">
+		    		<p:button value="Não" onclick="PF('atendimento').hide(); return false;"/>
+		    		<p:commandButton id="yesButtonAutorizacao" value="Sim" oncomplete="PF('autorizacao').hide();" action="#{edicaoSolicitacaoBean.autorizar}" process="@this" update="@form"/>
+		    	</p:confirmDialog>
+	    	</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

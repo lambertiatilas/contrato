@@ -6,7 +6,6 @@ public enum StatusSolicitacao {
 	ENVIADA("Enviada"),
 	AUTORIZADA("Autorizada"),
 	ATENDIDA("Atendida"),
-	CANCELADA("Cancelada"),
 	FINALIZADA("Finalizada");
 
 	private String descricao;

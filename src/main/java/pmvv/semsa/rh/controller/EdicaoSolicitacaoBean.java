@@ -21,7 +21,6 @@ public class EdicaoSolicitacaoBean implements Serializable {
 	@Inject
 	private EdicaoSolicitacaoService edicaoSolicitacaoService;
 	@Inject
-	@EdicaoSolicitacao
 	private Solicitacao solicitacao;
 	@Inject
 	private Event<EventSolicitacaoAlterada> eventSolicitacaoAlterada;

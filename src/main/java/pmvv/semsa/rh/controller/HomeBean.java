@@ -59,7 +59,7 @@ public class HomeBean implements Serializable {
 			vinculosProximoFim = lotacoes.vinculosProximoFim();
 		}
 		
-		if (seguranca.getUsuario() != null && seguranca.isSomenteSolicitantes()) {
+		if (seguranca.getUsuario() != null && seguranca.isSolicitantes()) {
 			solicitacaoPendende = solicitacoes.solicitacaoPendete(seguranca.getUsuario().getLocalAcesso());
 			vinculosProximoFimPorEstabelecimento = lotacoes.vinculosProximoFimPorEstabelecimento(seguranca.getUsuario().getLocalAcesso());
 		}

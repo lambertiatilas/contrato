@@ -101,7 +101,7 @@ public class PesquisaSolicitacoesBean implements Serializable {
 	}
 	
 	public void excluir() {
-		if (solicitacaoSelecionada.isRequisicaoAlteravel()) {
+		if (solicitacaoSelecionada.isEnviavel()) {
 			try {
 				solicitacoes.remover(solicitacaoSelecionada);
 				FacesUtil.addInfoMessage("Solicitacão " + solicitacaoSelecionada.getId() + " excluída com sucesso.");
